@@ -1,0 +1,1 @@
+# Adatbázis beadandó
