@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" href="./favicon.png" />
+		<meta name="viewport" content="width=device-width" />
+		
+		<link href="./_app/immutable/assets/0.b6a615ed.css" rel="stylesheet">
+		<link href="./_app/immutable/assets/2.b4ac87fb.css" rel="stylesheet">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.5ea646da.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/scheduler.e108d1fd.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.6b3f00f1.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.686c965c.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/index.a21d6cee.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/0.2f63e1a5.js">
+		<link rel="modulepreload" href="./_app/immutable/nodes/2.8a4ea1a9.js">
+	</head>
+	<body data-sveltekit-preload-data="hover">
+		  <main class="svelte-1dqvica" data-svelte-h="svelte-5md7hg"><h2 class="svelte-1dqvica"><b>E</b>ntergalaktikus <b>T</b>anulmányi <b>R</b>endszer</h2> <article class="svelte-1dqvica"><div id="spacer" class="svelte-1dqvica"></div> <div id="buttons" class="svelte-1dqvica"><a href="hallgato/login" class="paper-btn svelte-1dqvica">Hallgatók / Students</a> <a href="oktato/login" class="paper-btn svelte-1dqvica">Oktatók / Teachers</a></div></article> </main> 
+			
+			<script>
+				{
+					__sveltekit_1efrf95 = {
+						assets: "/szte-IB501g-2023-1",
+						base: new URL(".", location).pathname.slice(0, -1),
+						env: {}
+					};
+
+					const element = document.currentScript.parentElement;
+
+					const data = [null,null];
+
+					Promise.all([
+						import("./_app/immutable/entry/start.5ea646da.js"),
+						import("./_app/immutable/entry/app.686c965c.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 2],
+							data,
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		
+	</body>
+</html>
