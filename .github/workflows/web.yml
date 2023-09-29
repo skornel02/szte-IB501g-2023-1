@@ -44,6 +44,8 @@ jobs:
 
       - name: npm install and build
         working-directory: Skornel02.ETR.Web
+        env:
+          BASE_PATH: '/szte-IB501g-2023-1'
         run: |
           pnpm install
           pnpm run build
