@@ -17,16 +17,16 @@ Egy termet egyszerre csak egy kurzus vagy vizsga lebonyolítására lehet lefogl
 
 ### ​Megvalósítandó elemek (a pontszámok a funkciókra adható maximumot jelentik):
 
-| **Tick**| **Megvalósítandó elem** | **Pontszám** |
+| | **Megvalósítandó elem** | **Pontszám** |
 | --- | --- | --- | 
-| **Dokumentáció** | | |
+|  | **Dokumentáció** | |
 | <ul><li>[ ] </li></ul> | Az adatbázis modelljének E-K diagramja és annak értelmezése | 3 pont |
 | <ul><li>[ ] </li></ul> | Az E-K diagram leképezése relációs sémákká | 2 pont |
 | <ul><li>[ ] </li></ul> | Sémák normalizálása 3NF-ig, de legalább 2NF-ig, vagy indoklás, ha már a séma 2NF-ben vagy 3NF-ben van | 2 pont |
 | <ul><li>[ ] </li></ul> | Táblatervek: táblázat, ahol a sorokban az adatbázis táblák mezői szerepelnek, az oszlopokban a megnevezés, típus és megjegyzés szerepel | 1 pont |
 | <ul><li>[ ] </li></ul> | A dokumentációban szerepelnek a program funkció és a felhasznált megvalósítás leírása | 1 pont |
 | <ul><li>[ ] </li></ul> | A dokumentációban ki van gyűjtve a programból a három összetett lekérdezés és meg van jelölve, hogy melyik fájlban van megvalósítva. | Nem jár külön pontszám érte. <br> Hiánya esetén -2 pont. |
-| **Funkciók** |  |  |
+|  | **Funkciók** |  |
 | <ul><li>[ ] </li></ul> | Felhasználó regisztrációja űrlapon keresztül <br> <ul> <li>jelszó kétszeri megadása</li> <li>jelszó titkosítása</li> <li>visszajelzés a sikeres vagy sikertelen regisztrációról</li></ul> | 2 pont |
 | <ul><li>[ ] </li></ul> | Felhasználó bejelentkeztetése és kijelentkeztetése űrlapon keresztül <br> <ul><li>visszajelzés, hogy sikerült-e</li></ul> | 2 pont |
 | <ul><li>[ ] </li></ul> | Új vizsgák meghirdetése oktató által. | 2 pont |
@@ -43,12 +43,12 @@ Egy termet egyszerre csak egy kurzus vagy vizsga lebonyolítására lehet lefogl
 
 ### ​Nem fogadható el a kötelező program, ha teljesül az alábbi kritériumok valamelyike:
 
-- [] A dokumentáció nem egyetlen PDF dokumentumból áll, amelyben áttekinthetően szerepelnek a tervezés elemei.
-- [] Normalizált és konszolidált adatbázis 4-nél kevesebb összefüggő táblát tartalmaz.
-- [] Nincs 50 rekord, amivel be lehetne mutatni az alkalmazás működését.
-- [] Az adattáblákban nincsenek beállítva a kulcs és külső kulcs feltételek.
-- [] A program nem rendelkezik olyan felhasználói felülettel, amelyen keresztül az adatfelvitel meg van valósítva.
-- [] A program nem rendelkezik olyan felhasználói felülettel, amelyen keresztül az adatlekérés meg van valósítva.
-- [] A program nem alkalmas a kitűzött feladat ellátására.
-- [] Nem sikerül beüzemelni, működésre bírni az alkalmazást a védés alkalmával.
-- [] Az ***Funkciók*** elemekből nem ért el 10 pontot a hallgató.
+- [ ] A dokumentáció nem egyetlen PDF dokumentumból áll, amelyben áttekinthetően szerepelnek a tervezés elemei.
+- [ ] Normalizált és konszolidált adatbázis 4-nél kevesebb összefüggő táblát tartalmaz.
+- [ ] Nincs 50 rekord, amivel be lehetne mutatni az alkalmazás működését.
+- [ ] Az adattáblákban nincsenek beállítva a kulcs és külső kulcs feltételek.
+- [ ] A program nem rendelkezik olyan felhasználói felülettel, amelyen keresztül az adatfelvitel meg van valósítva.
+- [ ] A program nem rendelkezik olyan felhasználói felülettel, amelyen keresztül az adatlekérés meg van valósítva.
+- [ ] A program nem alkalmas a kitűzött feladat ellátására.
+- [ ] Nem sikerül beüzemelni, működésre bírni az alkalmazást a védés alkalmával.
+- [ ] Az ***Funkciók*** elemekből nem ért el 10 pontot a hallgató.
