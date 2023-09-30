@@ -1,3 +1,8 @@
+<script>
+
+	import { base } from "$app/paths";
+
+</script>
 <nav class="container">
 	<div class="row">
 		<div class="col-6">
@@ -43,10 +48,10 @@
 			</p>
 		</div>
 		<div class="col-3">
-			<a href="/Neptun.doc"> Feladat leírás </a>
+			<a href={`${base}/Neptun.doc`}> Feladat leírás </a>
 		</div>
 		<div class="col-3">
-			<a href="/"> Főoldal </a>
+			<a href={`${base}/`}> Főoldal </a>
 			<br />
 			<a
 				href="https://github.com/skornel02/szte-IB501g-2023-1"
