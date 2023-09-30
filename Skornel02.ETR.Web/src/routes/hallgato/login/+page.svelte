@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import LoginAdvert from '$lib/LoginAdvert.svelte';
 	import LoginForm from '$lib/LoginForm.svelte';
 	import LoginJunk from '$lib/LoginJunk.svelte';
@@ -16,7 +17,7 @@
 	<div class="card-body">
 		<h4 class="card-title">Hallgatói belépés</h4>
 
-		<LoginForm regUrl="/hallgato/regisztracio" loginHandler={handleLogin}/>
+		<LoginForm regUrl={`${base}/hallgato/regisztracio`} loginHandler={handleLogin}/>
 	</div>
 </div>
 <LoginAdvert />

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import LoginForm from '$lib/LoginForm.svelte';
 	import LoginJunk from '$lib/LoginJunk.svelte';
 	import type { Credentials } from '$lib/authentication';
@@ -15,7 +16,7 @@
 	<div class="card-body">
 		<h4 class="card-title">Oktatói belépés</h4>
 
-		<LoginForm regUrl="/oktato/regisztracio" loginHandler={handleLogin}/>
+		<LoginForm regUrl={`${base}/oktato/regisztracio`} loginHandler={handleLogin}/>
 	</div>
 </div>
 
