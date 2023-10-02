@@ -28,9 +28,9 @@
 		loginHandler(cred);
 	};
 
-    const closeError = () => {
-        error = null;
-    }
+	const closeError = () => {
+		error = null;
+	};
 </script>
 
 <form method="get" on:submit|preventDefault={handleSubmit}>
