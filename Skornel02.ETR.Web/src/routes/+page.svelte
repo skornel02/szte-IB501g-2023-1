@@ -1,7 +1,7 @@
 <script>
-	import { base } from "$app/paths";
-
+	import { base } from '$app/paths';
 </script>
+
 <main>
 	<h2><b>E</b>ntergalaktikus <b>T</b>anulmányi <b>R</b>endszer</h2>
 	<article class="container">

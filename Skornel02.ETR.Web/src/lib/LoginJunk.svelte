@@ -1,8 +1,7 @@
 <script>
-
-	import { base } from "$app/paths";
-
+	import { base } from '$app/paths';
 </script>
+
 <nav class="container">
 	<div class="row">
 		<div class="col-6">
