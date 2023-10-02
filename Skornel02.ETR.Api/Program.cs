@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 
 using Skornel02.ETR.Api;
+using Skornel02.ETR.Api.Endpoints;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,8 +10,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+var connectionString = builder.Configuration.GetConnectionString("ETRContext");
 builder.Services.AddDbContext<ETRContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("ETRContext")));
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString))
+#if DEBUG
+    .EnableDetailedErrors(true)
+    .EnableSensitiveDataLogging(true)
+#endif
+    );
 
 var app = builder.Build();
 
@@ -30,7 +37,7 @@ var summaries = new[]
 
 app.MapGet("/weatherforecast", () =>
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
+    var forecast = Enumerable.Range(1, 5).Select(index =>
         new WeatherForecast
         (
             DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
@@ -42,6 +49,8 @@ app.MapGet("/weatherforecast", () =>
 })
 .WithName("GetWeatherForecast")
 .WithOpenApi();
+
+app.MapUserEndpoints();
 
 app.Run();
 
