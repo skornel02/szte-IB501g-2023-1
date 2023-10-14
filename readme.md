@@ -57,7 +57,7 @@ Egy termet egyszerre csak egy kurzus vagy vizsga lebonyolítására lehet lefogl
 | <ul><li>[x] </li></ul> | Az adatbázis modelljének E-K diagramja és annak értelmezése | 3 pont |
 | <ul><li>[x] </li></ul> | Az E-K diagram leképezése relációs sémákká | 2 pont |
 | <ul><li>[x] </li></ul> | Sémák normalizálása 3NF-ig, de legalább 2NF-ig, vagy indoklás, ha már a séma 2NF-ben vagy 3NF-ben van | 2 pont |
-| <ul><li>[ ] </li></ul> | Táblatervek: táblázat, ahol a sorokban az adatbázis táblák mezői szerepelnek, az oszlopokban a megnevezés, típus és megjegyzés szerepel | 1 pont |
+| <ul><li>[x] </li></ul> | Táblatervek: táblázat, ahol a sorokban az adatbázis táblák mezői szerepelnek, az oszlopokban a megnevezés, típus és megjegyzés szerepel | 1 pont |
 | <ul><li>[ ] </li></ul> | A dokumentációban szerepelnek a program funkció és a felhasznált megvalósítás leírása | 1 pont |
 | <ul><li>[ ] </li></ul> | A dokumentációban ki van gyűjtve a programból a három összetett lekérdezés és meg van jelölve, hogy melyik fájlban van megvalósítva. | Nem jár külön pontszám érte. <br> Hiánya esetén -2 pont. |
 |  | **Funkciók** |  |
@@ -91,7 +91,7 @@ Egy termet egyszerre csak egy kurzus vagy vizsga lebonyolítására lehet lefogl
 
 ### EK diagram
 
-![](adatstruktura.png)
+![EK diagram](adatstruktura.png)
 
 ### Formalizálás
 
@@ -173,3 +173,7 @@ ClassRoom(<ins>Address</ins>, <ins>Room</ins>, Name, Capacity, RoomType)
 CourseLocation(<ins>*CourseCode*</ins>, <ins>*CourseSemester*</ins>, <ins>*Address*</ins>, <ins>*Room*</ins>, <ins>Start</ins>, End)
 
 - {CourseCode, CourseSemester, Address, Room, Start} → {End}
+
+### Adatbázis struktúra
+
+![Adatbázis sémája](database-schema.png)
