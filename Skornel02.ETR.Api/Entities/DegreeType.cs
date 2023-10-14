@@ -1,10 +1,11 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Skornel02.ETR.Api.Entities
+namespace Skornel02.ETR.Api.Entities;
+
+public class DegreeType
 {
-    public class DegreeType
-    {
-        [Key]
-        public required string Name { get; init; }
-    }
+    [Key]
+    public required string Name { get; init; }
+
+    public List<DegreeParticipation> DegreeParticipations { get; set; } = [];
 }

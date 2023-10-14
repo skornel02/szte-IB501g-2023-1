@@ -52,3 +52,37 @@ Egy termet egyszerre csak egy kurzus vagy vizsga lebonyolítására lehet lefogl
 - [ ] A program nem alkalmas a kitűzött feladat ellátására.
 - [ ] Nem sikerül beüzemelni, működésre bírni az alkalmazást a védés alkalmával.
 - [ ] Az ***Funkciók*** elemekből nem ért el 10 pontot a hallgató.
+
+## Adatstruktúra
+
+### EK diagram
+
+![](adatstruktura.png)
+
+### Formalizálás
+
+#### Felhasználó:
+User(<u>Username</u>, EmailAddress, PasswordHard, BirthDate, BirthLocation)
+
+- {Username} → {EmailAddress, PasswordHard, BirthDate, BirthLocation}
+
+> Több felhasználó is rendelkezhet ugyan azzal az email címmel, mivel csak értesítési célt szolgál.
+
+#### Egyetemi végzettség:
+DegreeType(<u>Name</u>)
+
+#### Felhasználó és egyetemi végzettség kapcsoló tábla:
+
+DegreeParticipation(<u>*Username*</u>, <u>*DegreeName*</u>, StartDate, EndDate)
+
+- {Username, DegreeName} → {StartDate, EndDate}
+
+> Az `EndDate` tulajdonság nem kötelező, és ez jelöli, ha még a képzés folyamatban van.
+
+#### Felhasználó típus:
+
+UserTypeEntity(<u>UserType</u>, <u>*Username*</u>)
+
+> A multi-value problémát úgy oldottam meg, hogy egy önálló táblát vettem fel, ahol a UserType egy enumként tárolja a felhasználó típusságot. 
+> Ez egy optimális megoldás, mivel az enum értéke elég információt hordoz magában, további tábla kapcsolására nincs szükség.
+
