@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Skornel02.ETR.Api;
 
@@ -10,9 +11,11 @@ using Skornel02.ETR.Api;
 namespace Skornel02.ETR.Api.Migrations
 {
     [DbContext(typeof(ETRContext))]
-    partial class ETRContextModelSnapshot : ModelSnapshot
+    [Migration("20231014210444_ExamLocationSimplified")]
+    partial class ExamLocationSimplified
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

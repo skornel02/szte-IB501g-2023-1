@@ -13,5 +13,5 @@ public class ClassRoom
 
     public List<CourseLocation> Courses { get; set; } = [];
 
-    public List<ExamLocation> Exams { get; set; } = [];
+    public List<Exam> Exams { get; set; } = [];
 }

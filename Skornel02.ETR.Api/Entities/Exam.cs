@@ -18,5 +18,9 @@ public class Exam
     public required DateTimeOffset Start { get; init; }
     public required DateTimeOffset End { get; init; }
 
-    public ExamLocation ExamLocation { get; init; } = default!;
+    public string ClassRoomAddress { get; init; } = default!;
+    public string ClassRoomRoomName { get; init; } = default!;
+
+    [ForeignKey($"{nameof(ClassRoomAddress)}, {nameof(ClassRoomRoomName)}")]
+    public required ClassRoom ClassRoom { get; init; }
 }

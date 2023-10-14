@@ -22,7 +22,6 @@ public class ETRContext(DbContextOptions<ETRContext> options) : DbContext(option
     public DbSet<ClassRoom> ClassRooms { get; set; } = default!;
 
     public DbSet<CourseLocation> CourseLocations { get; set; } = default!;
-    public DbSet<ExamLocation> ExamLocations { get; set; } = default!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

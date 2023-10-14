@@ -147,9 +147,10 @@ CourseAttendance(<ins>*Username*</ins>, <ins>*CourseCode*</ins>, <ins>*CourseSem
 
 #### Vizsga típus:
 
-Exam(<ins>*CourseCode*</ins>, <ins>*CourseSemester*</ins>, <ins>Start</ins>, End, Capacity, Type)
+Exam(<ins>*CourseCode*</ins>, <ins>*CourseSemester*</ins>, <ins>Start</ins>, End, Capacity, Type, *ClassRoomAddress*, *ClassRoomRoomName*)
 
 - {CourseCode, CourseSemester, Start} → {End, Capacity, Type}
+- {CourseCode, CourseSemester, Start} → {ClassRoomAddress, ClassRoomRoomName}
 
 > A vizsga egy gyenge egyed, mivel kurzus nélkül nincs értelme. (Ha van tárgy nélküli vizsga az egyetemen, akkor személyesen kérek bocsánatot a védésnél.)
 
@@ -172,7 +173,3 @@ ClassRoom(<ins>Address</ins>, <ins>Room</ins>, Name, Capacity, RoomType)
 CourseLocation(<ins>*CourseCode*</ins>, <ins>*CourseSemester*</ins>, <ins>*Address*</ins>, <ins>*Room*</ins>, <ins>Start</ins>, End)
 
 - {CourseCode, CourseSemester, Address, Room, Start} → {End}
-
-#### Vizsga helyszíne:
-
-ExamLocation(<ins>*CourseCode*</ins>, <ins>*CourseSemester*</ins>, <ins>*ExamStart*</ins>, <ins>*Address*</ins>, <ins>*Room*</ins>)
