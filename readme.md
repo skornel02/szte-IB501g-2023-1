@@ -96,26 +96,26 @@ Egy termet egyszerre csak egy kurzus vagy vizsga lebonyolítására lehet lefogl
 ### Formalizálás
 
 #### Felhasználó:
-User(<u>Username</u>, Name, PasswordHard, BirthDate, BirthLocation)
+User(<ins>Username</ins>, Name, PasswordHard, BirthDate, BirthLocation)
 
 - {Username} → {Name, BirthDate, BirthLocation}
 - {Username} → {PasswordHash} 
 
 #### Felhasználó típusa (oktató, hallgató):
 
-UserTypeEntity(<u>UserType</u>, <u>*Username*</u>)
+UserTypeEntity(<ins>UserType</ins>, <ins>*Username*</ins>)
 
 > A multi-value problémát úgy oldottam meg, hogy egy önálló táblát vettem fel, ahol a UserType egy enumként tárolja a felhasználó típusságot. 
 > Ez egy optimális megoldás, mivel az enum értéke elég információt hordoz magában, további tábla kapcsolására nincs szükség.
 
 #### Egyetemi végzettség:
-DegreeType(<u>Name</u>)
+DegreeType(<ins>Name</ins>)
 
 > Adat duplikáció megszüntetése végett.
 
 #### Felhasználó és egyetemi végzettség kapcsoló tábla:
 
-DegreeParticipation(<u>*Username*</u>, <u>*DegreeName*</u>, StartDate, EndDate)
+DegreeParticipation(<ins>*Username*</ins>, <ins>*DegreeName*</ins>, StartDate, EndDate)
 
 - {Username, DegreeName} → {StartDate, EndDate}
 
@@ -123,7 +123,7 @@ DegreeParticipation(<u>*Username*</u>, <u>*DegreeName*</u>, StartDate, EndDate)
 
 #### Kurzus típus:
 
-Course(<u>*CourseCode*</u>, <u>Semester</u> Capacity, Credits, Hours)
+Course(<ins>*CourseCode*</ins>, <ins>Semester</ins> Capacity, Credits, Hours)
 
 - {CourseCode, Semester} → {Capacity, Credits, Hours}
 
@@ -131,7 +131,7 @@ Course(<u>*CourseCode*</u>, <u>Semester</u> Capacity, Credits, Hours)
 
 #### Kurzus részletei típus:
 
-CourseMetadata(<u>CourseCode</u>, CourseType, Name)
+CourseMetadata(<ins>CourseCode</ins>, CourseType, Name)
 
 - {CourseCode} → {CourseType, Name}
 
@@ -139,7 +139,7 @@ CourseMetadata(<u>CourseCode</u>, CourseType, Name)
 
 #### Kurzus részvétel:
 
-CourseAttendance(<u>*Username*</u>, <u>*CourseCode*</u>, <u>*CourseSemester*</u>, AttendanceType, Grade)
+CourseAttendance(<ins>*Username*</ins>, <ins>*CourseCode*</ins>, <ins>*CourseSemester*</ins>, AttendanceType, Grade)
 
 - {Username, CourseCode, CourseSemester} → {AttendanceType, Grade}
 
@@ -147,7 +147,7 @@ CourseAttendance(<u>*Username*</u>, <u>*CourseCode*</u>, <u>*CourseSemester*</u>
 
 #### Vizsga típus:
 
-Exam(<u>*CourseCode*</u>, <u>*CourseSemester*</u>, <u>Start</u>, End, Capacity, Type)
+Exam(<ins>*CourseCode*</ins>, <ins>*CourseSemester*</ins>, <ins>Start</ins>, End, Capacity, Type)
 
 - {CourseCode, CourseSemester, Start} → {End, Capacity, Type}
 
@@ -155,7 +155,7 @@ Exam(<u>*CourseCode*</u>, <u>*CourseSemester*</u>, <u>Start</u>, End, Capacity, 
 
 #### Vizsga részvétel típus:
 
-ExamAttendance(<u>*Username*</u>, <u>*CourseCode*</u>, <u>*CourseSemester*</u>, <u>*CourseStart*</u>, AttendanceType, Grade)
+ExamAttendance(<ins>*Username*</ins>, <ins>*CourseCode*</ins>, <ins>*CourseSemester*</ins>, <ins>*CourseStart*</ins>, AttendanceType, Grade)
 
 - {Username, CourseCode, CourseSemster, CourseStart} → {AttendanceType, Grade}
 
@@ -163,16 +163,16 @@ ExamAttendance(<u>*Username*</u>, <u>*CourseCode*</u>, <u>*CourseSemester*</u>, 
 
 #### Tanterem (részvételi hely)
 
-ClassRoom(<u>Address</u>, <u>Room</u>, Name, Capacity, RoomType)
+ClassRoom(<ins>Address</ins>, <ins>Room</ins>, Name, Capacity, RoomType)
 
 - {Address, Room} → {Name, Capacity, RoomType} 
 
 #### Kurzus helyszíne:
 
-CourseLocation(<u>*CourseCode*</u>, <u>*CourseSemester*</u>, <u>*Address*</u>, <u>*Room*</u>, <u>Start</u>, End)
+CourseLocation(<ins>*CourseCode*</ins>, <ins>*CourseSemester*</ins>, <ins>*Address*</ins>, <ins>*Room*</ins>, <ins>Start</ins>, End)
 
 - {CourseCode, CourseSemester, Address, Room, Start} → {End}
 
 #### Vizsga helyszíne:
 
-ExamLocation(<u>*CourseCode*</u>, <u>*CourseSemester*</u>, <u>*ExamStart*</u>, <u>*Address*</u>, <u>*Room*</u>)
+ExamLocation(<ins>*CourseCode*</ins>, <ins>*CourseSemester*</ins>, <ins>*ExamStart*</ins>, <ins>*Address*</ins>, <ins>*Room*</ins>)
