@@ -13,5 +13,5 @@ public class UserTypeEntity
 
     [ForeignKey(nameof(User))]
     public string Username { get; init; } = null!;
-    public required User User { get; init;}
+    public required User User { get; init; }
 }

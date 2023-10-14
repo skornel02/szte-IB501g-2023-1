@@ -10,4 +10,3 @@ namespace Skornel02.ETR.Desktop;
 public partial class App : Application
 {
 }
-
