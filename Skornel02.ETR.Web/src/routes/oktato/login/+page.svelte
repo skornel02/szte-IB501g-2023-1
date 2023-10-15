@@ -4,12 +4,43 @@
 	import LoginJunk from '$lib/LoginJunk.svelte';
 	import LoginLogo from '$lib/LoginLogo.svelte';
 	import type { Credentials } from '$lib/authentication';
+	import type { LoginRequestDto } from '../../../dtos/auth';
+	import { ErrorResponseDtoSchema } from '../../../dtos/general';
+	import { UserType } from '../../../enums/usertypes';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 
 	const handleLogin = async (cred: Credentials) => {
-		console.log(cred);
+		const loginDto: LoginRequestDto = {
+			...cred,
+			userType: UserType.Teacher
+		};
+		
+		try {
+			const resp = await fetch('/api/check-auth', {
+				method: 'POST',
+				body: JSON.stringify(loginDto),
+				headers: {
+					'Content-Type': 'application/json'
+				},
+			});
+	
+			if (resp.status === 204) {
+				window.location.href = `${base}/oktato/kezdolap`;
+			} else {
+				const errorResponse = await resp.json();
+				const errorResponseDto = await ErrorResponseDtoSchema.safeParseAsync(errorResponse);
+				if (errorResponseDto.success) {
+					return errorResponseDto.data.errorMessage;
+				} else {
+					return 'Ismeretlen hiba történt!';
+				}
+			}
+		} catch (ex) {
+			console.error(ex);
+			return 'Ismeretlen hiba történt!';
+		}
 	};
 </script>
 
@@ -18,7 +49,7 @@
 		<div class="card-body">
 			<h4 class="card-title">Oktatói belépés</h4>
 
-			<LoginForm regUrl={`${base}/oktato/regisztracio`} loginHandler={handleLogin} />
+			<LoginForm regUrl={`${base}/kozos/regisztracio`} loginHandler={handleLogin} />
 		</div>
 	</div>
 	<LoginLogo />

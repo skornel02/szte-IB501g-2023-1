@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skornel02.ETR.Common", "Sko
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skornel02.ETR.Api", "Skornel02.ETR.Api\Skornel02.ETR.Api.csproj", "{043591EF-F985-41D2-AD09-731269820B01}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Skornel02.ETR.Desktop", "Skornel02.ETR.Desktop\Skornel02.ETR.Desktop.csproj", "{A3A7ED7F-3424-490C-981C-EB4EB18A3327}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -26,9 +24,5 @@ Global
 		{043591EF-F985-41D2-AD09-731269820B01}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{043591EF-F985-41D2-AD09-731269820B01}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{043591EF-F985-41D2-AD09-731269820B01}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A3A7ED7F-3424-490C-981C-EB4EB18A3327}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A3A7ED7F-3424-490C-981C-EB4EB18A3327}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A3A7ED7F-3424-490C-981C-EB4EB18A3327}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A3A7ED7F-3424-490C-981C-EB4EB18A3327}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

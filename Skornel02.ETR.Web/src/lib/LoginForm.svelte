@@ -3,9 +3,9 @@
 
 	export let regUrl: string;
 	export let error: string | null = null;
-	export let loginHandler: (cred: Credentials) => Promise<void>;
+	export let loginHandler: (cred: Credentials) => Promise<string | undefined>;
 
-	const handleSubmit = (event: Event) => {
+	const handleSubmit = async (event: Event) => {
 		const form = event.target as HTMLFormElement;
 		const formData = new FormData(form);
 		const data = Object.fromEntries(formData.entries()) as object;
@@ -25,7 +25,12 @@
 			username: data.username as string,
 			password: data.password as string
 		};
-		loginHandler(cred);
+		closeError();
+
+		const loginResult = await loginHandler(cred);
+		if (loginResult !== undefined) {
+			error = loginResult;
+		}
 	};
 
 	const closeError = () => {
@@ -49,7 +54,7 @@
 		<input type="password" id="passwordInput" name="password" class="input-block" />
 	</div>
 	{#if error !== null}
-		<div id="login-alert" class="alert alert-danger">
+		<div id="login-alert" class="alert alert-danger dismissible">
 			{error}
 			<label class="btn-close" for="login-alert" on:click={closeError}>X</label>
 		</div>

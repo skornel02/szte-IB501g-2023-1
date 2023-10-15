@@ -9,7 +9,7 @@ public class ClassRoom
 {
     public required string Address { get; init; }
     public required string RoomNumber { get; init; }
-    public required RoomType RoomType { get; init; }
+    public required RoomType RoomType { get; set; }
 
     public List<CourseLocation> Courses { get; set; } = [];
 

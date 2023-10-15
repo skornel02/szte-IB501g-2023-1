@@ -22,5 +22,5 @@ public class CourseAttendance
     public required Course Course { get; init; }
 
     public required AttendanceType AttendanceType { get; init; }
-    public string? Grade { get; init; }
+    public string? Grade { get; set; }
 }

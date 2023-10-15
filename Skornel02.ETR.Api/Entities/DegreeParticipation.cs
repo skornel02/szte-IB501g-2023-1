@@ -15,7 +15,7 @@ public class DegreeParticipation
     public string DegreeName { get; init; } = default!;
     public required DegreeType DegreeType { get; init; }
 
-    public required DateOnly StartDate { get; init; }
-    public DateOnly? EndDate { get; init; }
+    public required DateOnly StartDate { get; set; }
+    public DateOnly? EndDate { get; set; }
 
 }

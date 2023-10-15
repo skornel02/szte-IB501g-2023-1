@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Mvc;
+
+using Skornel02.ETR.Api.Dtos;
 using Skornel02.ETR.Api.Entities;
 using Skornel02.ETR.Common.Enums;
 
@@ -8,9 +11,11 @@ public static class UserMapping
 
     public static void MapUserEndpoints(this WebApplication app)
     {
-        app.MapGet("/users", (ETRContext context) => context.Users)
-            .WithName("GetUsers")
-            .WithOpenApi();
+        app.MapPost("/api/register", ([FromBody] UserCreationDto request, ETRContext context) =>
+        {
+            return Results.NoContent();
+        })
+            .WithTags("Users");
     }
 
 }

@@ -6,15 +6,15 @@ public class User
 {
     [Key]
     public required string Username { get; init; }
-    public required string Name { get; init; }
+    public required string Name { get; set; }
 
-    public required string PasswordHash { get; init; }
+    public string PasswordHash { get; set; } = default!;
 
-    public required List<UserTypeEntity> Roles { get; init; }
+    public List<UserTypeEntity> Roles { get; init; } = [];
 
-    public required DateOnly BirthDate { get; init; }
+    public required DateOnly BirthDate { get; set; }
 
-    public required string BirthLocation { get; init; }
+    public required string BirthLocation { get; set; }
 
     public List<DegreeParticipation> DegreeParticipations { get; set; } = [];
 

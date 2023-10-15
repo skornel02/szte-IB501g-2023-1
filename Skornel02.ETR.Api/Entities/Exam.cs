@@ -15,12 +15,14 @@ public class Exam
     [ForeignKey($"{nameof(CourseCode)}, {nameof(CourseSemester)}")]
     public required Course Course { get; init; }
 
-    public required DateTimeOffset Start { get; init; }
-    public required DateTimeOffset End { get; init; }
+    public required DateTimeOffset Start { get; set; }
+    public required DateTimeOffset End { get; set; }
 
-    public string ClassRoomAddress { get; init; } = default!;
-    public string ClassRoomRoomName { get; init; } = default!;
+    public string ClassRoomAddress { get; set; } = default!;
+    public string ClassRoomRoomName { get; set; } = default!;
 
     [ForeignKey($"{nameof(ClassRoomAddress)}, {nameof(ClassRoomRoomName)}")]
-    public required ClassRoom ClassRoom { get; init; }
+    public required ClassRoom ClassRoom { get; set; }
+
+    public List<ExamAttendance> Attendees { get; init; } = [];
 }
