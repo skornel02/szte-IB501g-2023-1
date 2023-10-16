@@ -1,6 +1,7 @@
 <script lang="ts">
 	import LoginJunk from '$lib/LoginJunk.svelte';
 	import LoginLogo from '$lib/LoginLogo.svelte';
+	import RegistrationForm from '$lib/RegistrationForm.svelte';
 	import type { PageData } from '../../kozos/regisztracio/$types';
 
 	export let data: PageData;
@@ -10,6 +11,7 @@
 	<div class="card" style="width: 20rem;">
 		<div class="card-body">
 			<h4 class="card-title">Regisztráció</h4>
+			<RegistrationForm />
 		</div>
 	</div>
 	<LoginLogo />

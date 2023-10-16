@@ -1,40 +1,41 @@
 <script lang="ts">
-	import type { Credentials } from './authentication';
+	import type { ZodFormattedError } from 'zod';
+	import { CredentialsSchema, type Credentials } from '../dtos/auth';
 
 	export let regUrl: string;
-	export let error: string | null = null;
 	export let loginHandler: (cred: Credentials) => Promise<string | undefined>;
 
-	const handleSubmit = async (event: Event) => {
-		const form = event.target as HTMLFormElement;
-		const formData = new FormData(form);
-		const data = Object.fromEntries(formData.entries()) as object;
-		console.log(data);
+	const formData: Credentials = {
+		username: '',
+		password: ''
+	};
 
-		if (!('username' in data) || typeof data.username !== 'string' || data.username.length === 0) {
-			error = 'Felhasználónév megadása kötelező!';
-			return;
-		}
+	let errors: ZodFormattedError<Credentials> = {
+		_errors: []
+	};
 
-		if (!('password' in data) || typeof data.password !== 'string' || data.password.length === 0) {
-			error = 'Jelszó megadása kötelező!';
-			return;
-		}
-
-		const cred: Credentials = {
-			username: data.username as string,
-			password: data.password as string
+	const handleSubmit = async () => {
+		errors = {
+			_errors: []
 		};
-		closeError();
+		const test = await CredentialsSchema.safeParseAsync(formData);
 
-		const loginResult = await loginHandler(cred);
-		if (loginResult !== undefined) {
-			error = loginResult;
+		if (test.success) {
+			const loginResult = await loginHandler(formData);
+			if (loginResult !== undefined) {
+				errors._errors = [loginResult];
+			}
+		} else {
+			errors = test.error.format();
 		}
 	};
 
-	const closeError = () => {
-		error = null;
+	const closeError = (type: keyof typeof errors) => {
+		if (type === '_errors') {
+			errors._errors = [];
+		} else {
+			errors[type] = undefined;
+		}
 	};
 </script>
 
@@ -47,16 +48,35 @@
 			id="usernameInput"
 			name="username"
 			class="input-block"
+			bind:value={formData.username}
 		/>
+		{#if errors?.username}
+			<div id="login-alert" class="alert alert-danger dismissible">
+				{errors.username._errors[0]}
+				<butto class="btn-close" for="login-alert" on:click={() => closeError('username')}>X</butto>
+			</div>
+		{/if}
 	</div>
 	<div class="form-group">
 		<label for="passwordInput">Jelszó</label>
-		<input type="password" id="passwordInput" name="password" class="input-block" />
+		<input
+			type="password"
+			id="passwordInput"
+			name="password"
+			class="input-block"
+			bind:value={formData.password}
+		/>
+		{#if errors?.password}
+			<div id="login-alert" class="alert alert-danger dismissible">
+				{errors.password._errors[0]}
+				<butto class="btn-close" for="login-alert" on:click={() => closeError('password')}>X</butto>
+			</div>
+		{/if}
 	</div>
-	{#if error !== null}
+	{#if errors._errors.length > 0}
 		<div id="login-alert" class="alert alert-danger dismissible">
-			{error}
-			<label class="btn-close" for="login-alert" on:click={closeError}>X</label>
+			{errors._errors[0]}
+			<label class="btn-close" for="login-alert" on:click={() => closeError('_errors')}>X</label>
 		</div>
 	{/if}
 	<div id="form-controls">

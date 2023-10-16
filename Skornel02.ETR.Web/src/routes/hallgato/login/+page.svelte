@@ -40,7 +40,7 @@
 			}
 		} catch (ex) {
 			console.error(ex);
-			return 'Ismeretlen hiba történt!';
+			return 'Ismeretlen hálózati hiba történt!';
 		}
 	};
 </script>
