@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 
+using Microsoft.AspNetCore.Components;
+
 namespace Skornel02.ETR.Api.Entities;
 
 public class User
@@ -10,6 +12,7 @@ public class User
 
     public string PasswordHash { get; set; } = default!;
 
+    [CascadingParameter]
     public List<UserTypeEntity> Roles { get; init; } = [];
 
     public required DateOnly BirthDate { get; set; }

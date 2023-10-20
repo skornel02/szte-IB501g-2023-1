@@ -15,11 +15,11 @@ public static class AuthEndpoints
         app.MapPost("/api/check-auth", async ([FromBody] LoginRequestDto request, ETRContext context, PasswordHasher<User> hasher) =>
         {
 
-            var userMatch = (await context.Users.FromSqlInterpolated($""" 
+            var userMatch = await context.Users.FromSqlInterpolated($""" 
                 SELECT * FROM Users
                     WHERE Username = {request.Username}
-                    LIMIT 1;
-                """).ToListAsync()).FirstOrDefault();
+                    LIMIT 1
+                """).FirstOrDefaultAsync();
             if (userMatch is null)
             {
                 return Results.BadRequest("A felhasználó nem létezik!".ToError());
@@ -33,7 +33,7 @@ public static class AuthEndpoints
 
             var userTypes = await context.UserTypes.FromSqlInterpolated($""" 
                 SELECT * FROM UserTypes
-                    WHERE Username = {userMatch.Username};
+                    WHERE Username = {userMatch.Username}
                 """).ToListAsync();
 
             if (!userTypes.Any(role => role.UserType == request.UserType))

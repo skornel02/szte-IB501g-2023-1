@@ -23,6 +23,9 @@ builder.Services.AddDbContext<ETRContext>(options =>
 #endif
     );
 
+builder.Logging.AddConsole();
+builder.Services.AddLogging();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

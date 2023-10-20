@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { ZodFormattedError } from 'zod';
-	import { CredentialsSchema, type Credentials } from '../dtos/auth';
 	import {
 		userCreationFormToDto,
 		type UserCreationDto,
@@ -8,8 +7,13 @@
 		UserCreationFormSchema
 	} from '../dtos/user';
 
-	export let regUrl: string;
-	export let registerHandler: (request: UserCreationDto) => Promise<string | undefined>;
+	export let registerHandler: (request: UserCreationDto) => Promise<UserCreationResult>;
+
+	/**
+	 * Milyen üzenettel ment végbe az eredmény.
+	 * Hiba történt-e
+	 */
+	type UserCreationResult = [string, boolean];
 
 	const formData: UserCreationForm = {
 		username: '',
@@ -28,17 +32,22 @@
 		_errors: []
 	};
 
+	let success: string | undefined = undefined;
+
 	const handleSubmit = async () => {
 		errors = {
 			_errors: []
 		};
+		success = undefined;
 		const test = await UserCreationFormSchema.safeParseAsync(formData);
 
 		if (test.success) {
 			const dto = userCreationFormToDto(formData);
-			const registrationResult = await registerHandler(dto);
-			if (registrationResult !== undefined) {
+			const [registrationResult, registrationFailed] = await registerHandler(dto);
+			if (registrationFailed) {
 				errors._errors = [registrationResult];
+			} else {
+				success = registrationResult;
 			}
 		} else {
 			errors = test.error.format();
@@ -188,6 +197,11 @@
 		<div id="login-alert" class="alert alert-danger dismissible">
 			{errors._errors[0]}
 			<label class="btn-close" for="login-alert" on:click={() => closeError('_errors')}>X</label>
+		</div>
+	{/if}
+	{#if success !== undefined}
+		<div id="login-success" class="alert alert-success dismissible">
+			{success}
 		</div>
 	{/if}
 	<div id="form-controls">
