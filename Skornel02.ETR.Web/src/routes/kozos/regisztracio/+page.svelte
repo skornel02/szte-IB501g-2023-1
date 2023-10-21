@@ -2,15 +2,12 @@
 	import LoginJunk from '$lib/LoginJunk.svelte';
 	import LoginLogo from '$lib/LoginLogo.svelte';
 	import RegistrationForm from '$lib/RegistrationForm.svelte';
-	import { ErrorResponseDtoSchema } from '../../../dtos/general';
-	import type { UserCreationDto } from '../../../dtos/user';
-	import type { PageData } from '../../kozos/regisztracio/$types';
-
-	export let data: PageData;
+	import { ErrorResponseDtoSchema } from '../../../schemas/ErrorResponseDto';
+	import type { UserCreationDto } from '../../../schemas/UserCreationDto';
 
 	const handleRegistration = async (registerDto: UserCreationDto): Promise<[string, boolean]> => {
 		try {
-			const resp = await fetch('/api/register', {
+			const resp = await fetch(base + '/api/register', {
 				method: 'POST',
 				body: JSON.stringify(registerDto),
 				headers: {

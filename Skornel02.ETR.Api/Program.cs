@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 using Skornel02.ETR.Api;
 using Skornel02.ETR.Api.Endpoints;
@@ -10,7 +11,33 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.AddSecurityDefinition("Bearer", new()
+    {
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                },
+                Scheme = "oauth2",
+                Name = "Bearer",
+                In = ParameterLocation.Header,
+            },
+            new List<string>()
+        }
+    });
+});
 
 builder.Services.AddSingleton<PasswordHasher<User>>();
 
@@ -23,8 +50,11 @@ builder.Services.AddDbContext<ETRContext>(options =>
 #endif
     );
 
-builder.Logging.AddConsole();
-builder.Services.AddLogging();
+builder.Services
+    .AddAuthentication()
+    .AddBearerToken();
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
@@ -32,7 +62,7 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c => c.EnablePersistAuthorization());
 }
 
 app.UseHttpsRedirection();
@@ -42,8 +72,9 @@ var summaries = new[]
     "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
 };
 
-app.MapUserEndpoints();
 app.MapAuthEndpoints();
+app.MapUserEndpoints();
+app.MapProfileEndpoints();
 
 app.UseStaticFiles("/static");
 app.MapFallbackToFile("index.html");
@@ -53,12 +84,7 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     var context = services.GetService<ETRContext>();
 
-    context.Database.EnsureCreated();
+    context?.Database.EnsureCreated();
 }
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

@@ -1,3 +1,7 @@
+using System.Security.Claims;
+using System.Security.Principal;
+
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +16,10 @@ public static class AuthEndpoints
 {
     public static void MapAuthEndpoints(this WebApplication app)
     {
-        app.MapPost("/api/check-auth", async ([FromBody] LoginRequestDto request, ETRContext context, PasswordHasher<User> hasher) =>
+        app.MapPost("/api/auth", async ([FromBody] LoginRequestDto request,
+            ETRContext context,
+            PasswordHasher<User> hasher,
+            ILogger<LoginRequestDto> logger) =>
         {
 
             var userMatch = await context.Users.FromSqlInterpolated($""" 
@@ -32,16 +39,20 @@ public static class AuthEndpoints
             }
 
             var userTypes = await context.UserTypes.FromSqlInterpolated($""" 
-                SELECT * FROM UserTypes
+                SELECT * FROM UserTypeEntities
                     WHERE Username = {userMatch.Username}
                 """).ToListAsync();
 
-            if (!userTypes.Any(role => role.UserType == request.UserType))
+            var roles = userTypes.Select(role => role.UserType).ToArray();
+
+            if (!roles.Any(role => role == request.UserType))
             {
                 return Results.BadRequest("Ez a fiók ilyen jogkörben nem használható!".ToError());
             }
 
-            return Results.NoContent();
+            var etr = new ETRIdentity(userMatch.Username).ToClaimsPrinciple();
+
+            return Results.SignIn(etr);
         })
             .WithTags("Auth")
             .Produces(204)

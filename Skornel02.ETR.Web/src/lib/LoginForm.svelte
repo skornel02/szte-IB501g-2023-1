@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { ZodFormattedError } from 'zod';
-	import { CredentialsSchema, type Credentials } from '../dtos/auth';
+	import { type Credentials, CredentialsSchema } from '../schemas/LoginRequestDto';
 
 	export let regUrl: string;
 	export let loginHandler: (cred: Credentials) => Promise<string | undefined>;

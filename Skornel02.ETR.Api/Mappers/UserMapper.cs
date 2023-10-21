@@ -12,4 +12,6 @@ public static partial class UserMapper
     [MapperIgnoreSource(nameof(UserCreationDto.Roles))]
     [MapperIgnoreTarget(nameof(User.PasswordHash))]
     public static partial User ToUser(this UserCreationDto dto);
+
+    public static partial ProfileDto ToProfileDto(this User user);
 }

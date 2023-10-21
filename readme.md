@@ -12,7 +12,18 @@ A projekt kliens oldali része a SvelteKit keretrendszert használja. A kliens o
 
 ## Projekt futtatása
 
+### Kiszolgáló
+```bash
+$# cd Skornel02.ETR.Api
+$# dotnet run
+```
 
+### Web kliens
+```bash
+$# cd Skornel02.ETR.Web
+$# npm install
+$# npm run dev
+```
 
 ## ​Specifikáció:
 

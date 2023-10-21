@@ -4,7 +4,7 @@ import { UserType } from '../enums/usertypes';
 export const CredentialsSchema = z.object({
     username: z.string()
         .min(1, { message: "A felhasználónév nem lehet üres!" })
-        .max(255, { message: "A felhasználónév nem lehet hosszabb 255 karakternél!" }),
+        .max(32, { message: "A felhasználónév nem lehet hosszabb 32 karakternél!" }),
     password: z.string()
         .min(1, { message: "A jelszó nem lehet üres!" }),
 });

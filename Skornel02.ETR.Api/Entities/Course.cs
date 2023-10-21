@@ -1,10 +1,11 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 using Microsoft.EntityFrameworkCore;
 
 namespace Skornel02.ETR.Api.Entities;
 
-[PrimaryKey(nameof(CourseCode), nameof(Semester))]
+[Table("Courses"), PrimaryKey(nameof(CourseCode), nameof(Semester))]
 public class Course
 {
     [StringLength(15)]

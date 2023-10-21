@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Skornel02.ETR.Api.Entities;
 
-[PrimaryKey(nameof(Username), nameof(DegreeName))]
+[Table("DegreeParticipations"), PrimaryKey(nameof(Username), nameof(DegreeName))]
 public class DegreeParticipation
 {
     [ForeignKey(nameof(User))]

@@ -1,10 +1,12 @@
 import { z } from "zod";
-import { CredentialsSchema } from "./auth";
+import { CredentialsSchema } from "./LoginRequestDto";
 import { UserType } from "../enums/usertypes";
 
 export const UserCreationFormSchema = CredentialsSchema.and(z.object({
     passwordRepeat: z.string().min(1, { message: "A jelszó nem lehet üres!" }),
-    name: z.string().min(1, { message: "A név nem lehet üres!" }),
+    name: z.string()
+        .min(1, { message: "A név nem lehet üres!" })
+        .max(100, { message: "A név nem lehet hosszabb 100 karakternél!" }),
     roles: z.object({
         student: z.boolean(),
         teacher: z.boolean(),

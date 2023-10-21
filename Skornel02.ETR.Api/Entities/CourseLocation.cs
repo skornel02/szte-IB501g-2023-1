@@ -5,12 +5,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Skornel02.ETR.Api.Entities;
 
-[PrimaryKey(nameof(CourseCode), nameof(CourseSemester), nameof(Address), nameof(RoomName), nameof(Start))]
+[Table("CourseLocations"), PrimaryKey(nameof(CourseCode), nameof(CourseSemester), nameof(Address), nameof(RoomName), nameof(Start))]
 public class CourseLocation
 {
-    [StringLength(15)]
     public string CourseCode { get; init; } = default!;
-    [StringLength(6)]
     public string CourseSemester { get; init; } = default!;
     [ForeignKey($"{nameof(CourseCode)}, {nameof(CourseSemester)}")]
     public required Course Course { get; init; }

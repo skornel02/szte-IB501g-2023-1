@@ -4,13 +4,12 @@
 	import LoginForm from '$lib/LoginForm.svelte';
 	import LoginJunk from '$lib/LoginJunk.svelte';
 	import LoginLogo from '$lib/LoginLogo.svelte';
-	import type { Credentials } from '$lib/authentication';
-	import type { LoginRequestDto } from '../../../dtos/auth';
-	import { ErrorResponseDtoSchema } from '../../../dtos/general';
+	import Cookies from 'js-cookie';
 	import { UserType } from '../../../enums/usertypes';
-	import type { PageData } from './$types';
-
-	export let data: PageData;
+	import { AuthResponseSchema } from '../../../schemas/AuthResponse';
+	import { ErrorResponseDtoSchema } from '../../../schemas/ErrorResponseDto';
+	import type { Credentials, LoginRequestDto } from '../../../schemas/LoginRequestDto';
+	import { onMount } from 'svelte';
 
 	const handleLogin = async (cred: Credentials) => {
 		const loginDto: LoginRequestDto = {
@@ -19,15 +18,25 @@
 		};
 
 		try {
-			const resp = await fetch('/api/check-auth', {
+			const resp = await fetch(base + '/api/auth', {
 				method: 'POST',
 				body: JSON.stringify(loginDto),
 				headers: {
 					'Content-Type': 'application/json'
-				},
+				}
 			});
-	
-			if (resp.status === 204) {
+
+			if (resp.status === 200) {
+				const response = await AuthResponseSchema.parseAsync(await resp.json());
+				const expiration = new Date(new Date().getTime() + response.expiresIn * 1000);
+
+				Cookies.set('token', response.accessToken, {
+					expires: expiration,
+					path: '/hallgato/',
+					secure: true,
+					sameSite: 'strict'
+				});
+
 				window.location.href = `${base}/hallgato/kezdolap`;
 			} else {
 				const errorResponse = await resp.json();
@@ -40,9 +49,36 @@
 			}
 		} catch (ex) {
 			console.error(ex);
-			return 'Ismeretlen hálózati hiba történt!';
+			return 'Ismeretlen hiba történt!';
 		}
 	};
+
+	const checkAlreadyLoggedIn = async () => {
+		const token = Cookies.get('token');
+		
+		if (token === undefined || token.length === 0) {
+			return;
+		}
+
+		try {
+			const resp = await fetch(base + "/api/profile", {
+				method: "GET",
+				headers: {
+					"Authorization": `Bearer ${token}`
+				}
+			});
+
+			if (resp.status === 200) {
+				window.location.href = `${base}/hallgato/kezdolap`;
+			}
+		} catch (ex) {
+			console.error("Auth check failed with error: ", ex);
+		}
+	}
+
+	onMount(async () => {
+		checkAlreadyLoggedIn();
+	});
 </script>
 
 <div class="container logo-container">

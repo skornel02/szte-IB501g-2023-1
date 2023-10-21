@@ -1,11 +1,6 @@
 <script lang="ts">
 	import type { ZodFormattedError } from 'zod';
-	import {
-		userCreationFormToDto,
-		type UserCreationDto,
-		type UserCreationForm,
-		UserCreationFormSchema
-	} from '../dtos/user';
+	import { UserCreationFormSchema, type UserCreationDto, type UserCreationForm, userCreationFormToDto } from '../schemas/UserCreationDto';
 
 	export let registerHandler: (request: UserCreationDto) => Promise<UserCreationResult>;
 

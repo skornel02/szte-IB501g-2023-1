@@ -6,7 +6,7 @@ using Skornel02.ETR.Common.Enums;
 
 namespace Skornel02.ETR.Api.Entities;
 
-[PrimaryKey(nameof(UserType), nameof(Username))]
+[Table("UserTypeEntities"), PrimaryKey(nameof(UserType), nameof(Username))]
 public class UserTypeEntity
 {
     public required UserType UserType { get; init; }
