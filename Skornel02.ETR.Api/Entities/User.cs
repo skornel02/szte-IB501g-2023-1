@@ -16,8 +16,7 @@ public class User
 
     public string PasswordHash { get; set; } = default!;
 
-    [CascadingParameter]
-    public List<UserTypeEntity> Roles { get; init; } = [];
+    public List<UserRole> Roles { get; set; } = [];
 
     public required DateOnly BirthDate { get; set; }
 

@@ -1,3 +1,5 @@
+using Bogus;
+
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,9 +12,9 @@ public class ETRContext(DbContextOptions<ETRContext> options) : DbContext(option
 {
     public DbSet<User> Users { get; set; } = default!;
 
-    public DbSet<UserTypeEntity> UserTypes { get; set; } = default!;
+    public DbSet<UserRole> UserTypes { get; set; } = default!;
 
-    public DbSet<DegreeType> DegreeTypes { get; set; } = default!;
+    public DbSet<Degree> Degrees { get; set; } = default!;
     public DbSet<DegreeParticipation> DegreeParticipations { get; set; } = default!;
 
     public DbSet<Course> Courses { get; set; } = default!;
@@ -29,12 +31,23 @@ public class ETRContext(DbContextOptions<ETRContext> options) : DbContext(option
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ETRContext).Assembly);
 
+        Randomizer.Seed = new Random(8675309);
+        var hasher = new PasswordHasher<User>();
+
         #region Szakok
-        var infoSzak = new DegreeType()
+        var infoSzak = new Degree()
         {
-            Name = "Informatikus szak"
+            Name = "Programtervező informatikus Bsc",
+            Level = DegreeLevel.Bsc,
         };
-        modelBuilder.Entity<DegreeType>().HasData(infoSzak);
+        var mernokinfoSzak = new Degree()
+        {
+            Name = "Mérnökinformatikus Bsc",
+            Level = DegreeLevel.Bsc,
+        };
+
+        modelBuilder.Entity<Degree>().HasData(infoSzak);
+        modelBuilder.Entity<Degree>().HasData(mernokinfoSzak);
         #endregion
 
         #region Tanuló 1
@@ -46,20 +59,20 @@ public class ETRContext(DbContextOptions<ETRContext> options) : DbContext(option
             BirthDate = new DateOnly(2000, 1, 2),
             BirthLocation = "Szeged"
         };
-        tanulo.PasswordHash = new PasswordHasher<User>().HashPassword(tanulo, "tanulo");
+        tanulo.PasswordHash = hasher.HashPassword(tanulo, "tanulo");
         modelBuilder.Entity<User>().HasData(tanulo);
 
-        var tanuloRole = new UserTypeEntity()
+        var tanuloRole = new UserRole()
         {
             Username = tanulo.Username,
             User = null!,
-            UserType = UserType.Student
+            UserType = RoleType.Student
         };
-        modelBuilder.Entity<UserTypeEntity>().HasData(tanuloRole);
+        modelBuilder.Entity<UserRole>().HasData(tanuloRole);
 
         var tanuloSzak = new DegreeParticipation()
         {
-            DegreeType = null!,
+            Degree = null!,
             DegreeName = infoSzak.Name,
             User = null!,
             Username = tanulo.Username,
@@ -78,20 +91,20 @@ public class ETRContext(DbContextOptions<ETRContext> options) : DbContext(option
             BirthDate = new DateOnly(1980, 1, 2),
             BirthLocation = "Szeged"
         };
-        oktato.PasswordHash = new PasswordHasher<User>().HashPassword(oktato, "oktato");
+        oktato.PasswordHash = hasher.HashPassword(oktato, "oktato");
         modelBuilder.Entity<User>().HasData(oktato);
 
-        var oktatoRole = new UserTypeEntity()
+        var oktatoRole = new UserRole()
         {
             Username = oktato.Username,
             User = null!,
-            UserType = UserType.Teacher
+            UserType = RoleType.Teacher
         };
-        modelBuilder.Entity<UserTypeEntity>().HasData(oktatoRole);
+        modelBuilder.Entity<UserRole>().HasData(oktatoRole);
 
         var oktatoSzak = new DegreeParticipation()
         {
-            DegreeType = null!,
+            Degree = null!,
             DegreeName = infoSzak.Name,
             User = null!,
             Username = oktato.Username,
@@ -100,7 +113,93 @@ public class ETRContext(DbContextOptions<ETRContext> options) : DbContext(option
         };
         modelBuilder.Entity<DegreeParticipation>().HasData(oktatoSzak);
         #endregion
+
+        #region Random degrees
+        var randomDegrees = new Faker<Degree>()
+            .RuleFor(d => d.Name, f => $"{f.Commerce.Department(3)} ({f.UniqueIndex})")
+            .RuleFor(d => d.Level, f => f.PickRandom<DegreeLevel>())
+            .Generate(50);
+
+        modelBuilder.Entity<Degree>().HasData(randomDegrees);
+        #endregion
+
+        #region Random classrooms 
+        var randomClassRooms = new Faker<ClassRoom>("el")
+            .RuleFor(c => c.Address, f => f.Address.FullAddress())
+            .RuleFor(c => c.RoomNumber, f => f.Random.Int(14, 350).ToString())
+            .Generate(100);
+
+        modelBuilder.Entity<ClassRoom>().HasData(randomClassRooms);
+        #endregion
+
+        #region Random users
+        var randomUsers = new List<User>();
+
+        for (int i = 0; i < 100; i++)
+        {
+            var user = new Faker<User>("el")
+                .RuleFor(u => u.Username, f => f.Internet.UserName())
+                .RuleFor(u => u.Name, f => f.Name.FullName())
+                .RuleFor(u => u.BirthDate, f => DateOnly.FromDateTime(f.Date.Past(20, DateTime.Now.AddYears(-18))))
+                .RuleFor(u => u.BirthLocation, f => f.Address.City())
+                .Generate();
+
+            randomUsers.Add(user);
+
+            user.PasswordHash = hasher.HashPassword(user, user.Username);
+
+            modelBuilder.Entity<User>().HasData(user);
+
+            var roleToAdd = Randomizer.Seed.Next(1, 3);
+            var roles = new List<UserRole>();
+            if (roleToAdd == 1)
+            {
+                roles.Add(new UserRole()
+                {
+                    Username = user.Username,
+                    User = null!,
+                    UserType = Randomizer.Seed.Next(2) == 0 ? RoleType.Student : RoleType.Teacher,
+                });
+            }
+            else
+            {
+                roles.Add(new UserRole()
+                {
+                    Username = user.Username,
+                    User = null!,
+                    UserType = RoleType.Student,
+                });
+                roles.Add(new UserRole()
+                {
+                    Username = user.Username,
+                    User = null!,
+                    UserType = RoleType.Teacher,
+                });
+            }
+
+            modelBuilder.Entity<UserRole>().HasData(roles);
+
+            var chosenDegree = randomDegrees[Randomizer.Seed.Next(0, randomDegrees.Count)];
+            var degreeParticipation = new DegreeParticipation()
+            {
+                DegreeName = chosenDegree.Name,
+                Degree = null!,
+                StartDate = user.BirthDate.AddYears(18),
+                EndDate = user.BirthDate.AddYears(21),
+                Username = user.Username,
+                User = null!
+            };
+
+            modelBuilder.Entity<DegreeParticipation>().HasData(degreeParticipation);
+        }
+
+        var randomStundents = randomUsers
+            .Where(user => user.Roles.Any(r => r.UserType == RoleType.Student))
+            .ToList();
+
+        var randomTeachers = randomUsers
+            .Where(user => user.Roles.Any(r => r.UserType == RoleType.Teacher))
+            .ToList();
+        #endregion
     }
-
-
 }

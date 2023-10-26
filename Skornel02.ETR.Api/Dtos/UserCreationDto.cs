@@ -6,7 +6,7 @@ public record UserCreationDto(
     string Username,
     string Name,
     string Password,
-    List<UserType> Roles,
+    List<RoleType> Roles,
     DateTime BirthDate,
     string BirthLocation
 );

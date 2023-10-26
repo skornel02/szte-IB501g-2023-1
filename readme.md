@@ -43,8 +43,8 @@ A feladat egy olyan elektronikus tanulmányi rendszer elkészítése, amely elt�
 >   - Név: User.Name; A felhasználó neve, ez az azonosítótól függ.
 >   - Születési dátum: User.BirthDate; A felhasználó születési dátuma, ez az azonosítótól függ.
 >   - Születési hely: User.BirthLocation; A felhasználó születési helye, ez az azonsoítótól függ.
->   - Státusz: UserTypeEntity.UserType; A felhaszáló státusza a rendszerben, lehet több érték is egyszerre.
->   - Szak: DegreeType.Name; A felhasználó által (el)végzett szak(ok). 
+>   - Státusz: UserRole.RoleType; A felhaszáló státusza a rendszerben, lehet több érték is egyszerre.
+>   - Szak: Degree.Name; A felhasználó által (el)végzett szak(ok). 
 > - Kurzus
 >   - Kód: Course.CourseCode; A kurzus kódja. Ez az egyed kulcsa.
 >   - Szemeszter: Course.Semester; A kurzus szemesztere. Ez az egyed kulcsa.
@@ -134,7 +134,9 @@ UserTypeEntity(<ins>UserType</ins>, <ins>*Username*</ins>)
 > Ez egy optimális megoldás, mivel az enum értéke elég információt hordoz magában, további tábla kapcsolására nincs szükség.
 
 #### Egyetemi végzettség:
-DegreeType(<ins>Name</ins>)
+Degree(<ins>Name</ins>, Level)
+
+- {Name} → {Level}
 
 > Adat duplikáció megszüntetése végett.
 

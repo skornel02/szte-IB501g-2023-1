@@ -39,7 +39,7 @@ public static class AuthEndpoints
             }
 
             var userTypes = await context.UserTypes.FromSqlInterpolated($""" 
-                SELECT * FROM UserTypeEntities
+                SELECT * FROM UserRoles
                     WHERE Username = {userMatch.Username}
                 """).ToListAsync();
 

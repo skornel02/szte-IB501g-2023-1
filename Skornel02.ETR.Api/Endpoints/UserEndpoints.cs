@@ -42,7 +42,7 @@ public static class UserMapping
 
             await context.Users.AddAsync(user, token);
 
-            var userTypes = request.Roles.Select(role => new UserTypeEntity
+            var userTypes = request.Roles.Select(role => new UserRole
             {
                 User = user,
                 UserType = role

@@ -11,9 +11,9 @@ public class DegreeParticipation
     public string Username { get; init; } = default!;
     public required User User { get; init; }
 
-    [ForeignKey(nameof(DegreeType))]
+    [ForeignKey(nameof(Degree))]
     public string DegreeName { get; init; } = default!;
-    public required DegreeType DegreeType { get; init; }
+    public required Degree Degree { get; init; }
 
     public required DateOnly StartDate { get; set; }
     public DateOnly? EndDate { get; set; }

@@ -7,5 +7,5 @@ namespace Skornel02.ETR.Api.Dtos;
 public record LoginRequestDto(
     string Username,
     string Password,
-    UserType UserType
+    RoleType UserType
 );

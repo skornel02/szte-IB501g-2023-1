@@ -6,8 +6,8 @@ public class ETRIdentity : ClaimsIdentity
 {
     public override bool IsAuthenticated => true;
     public override string? AuthenticationType => "Bearer";
-    public string Username {get; private set;}
-    
+    public string Username { get; private set; }
+
     public ETRIdentity(string username)
     {
         Username = username;

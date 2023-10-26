@@ -22,8 +22,8 @@ public static class ProfileMapping
                     WHERE Username = {session.Username}
                 """).FirstAsync();
 
-            var roles = await context.Database.SqlQuery<UserType>($"""
-                SELECT UserType FROM UserTypeEntities
+            var roles = await context.Database.SqlQuery<RoleType>($"""
+                SELECT UserType FROM UserRoles
                     WHERE Username = {session.Username}
                 """).ToListAsync();
 
@@ -31,7 +31,7 @@ public static class ProfileMapping
                 SELECT DegreeName as 'Name', StartDate, EndDate FROM DegreeParticipations
                     WHERE Username = {session.Username}
                 """).ToListAsync();
-            
+
             var profile = user.ToProfileDto();
             profile.Roles = roles;
             profile.Degrees = degrees;
