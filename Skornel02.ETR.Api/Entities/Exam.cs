@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,7 +14,9 @@ public class Exam
     [ForeignKey($"{nameof(CourseCode)}, {nameof(CourseSemester)}")]
     public required Course Course { get; init; }
 
+    [Description("Vizsga kezdete")]
     public required DateTimeOffset Start { get; set; }
+    [Description("Vizsga vége")]
     public required DateTimeOffset End { get; set; }
 
     public string ClassRoomAddress { get; set; } = default!;

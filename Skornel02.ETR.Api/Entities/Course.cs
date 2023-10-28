@@ -9,12 +9,16 @@ namespace Skornel02.ETR.Api.Entities;
 public class Course
 {
     [StringLength(15)]
+    [Comment("Kurzus kódja")]
     public required string CourseCode { get; init; }
     [StringLength(6)]
+    [Comment("Aktuális félév")]
     public required string Semester { get; init; }
 
+    [Comment("Tárgy kreditszáma")]
     public int Credits { get; init; }
 
+    [Comment("Maximum kapacitás")]
     public int Capacity { get; init; }
 
 

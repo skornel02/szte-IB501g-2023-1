@@ -2,6 +2,7 @@ using Bogus;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 
 using Skornel02.ETR.Api.Entities;
 using Skornel02.ETR.Common.Enums;
@@ -31,8 +32,10 @@ public class ETRContext(DbContextOptions<ETRContext> options) : DbContext(option
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ETRContext).Assembly);
 
-        Randomizer.Seed = new Random(8675309);
+        var random = new Random(8675309);
+        Randomizer.Seed = random;
         var hasher = new PasswordHasher<User>();
+        var now = new DateTime(2023, 10, 26);
 
         #region Szakok
         var infoSzak = new Degree()
@@ -140,7 +143,7 @@ public class ETRContext(DbContextOptions<ETRContext> options) : DbContext(option
             var user = new Faker<User>("el")
                 .RuleFor(u => u.Username, f => f.Internet.UserName())
                 .RuleFor(u => u.Name, f => f.Name.FullName())
-                .RuleFor(u => u.BirthDate, f => DateOnly.FromDateTime(f.Date.Past(20, DateTime.Now.AddYears(-18))))
+                .RuleFor(u => u.BirthDate, f => DateOnly.FromDateTime(f.Date.Past(20, now.AddYears(-18))))
                 .RuleFor(u => u.BirthLocation, f => f.Address.City())
                 .Generate();
 
@@ -150,7 +153,7 @@ public class ETRContext(DbContextOptions<ETRContext> options) : DbContext(option
 
             modelBuilder.Entity<User>().HasData(user);
 
-            var roleToAdd = Randomizer.Seed.Next(1, 3);
+            var roleToAdd = random.Next(1, 3);
             var roles = new List<UserRole>();
             if (roleToAdd == 1)
             {
@@ -158,7 +161,7 @@ public class ETRContext(DbContextOptions<ETRContext> options) : DbContext(option
                 {
                     Username = user.Username,
                     User = null!,
-                    UserType = Randomizer.Seed.Next(2) == 0 ? RoleType.Student : RoleType.Teacher,
+                    UserType = random.Next(2) == 0 ? RoleType.Student : RoleType.Teacher,
                 });
             }
             else
@@ -179,7 +182,7 @@ public class ETRContext(DbContextOptions<ETRContext> options) : DbContext(option
 
             modelBuilder.Entity<UserRole>().HasData(roles);
 
-            var chosenDegree = randomDegrees[Randomizer.Seed.Next(0, randomDegrees.Count)];
+            var chosenDegree = randomDegrees[random.Next(0, randomDegrees.Count)];
             var degreeParticipation = new DegreeParticipation()
             {
                 DegreeName = chosenDegree.Name,

@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -19,7 +20,8 @@ public class CourseLocation
     [ForeignKey($"{nameof(Address)}, {nameof(RoomName)}")]
     public required ClassRoom ClassRoom { get; init; }
 
+    [Description("Óra kezdete")]
     public required DateTimeOffset Start { get; init; }
-
+    [Description("Óra vége")]
     public required DateTimeOffset End { get; init; }
 }

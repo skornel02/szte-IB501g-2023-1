@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,17 +11,22 @@ public class User
 {
     [Key]
     [MaxLength(32)]
+    [Description("Felhasználónév")]
     public required string Username { get; init; }
     [MaxLength(100)]
+    [Description("Rendes név")]
     public required string Name { get; set; }
 
+    [Description("Titkosított jelszó")]
     public string PasswordHash { get; set; } = default!;
 
     public List<UserRole> Roles { get; set; } = [];
 
+    [Description("Születési dátum")]
     public required DateOnly BirthDate { get; set; }
 
     [MaxLength(100)]
+    [Description("Születési hely")]
     public required string BirthLocation { get; set; }
 
     public List<DegreeParticipation> DegreeParticipations { get; set; } = [];

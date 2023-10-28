@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +16,9 @@ public class DegreeParticipation
     public string DegreeName { get; init; } = default!;
     public required Degree Degree { get; init; }
 
+    [Description("Képzés kezdete")]
     public required DateOnly StartDate { get; set; }
+    [Description("Képzés vége")]
     public DateOnly? EndDate { get; set; }
 
 }

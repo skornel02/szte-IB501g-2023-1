@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -19,6 +20,8 @@ public class CourseAttendance
     [ForeignKey($"{nameof(CourseCode)}, {nameof(CourseSemester)}")]
     public required Course Course { get; init; }
 
+    [Description("Részvétel típusa (hallgató, oktató)")]
     public required AttendanceType AttendanceType { get; init; }
+    [Description("Elért érdemjegy")]
     public string? Grade { get; set; }
 }
