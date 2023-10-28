@@ -75,6 +75,8 @@ var summaries = new[]
 app.MapAuthEndpoints();
 app.MapUserEndpoints();
 app.MapProfileEndpoints();
+app.MapClassRoomEndpoints();
+app.MapStatisticsEndpoints();
 
 app.UseStaticFiles("/static");
 app.MapFallbackToFile("index.html");

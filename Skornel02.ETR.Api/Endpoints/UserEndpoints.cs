@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-using Skornel02.ETR.Api.Dtos;
 using Skornel02.ETR.Api.Entities;
 using Skornel02.ETR.Api.Mappers;
+using Skornel02.ETR.Common.Dtos;
 
 namespace Skornel02.ETR.Api.Endpoints;
 

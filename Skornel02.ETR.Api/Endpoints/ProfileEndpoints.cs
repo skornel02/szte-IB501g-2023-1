@@ -2,8 +2,8 @@ using System.Security.Claims;
 
 using Microsoft.EntityFrameworkCore;
 
-using Skornel02.ETR.Api.Dtos;
 using Skornel02.ETR.Api.Mappers;
+using Skornel02.ETR.Common.Dtos;
 using Skornel02.ETR.Common.Enums;
 
 namespace Skornel02.ETR.Api.Endpoints;
@@ -38,6 +38,7 @@ public static class ProfileMapping
 
             return profile;
         })
+            .WithTags("Profile")
             .RequireAuthorization();
     }
 }

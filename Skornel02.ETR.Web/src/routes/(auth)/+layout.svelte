@@ -23,10 +23,10 @@
 	const isTeacher = window.location.href.includes('/oktato/');
 </script>
 
-<nav class="border fixed split-nav">
+<nav class="border split-nav">
 	<div class="nav-brand">
 		<h5>
-			{profile.name} ({profile.username}) [
+			{profile.name} ({profile.username}) <br> [
 			{#if profile.degrees.length > 0}
 				{profile.degrees[0].name} ({profile.degrees[0].startDate} => {profile.degrees[0].endDate ??
 					'-'})
@@ -51,6 +51,7 @@
 					<li><a href={`${base}/oktato/kurzusok`}>Kurzusok</a></li>
 					<li><a href={`${base}/oktato/vizsgak`}>Vizsgák</a></li>
 					<li><a href={`${base}/oktato/termek`}>Termek</a></li>
+					<li><a href={`${base}/oktato/statisztikak`}>Statisztikák</a></li>
 					<li><a href={`${base}/oktato/profil`}>Profil</a></li>
 				{/if}
 				<li><button on:click={handleLogout}>Logout</button></li>
@@ -58,3 +59,5 @@
 		</div>
 	</div>
 </nav>
+
+<slot/>

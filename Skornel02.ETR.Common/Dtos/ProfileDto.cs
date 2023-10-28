@@ -1,6 +1,7 @@
+using Skornel02.ETR.Common.Dtos;
 using Skornel02.ETR.Common.Enums;
 
-namespace Skornel02.ETR.Api.Dtos;
+namespace Skornel02.ETR.Common.Dtos;
 
 public record ProfileDto
 {

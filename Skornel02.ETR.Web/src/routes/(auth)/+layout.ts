@@ -37,6 +37,6 @@ export const load: LayoutLoad = (async () => {
     }
 
     window.location.href = `${base}/hallgato/login`;
-    alert("A bejelentkezése lejárt!");
+    alert("Hiba történt a bejelentkezés ellenőrzése közben! Próbálja újra később.");
     throw Error("Authentication failed!");
 });

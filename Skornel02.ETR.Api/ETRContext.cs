@@ -34,7 +34,6 @@ public class ETRContext(DbContextOptions<ETRContext> options) : DbContext(option
 
         var random = new Random(8675309);
         Randomizer.Seed = random;
-        var hasher = new PasswordHasher<User>();
         var now = new DateTime(2023, 10, 26);
 
         #region Szakok
@@ -62,7 +61,8 @@ public class ETRContext(DbContextOptions<ETRContext> options) : DbContext(option
             BirthDate = new DateOnly(2000, 1, 2),
             BirthLocation = "Szeged"
         };
-        tanulo.PasswordHash = hasher.HashPassword(tanulo, "tanulo");
+        var tanuloHash = "AQAAAAIAAYagAAAAEPy0Sa3t+0fqE5iMzp1a5B7FRWSO31WJ37yCzKu2fXCjldLH0utein9gF7o23hnu5g==";
+        tanulo.PasswordHash = tanuloHash;
         modelBuilder.Entity<User>().HasData(tanulo);
 
         var tanuloRole = new UserRole()
@@ -94,7 +94,8 @@ public class ETRContext(DbContextOptions<ETRContext> options) : DbContext(option
             BirthDate = new DateOnly(1980, 1, 2),
             BirthLocation = "Szeged"
         };
-        oktato.PasswordHash = hasher.HashPassword(oktato, "oktato");
+        var oktatoHash = "AQAAAAIAAYagAAAAEGwWzLcK2LgEqebi3IQz3KDZalg30QuzeHZhqgav06HdMDPOVOm5CJ8u4IsOPjCFqw==";
+        oktato.PasswordHash = oktatoHash;
         modelBuilder.Entity<User>().HasData(oktato);
 
         var oktatoRole = new UserRole()
@@ -130,6 +131,7 @@ public class ETRContext(DbContextOptions<ETRContext> options) : DbContext(option
         var randomClassRooms = new Faker<ClassRoom>("el")
             .RuleFor(c => c.Address, f => f.Address.FullAddress())
             .RuleFor(c => c.RoomNumber, f => f.Random.Int(14, 350).ToString())
+            .RuleFor(c => c.RoomType, f => f.PickRandom<RoomType>())
             .Generate(100);
 
         modelBuilder.Entity<ClassRoom>().HasData(randomClassRooms);
@@ -143,13 +145,13 @@ public class ETRContext(DbContextOptions<ETRContext> options) : DbContext(option
             var user = new Faker<User>("el")
                 .RuleFor(u => u.Username, f => f.Internet.UserName())
                 .RuleFor(u => u.Name, f => f.Name.FullName())
-                .RuleFor(u => u.BirthDate, f => DateOnly.FromDateTime(f.Date.Past(20, now.AddYears(-18))))
+                .RuleFor(u => u.BirthDate, f => DateOnly.FromDateTime(f.Date.Past(45, now.AddYears(-18))))
                 .RuleFor(u => u.BirthLocation, f => f.Address.City())
                 .Generate();
 
             randomUsers.Add(user);
 
-            user.PasswordHash = hasher.HashPassword(user, user.Username);
+            user.PasswordHash = tanuloHash;
 
             modelBuilder.Entity<User>().HasData(user);
 

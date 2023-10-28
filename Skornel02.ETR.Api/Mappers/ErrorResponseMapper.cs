@@ -1,6 +1,6 @@
 using Riok.Mapperly.Abstractions;
 
-using Skornel02.ETR.Api.Dtos;
+using Skornel02.ETR.Common.Dtos;
 
 namespace Skornel02.ETR.Api.Mappers;
 
