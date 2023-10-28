@@ -19,8 +19,12 @@ public class ClassRoom
     public required string RoomNumber { get; init; }
     [Description("Terem típusa")]
     public required RoomType RoomType { get; set; }
+    [Description("Terem neve")]
+    public required string Name { get; set; }
+    [Description("Terem férőhely")]
+    public required int Capacity { get; set; }
 
-    public List<CourseLocation> Courses { get; set; } = [];
+    public List<Course> Courses { get; set; } = [];
 
     public List<Exam> Exams { get; set; } = [];
 }

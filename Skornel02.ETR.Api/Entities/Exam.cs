@@ -4,6 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 using Microsoft.EntityFrameworkCore;
 
+using Skornel02.ETR.Common.Enums;
+
 namespace Skornel02.ETR.Api.Entities;
 
 [Table("Exams"), PrimaryKey(nameof(CourseCode), nameof(CourseSemester), nameof(Start))]
@@ -18,6 +20,8 @@ public class Exam
     public required DateTimeOffset Start { get; set; }
     [Description("Vizsga vége")]
     public required DateTimeOffset End { get; set; }
+    [Description("Vizsga típusa")]
+    public required ExamType ExamType { get; set; }
 
     public string ClassRoomAddress { get; set; } = default!;
     public string ClassRoomRoomName { get; set; } = default!;

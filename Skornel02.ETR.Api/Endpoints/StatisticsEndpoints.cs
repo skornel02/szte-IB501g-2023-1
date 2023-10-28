@@ -38,5 +38,24 @@ public static class StatisticsEndpoints
         })
             .WithTags("Statistics")
             .RequireAuthorization();
+
+        app.MapGet("/api/statistics/teacher-load-level", async (ETRContext context) =>
+        {
+            var teachersLoadLevel = await context.Database.SqlQuery<TeacherLoadStatisticsDto>($"""
+                SELECT u.Username, u.Name, c.Semester , sum(c.Hours) 
+                    FROM Users u
+                    INNER JOIN UserRoles r ON u.Username = r.Username
+                    INNER JOIN CourseAttendances ca ON u.Username = ca.Username 
+                    INNER JOIN Courses c  on c.CourseCode = ca.CourseCode and c.Semester = ca.CourseSemester 
+                    WHERE r.UserType = {RoleType.Teacher} 
+                        and (ca.AttendanceType is null or ca.AttendanceType = {AttendanceType.Organizer})
+                    GROUP BY u.Username, u.Name, c.Semester
+                    ORDER BY u.Name Asc, c.Semester Desc
+                """).ToListAsync();
+
+            return teachersLoadLevel;
+        })
+            .WithTags("Statistics")
+            .RequireAuthorization();
     }
 }

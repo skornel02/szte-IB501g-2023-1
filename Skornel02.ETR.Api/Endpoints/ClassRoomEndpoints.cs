@@ -13,7 +13,7 @@ public static class ClassRoomEndpointsExtension
         app.MapGet("/api/classrooms", async (ETRContext context) =>
         {
             var classrooms = await context.Database.SqlQuery<ClassRoomDto>($"""
-                SELECT Address, RoomNumber, RoomType FROM ClassRooms
+                SELECT Name, Address, RoomNumber, RoomType, Capacity FROM ClassRooms
                 """).ToListAsync();
 
             return classrooms;

@@ -3,7 +3,7 @@
 
 	export let data: PageData;
 
-	const { teachers, students } = data;
+	const { teachers, students, teacherLoadLevels } = data;
 </script>
 
 <h1>Statisztikák</h1>
@@ -20,12 +20,10 @@
 		<label for="tab3">Tab 3</label>
 
 		<input id="tab4" type="radio" name="tabs" />
-		<label for="tab4">Tab 4</label>
+		<label for="tab4">Oktató leterheltség</label>
 
 		<div class="content" id="content1">
-            <p>
-                Az oktatók kilistázva, fiatalabbtól az idősebbig.
-            </p>
+			<p>Az oktatók kilistázva, fiatalabbtól az idősebbig.</p>
 			<table class="table-hover">
 				<thead>
 					<tr>
@@ -48,10 +46,8 @@
 			</table>
 		</div>
 		<div class="content" id="content2">
-            <p>
-                Hallgatók által felvett kurzus mennyiség, a hallgatók neve ABC szerinti sorrendben.
-            </p>
-            <table class="table-hover">
+			<p>Hallgatók által felvett kurzus mennyiség, a hallgatók neve ABC szerinti sorrendben.</p>
+			<table class="table-hover">
 				<thead>
 					<tr>
 						<th>Felhasználó név</th>
@@ -72,10 +68,31 @@
 		</div>
 		<div class="content" id="content3">
 			<p>Bacon ipsum dolor sit amet beef venison beef ribs kielbasa...</p>
-			<p>Brisket meatball turkey short loin boudin leberkas meatloaf...</p>
 		</div>
 		<div class="content" id="content4">
-			<p>Bacon ipsum dolor sit amet landjaeger sausage brisket...</p>
+			<p>
+				Tanárok leterheltsége egyes félévekben. Aki nem tart órát, az nem jelenik meg a listában.
+			</p>
+			<table class="table-hover">
+				<thead>
+					<tr>
+						<th>Felhasználónév</th>
+						<th>Név</th>
+						<th>Félév</th>
+						<th>Órák száma</th>
+					</tr>
+				</thead>
+				<tbody>
+					{#each teacherLoadLevels as teacherLoadLevel}
+						<tr>
+							<td>{teacherLoadLevel.name}</td>
+							<td>{teacherLoadLevel.username}</td>
+							<td>{teacherLoadLevel.semester}</td>
+							<td>{teacherLoadLevel.hours}</td>
+						</tr>
+					{/each}
+				</tbody>
+			</table>
 		</div>
 	</div>
 </div>

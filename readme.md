@@ -98,7 +98,7 @@ Egy termet egyszerre csak egy kurzus vagy vizsga lebonyolítására lehet lefogl
 | <ul><li>[x] </li></ul> | Listázza ki az összes oktatót születési dátum szerint. A legfiatalabb oktató legyen elöl. | 1 pont |
 | <ul><li>[x] </li></ul> | Listázza ki táblázatos formában a hallgatók által felvett kurzusok számát (hallgatók szerint ABC sorrendben). | 2 pont |
 | <ul><li>[ ] </li></ul> | Listázzuk ki táblázatos formában a legnagyobb férőhellyel rendelkező terembe meghirdetett vizsgákat és kurzusokat. | 2 pont |
-| <ul><li>[ ] </li></ul> | Listázza ki táblázatos formában a minden oktató által hetente megtartandó óraszámot. | 2 pont |
+| <ul><li>[x] </li></ul> | Listázza ki táblázatos formában a minden oktató által hetente megtartandó óraszámot. | 2 pont |
 
 ### ​Nem fogadható el a kötelező program, ha teljesül az alábbi kritériumok valamelyike:
 
@@ -150,9 +150,10 @@ DegreeParticipation(<ins>*Username*</ins>, <ins>*DegreeName*</ins>, StartDate, E
 
 #### Kurzus típus:
 
-Course(<ins>*CourseCode*</ins>, <ins>Semester</ins> Capacity, Credits, Hours)
+Course(<ins>*CourseCode*</ins>, <ins>Semester</ins> Capacity, Credits, Hours, *ClassRoomAddress*, *ClassRoomRoomName*)
 
 - {CourseCode, Semester} → {Capacity, Credits, Hours}
+- {CourseCode, Semester} → {ClassRoomAddress, ClassRoomRoomName}
 
 > A CourseCode 15 karakterre, a Semester 6 max karakterre lett limitálva.
 
@@ -194,12 +195,6 @@ ExamAttendance(<ins>*Username*</ins>, <ins>*CourseCode*</ins>, <ins>*CourseSemes
 ClassRoom(<ins>Address</ins>, <ins>Room</ins>, Name, Capacity, RoomType)
 
 - {Address, Room} → {Name, Capacity, RoomType} 
-
-#### Kurzus helyszíne:
-
-CourseLocation(<ins>*CourseCode*</ins>, <ins>*CourseSemester*</ins>, <ins>*Address*</ins>, <ins>*Room*</ins>, <ins>Start</ins>, End)
-
-- {CourseCode, CourseSemester, Address, Room, Start} → {End}
 
 ### Adatbázis struktúra
 

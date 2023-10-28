@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 /*
 public record UserStatisticsDto(
@@ -10,11 +10,11 @@ public record UserStatisticsDto(
 */
 
 export const UserStatisticsSchema = z.object({
-    username: z.string(),
-    name: z.string(),
-    birthDate: z.string(),
-    birthLocation: z.string(),
-    });
+	username: z.string(),
+	name: z.string(),
+	birthDate: z.string(),
+	birthLocation: z.string()
+});
 
 export type UserStatistics = z.infer<typeof UserStatisticsSchema>;
 

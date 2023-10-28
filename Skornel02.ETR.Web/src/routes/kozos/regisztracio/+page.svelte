@@ -14,7 +14,7 @@
 					'Content-Type': 'application/json'
 				}
 			});
-			
+
 			if (resp.status !== 204) {
 				const errorResponse = await resp.json();
 				const errorResponseDto = await ErrorResponseDtoSchema.safeParseAsync(errorResponse);
@@ -23,12 +23,12 @@
 				} else {
 					return ['Ismeretlen hiba történt!', true];
 				}
-			} 
+			}
 		} catch (ex) {
 			console.error(ex);
 			return ['Ismeretlen hálózati hiba történt!', true];
 		}
-		return [`Felhasználó '${registerDto.username}' sikeresen létrehozva!`, false]
+		return [`Felhasználó '${registerDto.username}' sikeresen létrehozva!`, false];
 	};
 </script>
 

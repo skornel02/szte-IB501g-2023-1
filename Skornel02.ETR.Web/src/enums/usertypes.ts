@@ -1,4 +1,4 @@
 export enum UserType {
-    Student = 0,
-    Teacher = 1,
-};
+	Student = 0,
+	Teacher = 1
+}

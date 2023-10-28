@@ -18,13 +18,17 @@ public class Course
     [Comment("Tárgy kreditszáma")]
     public int Credits { get; init; }
 
-    [Comment("Maximum kapacitás")]
-    public int Capacity { get; init; }
+    [Comment("Kurzus heti óraszáma")]
+    public int Hours { get; init; }
 
+    public string ClassRoomAddress { get; set; } = default!;
+    public string ClassRoomRoomName { get; set; } = default!;
 
+    [ForeignKey($"{nameof(ClassRoomAddress)}, {nameof(ClassRoomRoomName)}")]
+    public required ClassRoom ClassRoom { get; set; }
+
+    [ForeignKey(nameof(CourseCode))]
     public required CourseMetadata CourseMetadata { get; init; }
-
-    public List<CourseLocation> CourseLocations { get; init; } = [];
 
     public List<CourseAttendance> Attendees { get; init; } = [];
 }

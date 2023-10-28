@@ -1,10 +1,12 @@
-import { z } from "zod";
-import { RoomTypes } from "../enums/roomtypes";
+import { z } from 'zod';
+import { RoomTypes } from '../enums/roomtypes';
 
 export const ClassRoomSchema = z.object({
-    address: z.string(),
-    roomNumber: z.string(),
-    roomType: z.nativeEnum(RoomTypes),
+	name: z.string(),
+	address: z.string(),
+	roomNumber: z.string(),
+	roomType: z.nativeEnum(RoomTypes),
+	capacity: z.number()
 });
 
 export type ClassRoom = z.infer<typeof ClassRoomSchema>;

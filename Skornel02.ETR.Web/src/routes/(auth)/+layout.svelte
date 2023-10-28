@@ -26,7 +26,7 @@
 <nav class="border split-nav">
 	<div class="nav-brand">
 		<h5>
-			{profile.name} ({profile.username}) <br> [
+			{profile.name} ({profile.username}) <br /> [
 			{#if profile.degrees.length > 0}
 				{profile.degrees[0].name} ({profile.degrees[0].startDate} => {profile.degrees[0].endDate ??
 					'-'})
@@ -60,4 +60,4 @@
 	</div>
 </nav>
 
-<slot/>
+<slot />

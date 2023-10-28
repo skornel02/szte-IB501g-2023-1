@@ -1,8 +1,6 @@
 using Bogus;
 
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 
 using Skornel02.ETR.Api.Entities;
 using Skornel02.ETR.Common.Enums;
@@ -25,8 +23,6 @@ public class ETRContext(DbContextOptions<ETRContext> options) : DbContext(option
     public DbSet<ExamAttendance> ExamAttendances { get; set; } = default!;
 
     public DbSet<ClassRoom> ClassRooms { get; set; } = default!;
-
-    public DbSet<CourseLocation> CourseLocations { get; set; } = default!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -128,10 +124,12 @@ public class ETRContext(DbContextOptions<ETRContext> options) : DbContext(option
         #endregion
 
         #region Random classrooms 
-        var randomClassRooms = new Faker<ClassRoom>("el")
+        var randomClassRooms = new Faker<ClassRoom>()
             .RuleFor(c => c.Address, f => f.Address.FullAddress())
             .RuleFor(c => c.RoomNumber, f => f.Random.Int(14, 350).ToString())
+            .RuleFor(c => c.Name, f => f.Commerce.ProductName())
             .RuleFor(c => c.RoomType, f => f.PickRandom<RoomType>())
+            .RuleFor(c => c.Capacity, f => f.Random.Int(20, 700))
             .Generate(100);
 
         modelBuilder.Entity<ClassRoom>().HasData(randomClassRooms);
@@ -142,7 +140,7 @@ public class ETRContext(DbContextOptions<ETRContext> options) : DbContext(option
 
         for (int i = 0; i < 100; i++)
         {
-            var user = new Faker<User>("el")
+            var user = new Faker<User>()
                 .RuleFor(u => u.Username, f => f.Internet.UserName())
                 .RuleFor(u => u.Name, f => f.Name.FullName())
                 .RuleFor(u => u.BirthDate, f => DateOnly.FromDateTime(f.Date.Past(45, now.AddYears(-18))))

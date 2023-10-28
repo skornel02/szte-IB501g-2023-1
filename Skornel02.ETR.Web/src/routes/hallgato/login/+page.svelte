@@ -55,16 +55,16 @@
 
 	const checkAlreadyLoggedIn = async () => {
 		const token = Cookies.get('token');
-		
+
 		if (token === undefined || token.length === 0) {
 			return;
 		}
 
 		try {
-			const resp = await fetch(base + "/api/profile", {
-				method: "GET",
+			const resp = await fetch(base + '/api/profile', {
+				method: 'GET',
 				headers: {
-					"Authorization": `Bearer ${token}`
+					Authorization: `Bearer ${token}`
 				}
 			});
 
@@ -72,9 +72,9 @@
 				window.location.href = `${base}/hallgato/kezdolap`;
 			}
 		} catch (ex) {
-			console.error("Auth check failed with error: ", ex);
+			console.error('Auth check failed with error: ', ex);
 		}
-	}
+	};
 
 	onMount(async () => {
 		checkAlreadyLoggedIn();

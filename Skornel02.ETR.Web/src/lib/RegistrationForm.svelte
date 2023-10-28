@@ -1,6 +1,11 @@
 <script lang="ts">
 	import type { ZodFormattedError } from 'zod';
-	import { UserCreationFormSchema, type UserCreationDto, type UserCreationForm, userCreationFormToDto } from '../schemas/UserCreationDto';
+	import {
+		UserCreationFormSchema,
+		type UserCreationDto,
+		type UserCreationForm,
+		userCreationFormToDto
+	} from '../schemas/UserCreationDto';
 
 	export let registerHandler: (request: UserCreationDto) => Promise<UserCreationResult>;
 
@@ -183,8 +188,7 @@
 		{#if errors?.roles}
 			<div id="login-alert" class="alert alert-danger dismissible">
 				{errors.roles._errors[0]}
-				<butto class="btn-close" for="login-alert" on:click={() => closeError('roles')}>X</butto
-				>
+				<butto class="btn-close" for="login-alert" on:click={() => closeError('roles')}>X</butto>
 			</div>
 		{/if}
 	</div>

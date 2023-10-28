@@ -1,10 +1,10 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const USerCoursesStatistics = z.object({
-    username: z.string(),
-    name: z.string(),
-    courseCount: z.number(),
-    });
+	username: z.string(),
+	name: z.string(),
+	courseCount: z.number()
+});
 
 export type UserCoursesStatistics = z.infer<typeof USerCoursesStatistics>;
 

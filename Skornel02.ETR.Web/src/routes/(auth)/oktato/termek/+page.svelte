@@ -12,26 +12,28 @@
 <h1>Termek</h1>
 
 <div class="container">
-    <table class="table-hover">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Cím</th>
-                <th>Szoba szám</th>
-                <th>Szoba típusa</th>
-            </tr>
-        </thead>
-        <tbody>
-            {#each classRooms as classRoom, i}
-            <tr>
-                <td>{i + 1}</td>
-                <td>{classRoom.address}</td>
-                <td>{classRoom.roomNumber}</td>
-                <td>{roomTypeToName(classRoom.roomType)}</td>
-            </tr>
-            {/each}
-        </tbody>
-    </table>
+	<table class="table-hover">
+		<thead>
+			<tr>
+				<th>Név</th>
+				<th>Cím</th>
+				<th>Szoba szám</th>
+				<th>Szoba típusa</th>
+				<th>Férőhelyek</th>
+			</tr>
+		</thead>
+		<tbody>
+			{#each classRooms as classRoom, i}
+				<tr>
+					<td>{classRoom.name}</td>
+					<td>{classRoom.address}</td>
+					<td>{classRoom.roomNumber}</td>
+					<td>{roomTypeToName(classRoom.roomType)}</td>
+					<td>{classRoom.capacity}</td>
+				</tr>
+			{/each}
+		</tbody>
+	</table>
 </div>
 
 <style>
