@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const USerCoursesStatistics = z.object({
+const USerCoursesStatistics = z.object({
 	username: z.string(),
 	name: z.string(),
 	courseCount: z.number()

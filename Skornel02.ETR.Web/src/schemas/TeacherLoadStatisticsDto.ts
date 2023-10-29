@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const TeacherLoadStatisticsSchema = z.object({
+const TeacherLoadStatisticsSchema = z.object({
 	name: z.string(),
 	username: z.string(),
 	semester: z.string(),

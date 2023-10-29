@@ -42,7 +42,7 @@ public static class StatisticsEndpoints
         app.MapGet("/api/statistics/teacher-load-level", async (ETRContext context) =>
         {
             var teachersLoadLevel = await context.Database.SqlQuery<TeacherLoadStatisticsDto>($"""
-                SELECT u.Username, u.Name, c.Semester , sum(c.Hours) 
+                SELECT u.Username, u.Name, c.Semester , sum(c.Hours) as 'Hours'
                     FROM Users u
                     INNER JOIN UserRoles r ON u.Username = r.Username
                     INNER JOIN CourseAttendances ca ON u.Username = ca.Username 
@@ -54,6 +54,33 @@ public static class StatisticsEndpoints
                 """).ToListAsync();
 
             return teachersLoadLevel;
+        })
+            .WithTags("Statistics")
+            .RequireAuthorization();
+
+        app.MapGet("/api/statistics/largest-classroom", async (ETRContext context) =>
+        {
+            var largestCapacity = (await context.Database.SqlQuery<int>($"""
+                SELECT capacity FROM ClassRooms
+                    ORDER BY capacity Desc
+                    LIMIT 1
+            """).ToListAsync()).FirstOrDefault();
+
+            var classRoomCourses = await context.Database.SqlQuery<ClassRoomStatisticsCourse>($"""
+                SELECT c.CourseCode, c.Semester as 'CourseSemester' FROM Courses c
+                    INNER JOIN ClassRooms cr ON c.ClassRoomAddress = cr.Address 
+                        and c.ClassRoomRoomName = RoomNumber
+                    WHERE cr.Capacity = {largestCapacity}
+            """).ToListAsync();
+
+            var classRoomExams = await context.Database.SqlQuery<ClassRoomStatisticsExam>($"""
+                SELECT e.CourseCode, e.CourseSemester, e.Start as 'ExamDate' FROM Exams e
+                    INNER JOIN ClassRooms cr ON e.ClassRoomAddress = cr.Address 
+                        and e.ClassRoomRoomName = RoomNumber
+                    WHERE cr.Capacity = {largestCapacity}
+            """).ToListAsync();
+
+            return new ClassRoomStatisticsDto(largestCapacity, classRoomCourses, classRoomExams);
         })
             .WithTags("Statistics")
             .RequireAuthorization();

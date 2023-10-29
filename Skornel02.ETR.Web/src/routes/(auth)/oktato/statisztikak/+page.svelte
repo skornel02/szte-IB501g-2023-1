@@ -3,7 +3,7 @@
 
 	export let data: PageData;
 
-	const { teachers, students, teacherLoadLevels } = data;
+	const { teachers, students, classRoom, teacherLoadLevels } = data;
 </script>
 
 <h1>Statisztikák</h1>
@@ -17,7 +17,7 @@
 		<label for="tab2">Hallgatók</label>
 
 		<input id="tab3" type="radio" name="tabs" />
-		<label for="tab3">Tab 3</label>
+		<label for="tab3">Legnagyobb terem</label>
 
 		<input id="tab4" type="radio" name="tabs" />
 		<label for="tab4">Oktató leterheltség</label>
@@ -67,7 +67,36 @@
 			</table>
 		</div>
 		<div class="content" id="content3">
-			<p>Bacon ipsum dolor sit amet beef venison beef ribs kielbasa...</p>
+			<p>A legnagyobb (kapacitású) terem összesen {classRoom?.capacity}</p>
+			<table class="table-hover">
+				<tbody>
+					{#if classRoom !== undefined}
+						<tr>
+							<th>Kurzuskód</th>
+							<th>Szemeszter</th>
+							<th>-</th>
+						</tr>
+						{#each classRoom.courses as course}
+							<tr>
+								<td>{course.courseCode}</td>
+								<td colspan="2">{course.courseSemester}</td>
+							</tr>
+						{/each}
+						<tr>
+							<th>Kurzuskód</th>
+							<th>Szemeszter</th>
+							<th>Vizsga időpont</th>
+						</tr>
+						{#each classRoom.exams as exam}
+							<tr>
+								<td>{exam.courseCode}</td>
+								<td>{exam.courseSemester}</td>
+								<td>{exam.examDate}</td>
+							</tr>
+						{/each}
+					{/if}
+				</tbody>
+			</table>
 		</div>
 		<div class="content" id="content4">
 			<p>

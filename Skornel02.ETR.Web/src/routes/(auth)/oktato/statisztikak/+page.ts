@@ -13,6 +13,7 @@ import {
 	TeacherLoadStatisticsDtoSchema,
 	type TeacherLoadStatisticsDto
 } from '../../../../schemas/TeacherLoadStatisticsDto';
+import { ClassRoomStatisticsDtoSchema, type ClassRoomStatisticsDto } from '../../../../schemas/ClassRoomStatisticsDto';
 
 export const load = (async ({ fetch }) => {
 	const token = Cookies.get('token');
@@ -20,6 +21,7 @@ export const load = (async ({ fetch }) => {
 	let teachers: UserStatisticsDto = [];
 	let teacherLoadLevels: TeacherLoadStatisticsDto = [];
 	let students: UserCoursesStatisticsDto = [];
+	let classRoom: ClassRoomStatisticsDto | undefined;
 
 	try {
 		const teachersResult = await fetch(base + '/api/statistics/teachers', {
@@ -66,9 +68,25 @@ export const load = (async ({ fetch }) => {
 		console.error('Student statistics failed!', error);
 	}
 
+	try {
+		const classRoomResult = await fetch(base + '/api/statistics/largest-classroom', {
+			method: 'GET',
+			headers: {
+				Authorization: `Bearer ${token}`,
+				'Content-Type': 'application/json'
+			}
+		});
+
+		const classRoomResponse = await classRoomResult.json();
+		classRoom = await ClassRoomStatisticsDtoSchema.parseAsync(classRoomResponse);
+	} catch (error) {
+		console.error('Biggest classroom statistics failed!', error);
+	}
+
 	return {
 		teachers,
 		students,
-		teacherLoadLevels
+		teacherLoadLevels,
+		classRoom,
 	};
 }) satisfies PageLoad;
