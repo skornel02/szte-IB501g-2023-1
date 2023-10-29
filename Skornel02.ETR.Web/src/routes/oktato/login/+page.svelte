@@ -9,6 +9,7 @@
 	import type { Credentials, LoginRequestDto } from '../../../schemas/LoginRequestDto';
 	import { onMount } from 'svelte';
 	import { AuthResponseSchema } from '../../../schemas/AuthResponse';
+	import { goto } from '$app/navigation';
 
 	const handleLogin = async (cred: Credentials) => {
 		const loginDto: LoginRequestDto = {
@@ -29,14 +30,14 @@
 				const response = await AuthResponseSchema.parseAsync(await resp.json());
 				const expiration = new Date(new Date().getTime() + response.expiresIn * 1000);
 
-				Cookies.set('token', response.accessToken, {
+				Cookies.set('oktato-token', response.accessToken, {
 					expires: expiration,
-					path: '/oktato/',
+					path: '/',
 					secure: true,
 					sameSite: 'strict'
 				});
 
-				window.location.href = `${base}/oktato/kezdolap`;
+				await goto(`${base}/oktato/kezdolap`);
 			} else {
 				const errorResponse = await resp.json();
 				const errorResponseDto = await ErrorResponseDtoSchema.safeParseAsync(errorResponse);
@@ -53,7 +54,7 @@
 	};
 
 	const checkAlreadyLoggedIn = async () => {
-		const token = Cookies.get('token');
+		const token = Cookies.get('oktato-token');
 
 		if (token === undefined || token.length === 0) {
 			return;
@@ -68,7 +69,7 @@
 			});
 
 			if (resp.status === 200) {
-				window.location.href = `${base}/oktato/kezdolap`;
+				goto(`${base}/oktato/kezdolap`);
 			}
 		} catch (ex) {
 			console.error('Auth check failed with error: ', ex);

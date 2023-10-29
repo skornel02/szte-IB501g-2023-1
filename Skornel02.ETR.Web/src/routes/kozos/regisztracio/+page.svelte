@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { base } from '$app/paths';
 	import LoginJunk from '$lib/LoginJunk.svelte';
 	import LoginLogo from '$lib/LoginLogo.svelte';
 	import RegistrationForm from '$lib/RegistrationForm.svelte';

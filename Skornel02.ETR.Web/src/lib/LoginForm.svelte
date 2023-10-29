@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { ZodFormattedError } from 'zod';
 	import { type Credentials, CredentialsSchema } from '../schemas/LoginRequestDto';
+	import { toast } from '@zerodevx/svelte-toast';
 
 	export let regUrl: string;
 	export let loginHandler: (cred: Credentials) => Promise<string | undefined>;
@@ -24,6 +25,8 @@
 			const loginResult = await loginHandler(formData);
 			if (loginResult !== undefined) {
 				errors._errors = [loginResult];
+			} else {
+				toast.push('Sikeres bejelentkezés!');
 			}
 		} else {
 			errors = test.error.format();

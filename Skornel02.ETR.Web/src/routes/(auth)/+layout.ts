@@ -2,13 +2,16 @@ import Cookies from 'js-cookie';
 import type { LayoutLoad } from './$types';
 import { base } from '$app/paths';
 import { ProfileDtoSchema } from '../../schemas/ProfileDto';
+import { goto } from '$app/navigation';
 
 export const prerender = true;
 export const ssr = false;
 export const csr = true;
 
 export const load: LayoutLoad = async () => {
-	const token = Cookies.get('token');
+	const isStudent = window.location.href.includes('/hallgato/');
+
+	const token = Cookies.get((isStudent ? 'hallgato' : "oktato" ) + '-token');
 
 	if (token === undefined || token.length === 0) {
 		return;
@@ -36,7 +39,7 @@ export const load: LayoutLoad = async () => {
 		console.error('Auth check failed with error: ', ex);
 	}
 
-	window.location.href = `${base}/hallgato/login`;
+	goto(`${base}/hallgato/login`);
 	alert('Hiba történt a bejelentkezés ellenőrzése közben! Próbálja újra később.');
 	throw Error('Authentication failed!');
 };

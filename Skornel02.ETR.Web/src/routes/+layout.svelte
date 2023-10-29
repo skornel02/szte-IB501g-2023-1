@@ -1,11 +1,18 @@
 <script lang="ts">
+	import { SvelteToast } from '@zerodevx/svelte-toast';
 	import 'papercss/dist/paper.min.css';
-	import type { LayoutData } from './$types';
+	import type { SvelteToastOptions } from '@zerodevx/svelte-toast/stores';
 
-	export let data: LayoutData;
+	const options: SvelteToastOptions = {
+		duration: 6000,
+		pausable: false
+	};
 </script>
 
 <slot />
+{#key options}
+	<SvelteToast {options} />
+{/key}
 
 <style global>
 	:root {

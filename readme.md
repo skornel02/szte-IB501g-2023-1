@@ -87,11 +87,11 @@ Egy termet egyszerre csak egy kurzus vagy vizsga lebonyolítására lehet lefogl
 | <ul><li>[ ] </li></ul> | A dokumentációban ki van gyűjtve a programból a három összetett lekérdezés és meg van jelölve, hogy melyik fájlban van megvalósítva. | Nem jár külön pontszám érte. <br> Hiánya esetén -2 pont. |
 |  | **Funkciók** |  |
 | <ul><li>[x] </li></ul> | Felhasználó regisztrációja űrlapon keresztül <br> <ul> <li>jelszó kétszeri megadása</li> <li>jelszó titkosítása</li> <li>visszajelzés a sikeres vagy sikertelen regisztrációról</li></ul> | 2 pont |
-| <ul><li>[ ] </li></ul> | Felhasználó bejelentkeztetése és kijelentkeztetése űrlapon keresztül <br> <ul><li>visszajelzés, hogy sikerült-e</li></ul> | 2 pont |
-| <ul><li>[ ] </li></ul> | Új vizsgák meghirdetése oktató által. | 2 pont |
-| <ul><li>[ ] </li></ul> | Vizsgák módosítása oktató által. | 2 pont |
+| <ul><li>[x] </li></ul> | Felhasználó bejelentkeztetése és kijelentkeztetése űrlapon keresztül <br> <ul><li>visszajelzés, hogy sikerült-e</li></ul> | 2 pont |
 | <ul><li>[ ] </li></ul> | Kurzusok meghirdetése oktató által. | 1 pont |
 | <ul><li>[ ] </li></ul> | Kurzus és vizsga törlése oktató által. | 1 pont |
+| <ul><li>[ ] </li></ul> | Új vizsgák meghirdetése oktató által. | 2 pont |
+| <ul><li>[ ] </li></ul> | Vizsgák módosítása oktató által. | 2 pont |
 | <ul><li>[ ] </li></ul> | Hallgató jelentkezése vizsgára és kurzusra | 2 pont |
 | <ul><li>[x] </li></ul> | Termek kilistázása táblázatos formában. | 1 pont |
 | <ul><li>[ ] </li></ul> | Listázza ki a felhasználó által választott kurzushoz tartozó vizsgaidőpontokat táblázatos formában. | 1 pont |

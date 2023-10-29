@@ -4,7 +4,7 @@ import { ClassRoomDtoSchema } from '../../../../schemas/ClassRoomDto';
 import { base } from '$app/paths';
 
 export const load = (async ({ fetch }) => {
-	const token = Cookies.get('token');
+	const token = Cookies.get('oktato-token');
 
 	const result = await fetch(base + '/api/classrooms', {
 		method: 'GET',

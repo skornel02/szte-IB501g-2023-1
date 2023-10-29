@@ -1,14 +1,23 @@
 <script lang="ts">
+	import { invalidateAll } from '$app/navigation';
 	import type { PageData } from './$types';
 
 	export let data: PageData;
 
 	const { teachers, students, classRoom, teacherLoadLevels } = data;
+
+	const refresh = () => invalidateAll();
 </script>
 
-<h1>Statisztikák</h1>
+
 
 <div class="container">
+	<h1>Statisztikák</h1>
+
+	<div class="toolbar">
+		<button on:click|preventDefault={refresh} class="btn-small btn-secondary">Frissítés</button>
+	</div>
+
 	<div class="row flex-spaces tabs">
 		<input id="tab1" type="radio" name="tabs" checked />
 		<label for="tab1">Oktatók</label>
@@ -128,7 +137,13 @@
 
 <style>
 	h1 {
-		margin-top: 5px;
 		text-align: center;
+		margin-top: 5px;
+		margin-bottom: 0;
+	}
+
+	.toolbar {
+		display: flex;
+		justify-content: end;
 	}
 </style>

@@ -16,7 +16,7 @@ import {
 import { ClassRoomStatisticsDtoSchema, type ClassRoomStatisticsDto } from '../../../../schemas/ClassRoomStatisticsDto';
 
 export const load = (async ({ fetch }) => {
-	const token = Cookies.get('token');
+	const token = Cookies.get('oktato-token');
 
 	let teachers: UserStatisticsDto = [];
 	let teacherLoadLevels: TeacherLoadStatisticsDto = [];
