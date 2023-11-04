@@ -3,6 +3,7 @@ using System.Security.Claims;
 using Microsoft.EntityFrameworkCore;
 
 using Skornel02.ETR.Api.Mappers;
+using Skornel02.ETR.Api.Services;
 using Skornel02.ETR.Common.Dtos;
 using Skornel02.ETR.Common.Enums;
 
@@ -22,10 +23,7 @@ public static class ProfileMapping
                     WHERE Username = {session.Username}
                 """).FirstAsync();
 
-            var roles = await context.Database.SqlQuery<RoleType>($"""
-                SELECT UserType FROM UserRoles
-                    WHERE Username = {session.Username}
-                """).ToListAsync();
+            var roles = await context.RolesFromUserAsync(session.Username);
 
             var degrees = await context.Database.SqlQuery<DegreeDto>($"""
                 SELECT DegreeName as 'Name', StartDate, EndDate FROM DegreeParticipations

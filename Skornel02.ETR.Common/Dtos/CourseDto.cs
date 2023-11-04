@@ -2,7 +2,7 @@ using Skornel02.ETR.Common.Enums;
 
 namespace Skornel02.ETR.Common.Dtos;
 
-public record CourseCreationDto(
+public record CourseDto(
     string CourseCode,
     string CourseSemester,
     int Hours,
@@ -10,5 +10,6 @@ public record CourseCreationDto(
     string? CourseName,
     CourseType? CourseType,
     string ClassRoomAddress,
-    string ClassRoomNumber
+    string ClassRoomNumber,
+    string ClassRoomName
 );

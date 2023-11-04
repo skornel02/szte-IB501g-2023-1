@@ -17,6 +17,9 @@ public class ETRContext(DbContextOptions<ETRContext> options) : DbContext(option
     public DbSet<DegreeParticipation> DegreeParticipations { get; set; } = default!;
 
     public DbSet<Course> Courses { get; set; } = default!;
+
+    public DbSet<CourseMetadata> CourseMetadatas { get; set; } = default!;
+
     public DbSet<CourseAttendance> CourseAttendances { get; set; } = default!;
 
     public DbSet<Exam> Exams { get; set; } = default!;

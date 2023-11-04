@@ -88,7 +88,7 @@ Egy termet egyszerre csak egy kurzus vagy vizsga lebonyolítására lehet lefogl
 |  | **Funkciók** |  |
 | <ul><li>[x] </li></ul> | Felhasználó regisztrációja űrlapon keresztül <br> <ul> <li>jelszó kétszeri megadása</li> <li>jelszó titkosítása</li> <li>visszajelzés a sikeres vagy sikertelen regisztrációról</li></ul> | 2 pont |
 | <ul><li>[x] </li></ul> | Felhasználó bejelentkeztetése és kijelentkeztetése űrlapon keresztül <br> <ul><li>visszajelzés, hogy sikerült-e</li></ul> | 2 pont |
-| <ul><li>[ ] </li></ul> | Kurzusok meghirdetése oktató által. | 1 pont |
+| <ul><li>[x] </li></ul> | Kurzusok meghirdetése oktató által. | 1 pont |
 | <ul><li>[ ] </li></ul> | Kurzus és vizsga törlése oktató által. | 1 pont |
 | <ul><li>[ ] </li></ul> | Új vizsgák meghirdetése oktató által. | 2 pont |
 | <ul><li>[ ] </li></ul> | Vizsgák módosítása oktató által. | 2 pont |

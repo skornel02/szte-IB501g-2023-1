@@ -77,6 +77,7 @@ app.MapUserEndpoints();
 app.MapProfileEndpoints();
 app.MapClassRoomEndpoints();
 app.MapStatisticsEndpoints();
+app.MapCourseEndpoints();
 
 app.UseStaticFiles("/static");
 app.MapFallbackToFile("index.html");

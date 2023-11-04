@@ -11,7 +11,7 @@ export const csr = true;
 export const load: LayoutLoad = async () => {
 	const isStudent = window.location.href.includes('/hallgato/');
 
-	const token = Cookies.get((isStudent ? 'hallgato' : "oktato" ) + '-token');
+	const token = Cookies.get((isStudent ? 'hallgato' : 'oktato') + '-token');
 
 	if (token === undefined || token.length === 0) {
 		return;

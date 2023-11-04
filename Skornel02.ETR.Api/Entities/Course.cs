@@ -25,10 +25,10 @@ public class Course
     public string ClassRoomRoomName { get; set; } = default!;
 
     [ForeignKey($"{nameof(ClassRoomAddress)}, {nameof(ClassRoomRoomName)}")]
-    public required ClassRoom ClassRoom { get; set; }
+    public ClassRoom ClassRoom { get; set; } = default!;
 
     [ForeignKey(nameof(CourseCode))]
-    public required CourseMetadata CourseMetadata { get; init; }
+    public CourseMetadata CourseMetadata { get; set; } = default!;
 
     public List<CourseAttendance> Attendees { get; init; } = [];
 }

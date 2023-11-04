@@ -9,8 +9,6 @@
 	const refresh = () => invalidateAll();
 </script>
 
-
-
 <div class="container">
 	<h1>Statisztikák</h1>
 

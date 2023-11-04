@@ -13,7 +13,10 @@ import {
 	TeacherLoadStatisticsDtoSchema,
 	type TeacherLoadStatisticsDto
 } from '../../../../schemas/TeacherLoadStatisticsDto';
-import { ClassRoomStatisticsDtoSchema, type ClassRoomStatisticsDto } from '../../../../schemas/ClassRoomStatisticsDto';
+import {
+	ClassRoomStatisticsDtoSchema,
+	type ClassRoomStatisticsDto
+} from '../../../../schemas/ClassRoomStatisticsDto';
 
 export const load = (async ({ fetch }) => {
 	const token = Cookies.get('oktato-token');
@@ -87,6 +90,6 @@ export const load = (async ({ fetch }) => {
 		teachers,
 		students,
 		teacherLoadLevels,
-		classRoom,
+		classRoom
 	};
 }) satisfies PageLoad;
