@@ -1,0 +1,1 @@
+var a=(t=>(t[t.Compulsory=0]="Compulsory",t[t.CompulsoryOptional=1]="CompulsoryOptional",t[t.Optional=2]="Optional",t))(a||{});const l=t=>{switch(t){case 0:return"Kötelező";case 2:return"Szabadon választható";case 1:return"Kötelezően választható";default:return"Ismeretlen"}};export{a as C,l as a};
