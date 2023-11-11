@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore;
 
 namespace Skornel02.ETR.Api.Entities;
 
@@ -11,22 +12,22 @@ public class User
 {
     [Key]
     [MaxLength(32)]
-    [Description("Felhasználónév")]
+    [Comment("Felhasználónév")]
     public required string Username { get; init; }
     [MaxLength(100)]
-    [Description("Rendes név")]
+    [Comment("Rendes név")]
     public required string Name { get; set; }
 
-    [Description("Titkosított jelszó")]
+    [Comment("Titkosított jelszó")]
     public string PasswordHash { get; set; } = default!;
 
     public List<UserRole> Roles { get; set; } = [];
 
-    [Description("Születési dátum")]
+    [Comment("Születési dátum")]
     public required DateOnly BirthDate { get; set; }
 
     [MaxLength(100)]
-    [Description("Születési hely")]
+    [Comment("Születési hely")]
     public required string BirthLocation { get; set; }
 
     public List<DegreeParticipation> DegreeParticipations { get; set; } = [];

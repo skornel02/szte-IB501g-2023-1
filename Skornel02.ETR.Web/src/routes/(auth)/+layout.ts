@@ -8,7 +8,7 @@ export const prerender = true;
 export const ssr = false;
 export const csr = true;
 
-export const load: LayoutLoad = async () => {
+export const load: LayoutLoad = async ({ fetch }) => {
 	const isStudent = window.location.href.includes('/hallgato/');
 
 	const token = Cookies.get((isStudent ? 'hallgato' : 'oktato') + '-token');

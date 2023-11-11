@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto, invalidateAll } from '$app/navigation';
+	import { invalidateAll } from '$app/navigation';
 	import Cookies from 'js-cookie';
 	import { CourseTypeToName } from '../../../../enums/coursetypes';
 	import type { PageData } from './$types';
@@ -15,12 +15,12 @@
 		courseSemester: string,
 		type: 'subscribe' | 'unsubscribe'
 	) => {
-		const token = Cookies.get('oktato-token');
+		const token = Cookies.get('hallgato-token');
 		const method = type === 'subscribe' ? 'POSt' : 'DELETE';
 		const methodName = type === 'subscribe' ? 'feliratkozás' : 'leiratkozás';
 
 		const result = await fetch(
-			`${base}/api/course-teach?code=${courseCode}&semester=${courseSemester}`,
+			`${base}/api/course-learn?code=${courseCode}&semester=${courseSemester}`,
 			{
 				method,
 				headers: {
@@ -43,9 +43,8 @@
 	<h4>Kurzusok</h4>
 	<div class="toolbar">
 		<button class="btn-small btn-primary" on:click={refresh}>Frissítés</button>
-		<a href="uj-kurzus" class="paper-btn btn-small btn-secondary">Új kurzus</a>
 	</div>
-	<h5>Általam tartott kurzusok</h5>
+	<h5>Általam felvett kurzusok</h5>
 	<table class="table-hover">
 		<thead>
 			<tr>
@@ -60,7 +59,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each data.taughtCourses as course}
+			{#each data.attendedCourses as course}
 				<tr>
 					<td>{course.courseCode}</td>
 					<td>{course.courseSemester}</td>
@@ -70,9 +69,8 @@
 					<td>{CourseTypeToName(course.courseType)}</td>
 					<td>{course.classRoomAddress}, {course.classRoomNumber}</td>
 					<td class="table-commands">
-						<button class="btn-small"> Vizsga hirdetés </button>
 						<button
-							class="btn-small btn-danger"
+							class="btn-small"
 							on:click={() =>
 								subscribeToCourse(course.courseCode, course.courseSemester, 'unsubscribe')}
 						>
@@ -113,9 +111,8 @@
 							on:click={() =>
 								subscribeToCourse(course.courseCode, course.courseSemester, 'subscribe')}
 						>
-							Oktat
+							Felvesz
 						</button>
-						<button class="btn-small btn-danger"> Töröl </button>
 					</td>
 				</tr>
 			{/each}

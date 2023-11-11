@@ -2,6 +2,8 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using Microsoft.EntityFrameworkCore;
+
 using Skornel02.ETR.Common.Enums;
 
 namespace Skornel02.ETR.Api.Entities;
@@ -10,11 +12,11 @@ namespace Skornel02.ETR.Api.Entities;
 public class CourseMetadata
 {
     [Key, StringLength(15)]
-    [Description("Kurzus kódja")]
+    [Comment("Kurzus kódja")]
     public required string CourseCode { get; init; }
-    [Description("Kurzus típusa")]
+    [Comment("Kurzus típusa")]
     public required CourseType Type { get; set; }
-    [Description("Kurzus neve")]
+    [Comment("Kurzus neve")]
     public required string Name { get; set; }
 
     public List<Course> Courses { get; init; } = [];

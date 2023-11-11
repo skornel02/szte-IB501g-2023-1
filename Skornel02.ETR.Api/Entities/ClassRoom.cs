@@ -12,16 +12,16 @@ namespace Skornel02.ETR.Api.Entities;
 public class ClassRoom
 {
     [MaxLength(100)]
-    [Description("Cím")]
+    [Comment("Cím")]
     public required string Address { get; init; }
     [MaxLength(10)]
-    [Description("Terem száma")]
+    [Comment("Terem száma")]
     public required string RoomNumber { get; init; }
-    [Description("Terem típusa")]
+    [Comment("Terem típusa (enum)")]
     public required RoomType RoomType { get; set; }
-    [Description("Terem neve")]
+    [Comment("Terem neve")]
     public required string Name { get; set; }
-    [Description("Terem férőhely")]
+    [Comment("Terem férőhely")]
     public required int Capacity { get; set; }
 
     public List<Course> Courses { get; set; } = [];

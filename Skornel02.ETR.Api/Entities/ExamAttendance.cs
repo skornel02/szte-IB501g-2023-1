@@ -21,8 +21,8 @@ public class ExamAttendance
     [ForeignKey($"{nameof(CourseCode)}, {nameof(CourseSemester)}, {nameof(CourseStart)}")]
     public required Exam Exam { get; init; }
 
-    [Description("Vizsga részvétel típusa (hallgató, oktató)")]
+    [Comment("Vizsga részvétel típusa (hallgató, oktató)")]
     public required AttendanceType AttendanceType { get; init; }
-    [Description("Elért érdemjegy")]
+    [Comment("Elért érdemjegy")]
     public string? Grade { get; set; }
 }

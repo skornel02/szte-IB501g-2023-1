@@ -10,7 +10,7 @@ namespace Skornel02.ETR.Api.Entities;
 [Table("UserRoles"), PrimaryKey(nameof(UserType), nameof(Username))]
 public class UserRole
 {
-    [Description("Felhasználó típusa")]
+    [Comment("Felhasználó típusa")]
     public required RoleType UserType { get; init; }
 
     [ForeignKey(nameof(User))]

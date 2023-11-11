@@ -79,7 +79,8 @@ app.MapClassRoomEndpoints();
 app.MapStatisticsEndpoints();
 app.MapCourseEndpoints();
 
-app.UseStaticFiles("/static");
+app.UseStaticFiles();
+
 app.MapFallbackToFile("index.html");
 
 using (var scope = app.Services.CreateScope())

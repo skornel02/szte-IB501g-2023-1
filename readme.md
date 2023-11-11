@@ -1,3 +1,46 @@
+---
+dest: ./Readme.pdf
+stylesheet:
+    - readme.css
+body_class: markdown-body
+# highlight_style: monokai
+pdf_options:
+    format: a4
+    margin: 30mm 20mm
+    printBackground: true
+    headerTemplate: |-
+        <style>
+        section {
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            font-family: system-ui;
+            font-size: 11px;
+        }
+        section div {
+            text-align: center;
+            flex-grow: 1;
+            flex-basis: 0;
+        }
+        </style>
+        <section>
+            <div></div>
+            <span> szte-IB501g-2023-1 </span>
+            <div></div>
+        </section>
+    footerTemplate: |-
+        <section>
+        <div></div>
+        <div>
+            Page <span class="pageNumber"></span>
+            of <span class="totalPages"></span>
+        </div>
+        <div>
+            Készítette: Stefán Kornél
+        </div>
+        </section>
+---
+
 # Adatbázis beadandó: ETR
 
 ## Projektben felhasznált technológia
@@ -74,6 +117,8 @@ Egy termet egyszerre csak egy kurzus vagy vizsga lebonyolítására lehet lefogl
 >  - Hallgató - Vizsga => N:M
 >  - ( hallgató - kurzus => N:M )
 
+<div class="page-break"></div>
+
 ### ​Megvalósítandó elemek (a pontszámok a funkciókra adható maximumot jelentik):
 
 | | **Megvalósítandó elem** | **Pontszám** |
@@ -112,11 +157,15 @@ Egy termet egyszerre csak egy kurzus vagy vizsga lebonyolítására lehet lefogl
 - [ ] Nem sikerül beüzemelni, működésre bírni az alkalmazást a védés alkalmával.
 - [ ] Az ***Funkciók*** elemekből nem ért el 10 pontot a hallgató.
 
+<div class="page-break"></div>
+
 ## Adatstruktúra
 
 ### EK diagram
 
 ![EK diagram](adatstruktura.png)
+
+<div class="page-break"></div>
 
 ### Formalizálás
 
@@ -195,6 +244,8 @@ ExamAttendance(<ins>*Username*</ins>, <ins>*CourseCode*</ins>, <ins>*CourseSemes
 ClassRoom(<ins>Address</ins>, <ins>Room</ins>, Name, Capacity, RoomType)
 
 - {Address, Room} → {Name, Capacity, RoomType} 
+
+<div class="page-break"></div>
 
 ### Adatbázis struktúra
 

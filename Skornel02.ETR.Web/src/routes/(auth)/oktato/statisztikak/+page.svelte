@@ -139,9 +139,4 @@
 		margin-top: 5px;
 		margin-bottom: 0;
 	}
-
-	.toolbar {
-		display: flex;
-		justify-content: end;
-	}
 </style>

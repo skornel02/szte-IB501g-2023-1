@@ -16,11 +16,11 @@ public class Exam
     [ForeignKey($"{nameof(CourseCode)}, {nameof(CourseSemester)}")]
     public required Course Course { get; init; }
 
-    [Description("Vizsga kezdete")]
+    [Comment("Vizsga kezdete")]
     public required DateTimeOffset Start { get; set; }
-    [Description("Vizsga vége")]
+    [Comment("Vizsga vége")]
     public required DateTimeOffset End { get; set; }
-    [Description("Vizsga típusa")]
+    [Comment("Vizsga típusa")]
     public required ExamType ExamType { get; set; }
 
     public string ClassRoomAddress { get; set; } = default!;

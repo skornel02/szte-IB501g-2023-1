@@ -66,9 +66,9 @@ public static class CourseEndpointsExtension
                             AND ca.CourseSemester = c.Semester
                     WHERE 
                         ({!teachedByMe} OR 
-                            (ca.AttendanceType = {AttendanceType.Organizer} AND ca.Username = {username})
+                            (ca.AttendanceType = {AttendanceType.Organizer} AND ca.Username = {username}))
                         AND ({!attendedByMe} OR
-                            (ca.AttendanceType = {AttendanceType.Participant} AND ca.Username = {username})))
+                            (ca.AttendanceType = {AttendanceType.Participant} AND ca.Username = {username}))
                 """).ToListAsync();
 
                 return Results.Ok(courses);
@@ -128,7 +128,6 @@ public static class CourseEndpointsExtension
 
             try
             {
-
                 await context.SaveChangesAsync();
 
                 return Results.Created();
@@ -137,6 +136,124 @@ public static class CourseEndpointsExtension
             {
                 return Results.BadRequest($"Adatbázis hiba történt! {ex?.InnerException?.Message}".ToError());
             }
+        })
+            .WithTags("Courses")
+            .RequireAuthorization();
+
+        app.MapPost("/api/course-teach", async (
+            ClaimsPrincipal principal,
+            [FromQuery] string code,
+            [FromQuery] string semester,
+            ETRContext context) =>
+        {
+            var session = principal.ToETR();
+            var username = session.Username;
+            var userRoles = await context.RolesFromUserAsync(username);
+
+            if (!userRoles.Contains(RoleType.Teacher))
+                return Results.Forbid();
+
+            var attendances = await context.GetCourseAttendanceAsync(username, code, semester);
+            if (attendances.Count != 0)
+                return Results.BadRequest("Ez a kurzus már szerepel a tanított kurzusaid között!".ToError());
+
+            var attendance = new CourseAttendance()
+            {
+                AttendanceType = AttendanceType.Organizer,
+                CourseCode = code,
+                CourseSemester = semester,
+                Username = username,
+            };
+
+            await context.CourseAttendances.AddAsync(attendance);
+            await context.SaveChangesAsync();
+
+            return Results.NoContent();
+        })
+            .WithTags("Courses")
+            .RequireAuthorization();
+
+        app.MapDelete("/api/course-teach", async (
+            ClaimsPrincipal principal,
+            [FromQuery] string code,
+            [FromQuery] string semester,
+            ETRContext context) =>
+        {
+            var session = principal.ToETR();
+            var username = session.Username;
+            var userRoles = await context.RolesFromUserAsync(username);
+
+            if (!userRoles.Contains(RoleType.Teacher))
+                return Results.Forbid();
+
+            var attendances = await context.GetCourseAttendanceAsync(username, code, semester);
+            if (attendances.Count == 0)
+                return Results.BadRequest("Ez a kurzus nem szerepel az általad tanított kurzusok között!".ToError());
+
+            await context.CourseAttendances
+                .Where(ca => ca.Username == username && ca.CourseCode == code && ca.CourseSemester == semester)
+                .ExecuteDeleteAsync();
+
+            return Results.NoContent();
+        })
+            .WithTags("Courses")
+            .RequireAuthorization();
+
+        app.MapPost("/api/course-learn", async (
+            ClaimsPrincipal principal,
+            [FromQuery] string code,
+            [FromQuery] string semester,
+            ETRContext context) =>
+        {
+            var session = principal.ToETR();
+            var username = session.Username;
+            var userRoles = await context.RolesFromUserAsync(username);
+
+            if (!userRoles.Contains(RoleType.Student))
+                return Results.Forbid();
+
+            var attendances = await context.GetCourseAttendanceAsync(username, code, semester);
+            if (attendances.Count != 0)
+                return Results.BadRequest("Ez a kurzus már szerepel a kurzusaid között!".ToError());
+
+            var attendance = new CourseAttendance()
+            {
+                AttendanceType = AttendanceType.Participant,
+                CourseCode = code,
+                CourseSemester = semester,
+                Username = username,
+            };
+
+            await context.CourseAttendances.AddAsync(attendance);
+            await context.SaveChangesAsync();
+
+            return Results.NoContent();
+        })
+            .WithTags("Courses")
+            .RequireAuthorization();
+
+        app.MapDelete("/api/course-learn", async (
+            ClaimsPrincipal principal,
+            [FromQuery] string code,
+            [FromQuery] string semester,
+            ETRContext context) =>
+        {
+            var session = principal.ToETR();
+            var username = session.Username;
+            var userRoles = await context.RolesFromUserAsync(username);
+
+            if (!userRoles.Contains(RoleType.Student))
+                return Results.Forbid();
+
+            var attendances = await context.GetCourseAttendanceAsync(username, code, semester);
+            if (attendances.Count == 0)
+                return Results.BadRequest("Ez a kurzus nem szerepel a kurzusaid között!".ToError());
+
+            await context.CourseAttendances
+                .Where(ca => ca.Username == username && ca.CourseCode == code && ca.CourseSemester == semester)
+                .ExecuteDeleteAsync();
+
+            return Results.NoContent();
         })
             .WithTags("Courses")
             .RequireAuthorization();

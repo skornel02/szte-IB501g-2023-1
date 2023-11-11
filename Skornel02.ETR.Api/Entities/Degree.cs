@@ -2,6 +2,8 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+using Microsoft.EntityFrameworkCore;
+
 using Skornel02.ETR.Common.Enums;
 
 namespace Skornel02.ETR.Api.Entities;
@@ -10,10 +12,10 @@ namespace Skornel02.ETR.Api.Entities;
 public class Degree
 {
     [Key]
-    [Description("Képzés neve")]
+    [Comment("Képzés neve")]
     public required string Name { get; init; }
 
-    [Description("Képzés szintje")]
+    [Comment("Képzés szintje")]
     public required DegreeLevel Level { get; init; }
 
     public List<DegreeParticipation> DegreeParticipations { get; set; } = [];

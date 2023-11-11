@@ -4,6 +4,7 @@
 	import type { LayoutData } from './$types';
 	import { toast } from '@zerodevx/svelte-toast';
 	import { goto } from '$app/navigation';
+	import type { ProfileDto } from '../../schemas/ProfileDto';
 
 	export let data: LayoutData;
 
@@ -20,14 +21,15 @@
 		goto(window.location.href.split('/').slice(0, -1).join('/') + '/login');
 	};
 
-	const { profile } = data.props ?? {
-		profile: {
+	let profile: ProfileDto;
+	$: {
+		profile = data.props?.profile ?? {
 			name: 'hiba, próbálja meg az oldalt újratölteni és/vagy újra bejelentkezni',
 			degrees: [],
 			roles: [],
 			username: 'session lejárt?'
-		}
-	};
+		};
+	}
 </script>
 
 <nav class="border split-nav">

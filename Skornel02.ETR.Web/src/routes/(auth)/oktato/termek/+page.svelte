@@ -5,8 +5,6 @@
 	import { roomTypeToName } from '../../../../enums/roomtypes';
 
 	export let data: PageData;
-
-	const { classRooms } = data;
 </script>
 
 <h1>Termek</h1>
@@ -23,7 +21,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			{#each classRooms as classRoom, i}
+			{#each data.classRooms as classRoom, i}
 				<tr>
 					<td>{classRoom.name}</td>
 					<td>{classRoom.address}</td>

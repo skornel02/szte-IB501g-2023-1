@@ -19,8 +19,8 @@ public class CourseAttendance
     [ForeignKey($"{nameof(CourseCode)}, {nameof(CourseSemester)}")]
     public Course Course { get; set; } = default!;
 
-    [Description("Részvétel típusa (hallgató, oktató)")]
+    [Comment("Részvétel típusa (hallgató, oktató)")]
     public required AttendanceType AttendanceType { get; set; }
-    [Description("Elért érdemjegy")]
+    [Comment("Elért érdemjegy")]
     public string? Grade { get; set; }
 }
