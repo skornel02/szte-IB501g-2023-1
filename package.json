@@ -1,6 +1,7 @@
 {
 	"name": "szte-IB501g-2023-1-etr-beadando",
 	"scripts": {
+		"install": "dotnet restore && pnpm --dir \"./Skornel02.ETR.Web\" install",
 		"generate-program": "dotnet publish && pnpm --dir \"./Skornel02.ETR.Web\" run build && copyfiles -V -u 2 \"./Skornel02.ETR.Web/build/**/*\" \"./Skornel02.ETR.Api/bin/Release/net8.0/publish/wwwroot\"",
 		"generate-pdf": "md-to-pdf ./readme.md",
 		"generate-pdf:dev": "md-to-pdf --devtools --watch ./readme.md"
