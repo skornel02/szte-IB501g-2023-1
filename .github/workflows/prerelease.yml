@@ -47,5 +47,5 @@ jobs:
           prerelease: true
           title: "Development Build"
           files: |
-            Readme.pdf
+            ETR projekt.pdf
             release-win.zip

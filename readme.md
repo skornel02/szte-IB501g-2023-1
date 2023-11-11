@@ -1,5 +1,5 @@
 ---
-dest: ./Readme.pdf
+dest: ./ETR projekt.pdf
 stylesheet:
     - readme.css
 body_class: markdown-body
