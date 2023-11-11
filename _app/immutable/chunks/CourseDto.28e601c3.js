@@ -1,0 +1,1 @@
+import{z as s}from"./index.0ec66d4d.js";import{a as o}from"./coursetypes.cef0f3cc.js";const t=s.object({courseCode:s.string(),courseSemester:s.string(),hours:s.number(),credits:s.number(),courseName:s.string().optional(),courseType:s.nativeEnum(o),classRoomAddress:s.string(),classRoomNumber:s.string(),classRoomName:s.string()});export{t as C};
