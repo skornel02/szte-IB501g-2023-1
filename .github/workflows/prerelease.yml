@@ -1,0 +1,51 @@
+name: "pre-release"
+
+on:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  pre-release:
+    name: "Pre Release"
+    runs-on: "windows-latest"
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.x'
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - uses: pnpm/action-setup@v2
+        name: Install pnpm
+        with:
+          version: 8
+
+      - name: Restore project
+        run: pnpm install
+
+      - name: Create pdf
+        run: pnpm generate-pdf
+
+      - name: Create program
+        run: pnpm generate-program
+
+      - uses: vimtor/action-zip@v1.1
+        with:
+          files: "./Skornel02.ETR.Api/bin/Release/net8.0/publish"
+          dest: release-win.zip
+
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "latest"
+          prerelease: true
+          title: "Development Build"
+          files: |
+            Readme.pdf
+            release-win.zip
