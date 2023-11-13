@@ -1,5 +1,3 @@
-using System.Security.Claims;
-
 using Microsoft.EntityFrameworkCore;
 
 using Skornel02.ETR.Common.Dtos;

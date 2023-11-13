@@ -22,15 +22,13 @@
 			<div class="card-header">Szak: {degree.name}</div>
 			<div class="card-body">
 				<h4 class="card-title">Kezdés</h4>
-                <p class="card-text">{degree.startDate}</p>
-                {#if degree.endDate !== null}
-                    <h4 class="card-title">Végzés</h4>
-                    <p class="card-text">{degree.endDate}</p>
-                {:else}
-                    <p class="card-text">
-                        Ez a szak még elvégzés alatt áll.
-                    </p>
-                {/if}
+				<p class="card-text">{degree.startDate}</p>
+				{#if degree.endDate !== null}
+					<h4 class="card-title">Végzés</h4>
+					<p class="card-text">{degree.endDate}</p>
+				{:else}
+					<p class="card-text">Ez a szak még elvégzés alatt áll.</p>
+				{/if}
 			</div>
 		</div>
 	{/each}

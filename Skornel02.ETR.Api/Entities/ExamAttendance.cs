@@ -1,5 +1,3 @@
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 using Microsoft.EntityFrameworkCore;
@@ -12,17 +10,17 @@ namespace Skornel02.ETR.Api.Entities;
 public class ExamAttendance
 {
     [ForeignKey(nameof(User))]
-    public string Username { get; init; } = default!;
-    public required User User { get; init; }
+    public string Username { get; set; } = default!;
+    public User User { get; set; } = default!;
 
-    public string CourseCode { get; init; } = default!;
-    public string CourseSemester { get; init; } = default!;
-    public DateTimeOffset CourseStart { get; init; }
+    public string CourseCode { get; set; } = default!;
+    public string CourseSemester { get; set; } = default!;
+    public DateTimeOffset CourseStart { get; set; }
     [ForeignKey($"{nameof(CourseCode)}, {nameof(CourseSemester)}, {nameof(CourseStart)}")]
-    public required Exam Exam { get; init; }
+    public Exam Exam { get; set; } = default!;
 
     [Comment("Vizsga részvétel típusa (hallgató, oktató)")]
-    public required AttendanceType AttendanceType { get; init; }
+    public required AttendanceType AttendanceType { get; set; }
     [Comment("Elért érdemjegy")]
     public string? Grade { get; set; }
 }

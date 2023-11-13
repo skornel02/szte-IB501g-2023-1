@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 
-using Skornel02.ETR.Api.Entities;
 using Skornel02.ETR.Common.Enums;
 
 namespace Skornel02.ETR.Api.Services;

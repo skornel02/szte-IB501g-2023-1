@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Skornel02.ETR.Api.Mappers;
 using Skornel02.ETR.Api.Services;
 using Skornel02.ETR.Common.Dtos;
-using Skornel02.ETR.Common.Enums;
 
 namespace Skornel02.ETR.Api.Endpoints;
 

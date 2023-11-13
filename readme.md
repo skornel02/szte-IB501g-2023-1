@@ -3,7 +3,6 @@ dest: ./ETR projekt.pdf
 stylesheet:
     - readme.css
 body_class: markdown-body
-# highlight_style: monokai
 pdf_options:
     format: a4
     margin: 30mm 20mm
@@ -134,8 +133,8 @@ Egy termet egyszerre csak egy kurzus vagy vizsga lebonyolítására lehet lefogl
 | <ul><li>[x] </li></ul> | Felhasználó regisztrációja űrlapon keresztül <br> <ul> <li>jelszó kétszeri megadása</li> <li>jelszó titkosítása</li> <li>visszajelzés a sikeres vagy sikertelen regisztrációról</li></ul> | 2 pont |
 | <ul><li>[x] </li></ul> | Felhasználó bejelentkeztetése és kijelentkeztetése űrlapon keresztül <br> <ul><li>visszajelzés, hogy sikerült-e</li></ul> | 2 pont |
 | <ul><li>[x] </li></ul> | Kurzusok meghirdetése oktató által. | 1 pont |
-| <ul><li>[ ] </li></ul> | Kurzus és vizsga törlése oktató által. | 1 pont |
 | <ul><li>[ ] </li></ul> | Új vizsgák meghirdetése oktató által. | 2 pont |
+| <ul><li>[ ] </li></ul> | Kurzus és vizsga törlése oktató által. | 1 pont |
 | <ul><li>[ ] </li></ul> | Vizsgák módosítása oktató által. | 2 pont |
 | <ul><li>[ ] </li></ul> | Hallgató jelentkezése vizsgára és kurzusra | 2 pont |
 | <ul><li>[x] </li></ul> | Termek kilistázása táblázatos formában. | 1 pont |
@@ -250,3 +249,14 @@ ClassRoom(<ins>Address</ins>, <ins>Room</ins>, Name, Capacity, RoomType)
 ### Adatbázis struktúra
 
 ![Adatbázis sémája](database-schema.png)
+
+## TODO
+
+- Regisztrációnál lehessen szakot felvinni.
+- Vizsga hirdetés
+- Vizsga szerkesztés
+- Vizsga feljelentkezés
+- Vizsga törlés
+- Dokumentáció írás
+- Ellenőrzés
+- Feltöltés

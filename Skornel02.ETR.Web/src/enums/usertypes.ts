@@ -12,4 +12,4 @@ export const getNameForUserType = (userType: UserType) => {
 		default:
 			return 'Ismeretlen';
 	}
-}
+};
