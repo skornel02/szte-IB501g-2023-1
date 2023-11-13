@@ -79,6 +79,7 @@ app.MapClassRoomEndpoints();
 app.MapStatisticsEndpoints();
 app.MapCourseEndpoints();
 app.MapExamEndpoints();
+app.MapDegreeEndpoints();
 
 app.UseStaticFiles();
 

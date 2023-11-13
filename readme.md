@@ -252,7 +252,7 @@ ClassRoom(<ins>Address</ins>, <ins>Room</ins>, Name, Capacity, RoomType)
 
 ## TODO
 
-- Regisztrációnál lehessen szakot felvinni.
+- Kurzus törlése
 - Vizsga hirdetés
 - Vizsga szerkesztés
 - Vizsga feljelentkezés

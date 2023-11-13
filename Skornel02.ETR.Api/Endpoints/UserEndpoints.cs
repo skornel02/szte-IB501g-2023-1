@@ -48,6 +48,15 @@ public static class UserMapping
 
             await context.UserTypes.AddRangeAsync(userTypes, token);
 
+            var userDegrees = request.Degrees.Select(degree => new DegreeParticipation()
+            {
+                User = user,
+                StartDate = DateOnly.FromDateTime(DateTime.Now),
+                DegreeName = degree,
+            });
+
+            await context.DegreeParticipations.AddRangeAsync(userDegrees, token);
+
             await context.SaveChangesAsync(token);
             await transaction.CommitAsync(token);
 

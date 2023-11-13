@@ -6,8 +6,22 @@
 		type UserCreationForm,
 		userCreationFormToDto
 	} from '../schemas/UserCreationDto';
+	import type { DegreeTypeDto } from '../schemas/DegreeTypeDto';
+	import MultiSelect, { type Option } from 'svelte-multiselect';
+	import { getNameOfDegreeLevel } from '../enums/degreelevels';
 
 	export let registerHandler: (request: UserCreationDto) => Promise<UserCreationResult>;
+	export let degrees: DegreeTypeDto;
+
+	let degreeOptions: Option[] = [];
+	$: {
+		degreeOptions = degrees.map((degree) => {
+			return {
+				label: `${degree.name} (${getNameOfDegreeLevel(degree.level)})`,
+				value: degree.name,
+			};
+		});
+	}
 
 	/**
 	 * Milyen üzenettel ment végbe az eredmény.
@@ -25,7 +39,8 @@
 		roles: {
 			student: false,
 			teacher: false
-		}
+		},
+		degrees: []
 	};
 
 	let errors: ZodFormattedError<UserCreationForm> = {
@@ -40,6 +55,8 @@
 		};
 		success = undefined;
 		const test = await UserCreationFormSchema.safeParseAsync(formData);
+
+		console.log(test);
 
 		if (test.success) {
 			const dto = userCreationFormToDto(formData);
@@ -191,6 +208,10 @@
 				<butto class="btn-close" for="login-alert" on:click={() => closeError('roles')}>X</butto>
 			</div>
 		{/if}
+	</div>
+	<div class="form-group">
+		<legend>Szakok</legend>
+		<MultiSelect bind:selected={formData.degrees} options={degreeOptions}/>
 	</div>
 	{#if errors._errors.length > 0}
 		<div id="login-alert" class="alert alert-danger dismissible">

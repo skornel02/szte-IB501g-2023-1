@@ -17,7 +17,8 @@ export const UserCreationFormSchema = CredentialsSchema.and(
 			.date()
 			.min(new Date(1900, 1, 1), { message: 'A születési dátum nem lehet korábbi 1900.01.01-nél!' })
 			.max(new Date(), { message: 'A születési dátum nem lehet későbbi a mai dátumnál!' }),
-		birthLocation: z.string().min(1, { message: 'A születési hely nem lehet üres!' })
+		birthLocation: z.string().min(1, { message: 'A születési hely nem lehet üres!' }),
+		degrees: z.array(z.object({value: z.string()})),
 	})
 ).superRefine(({ password, passwordRepeat, roles }, ctx) => {
 	if (passwordRepeat !== password) {
@@ -53,7 +54,8 @@ export const userCreationFormToDto = (form: UserCreationForm): UserCreationDto =
 		name: form.name,
 		roles,
 		birthDate: form.birthDate,
-		birthLocation: form.birthLocation
+		birthLocation: form.birthLocation,
+		degrees: form.degrees.map(d => d.value),
 	};
 };
 
@@ -67,7 +69,8 @@ export const UserCreationDtoSchema = CredentialsSchema.and(
 			.date()
 			.min(new Date(1900, 1, 1), { message: 'A születési dátum nem lehet korábbi 1900.01.01-nél!' })
 			.max(new Date(), { message: 'A születési dátum nem lehet későbbi a mai dátumnál!' }),
-		birthLocation: z.string().min(1, { message: 'A születési hely nem lehet üres!' })
+		birthLocation: z.string().min(1, { message: 'A születési hely nem lehet üres!' }),
+		degrees: z.array(z.string())
 	})
 );
 

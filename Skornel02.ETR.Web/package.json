@@ -29,6 +29,7 @@
 		"@types/js-cookie": "^3.0.5",
 		"js-cookie": "^3.0.5",
 		"papercss": "^1.9.2",
+		"svelte-multiselect": "^10.2.0",
 		"zod": "^3.22.4"
 	}
 }

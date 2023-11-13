@@ -8,12 +8,12 @@ namespace Skornel02.ETR.Api.Entities;
 public class DegreeParticipation
 {
     [ForeignKey(nameof(User))]
-    public string Username { get; init; } = default!;
-    public required User User { get; init; }
+    public string Username { get; set; } = default!;
+    public User User { get; set; } = default!;
 
     [ForeignKey(nameof(Degree))]
-    public string DegreeName { get; init; } = default!;
-    public required Degree Degree { get; init; }
+    public string DegreeName { get; set; } = default!;
+    public Degree Degree { get; set; } = default!;
 
     [Comment("Képzés kezdete")]
     public required DateOnly StartDate { get; set; }

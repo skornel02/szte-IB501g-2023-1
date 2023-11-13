@@ -8,5 +8,6 @@ public record UserCreationDto(
     string Password,
     List<RoleType> Roles,
     DateTime BirthDate,
-    string BirthLocation
+    string BirthLocation,
+    List<string> Degrees
 );
