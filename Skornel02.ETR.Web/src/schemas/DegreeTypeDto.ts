@@ -1,10 +1,9 @@
-import { z } from "zod";
-import { DegreeLevels } from "../enums/degreelevels";
-
+import { z } from 'zod';
+import { DegreeLevels } from '../enums/degreelevels';
 
 export const DegreeTypeSchema = z.object({
-    name: z.string(),
-    level: z.nativeEnum(DegreeLevels),
+	name: z.string(),
+	level: z.nativeEnum(DegreeLevels)
 });
 
 export type DegreeType = z.infer<typeof DegreeTypeSchema>;

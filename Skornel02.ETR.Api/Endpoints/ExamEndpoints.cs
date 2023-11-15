@@ -30,7 +30,7 @@ public static class ExamEndpointsExtension
                         e.CourseSemester,
                         e.Start,
                         e.End,
-                        e.ExamType,]
+                        e.ExamType,
                         ClassRoomAddress,
                         ClassRoomRoomName AS ClassRoomNumber,
                         cr.Name AS 'ClassRoomName'
@@ -45,13 +45,13 @@ public static class ExamEndpointsExtension
             {
                 var username = principal.ToETR().Username;
 
-                var courses = await context.Database.SqlQuery<CourseDto>($"""
+                var courses = await context.Database.SqlQuery<ExamDto>($"""
                     SELECT
                         e.CourseCode,
                         e.CourseSemester,
                         e.Start,
                         e.End,
-                        e.ExamType,]
+                        e.ExamType,
                         ClassRoomAddress,
                         ClassRoomRoomName AS ClassRoomNumber,
                         cr.Name AS 'ClassRoomName'
@@ -60,6 +60,7 @@ public static class ExamEndpointsExtension
                             AND cr.RoomNumber = e.ClassRoomRoomName
                         INNER JOIN ExamAttendances ea ON ea.CourseCode = e.CourseCode 
                             AND ea.CourseSemester = e.CourseSemester
+                            AND ea.CourseStart = e.Start 
                     WHERE 
                         ({!teachedByMe} OR 
                             (ea.AttendanceType = {AttendanceType.Organizer} AND ea.Username = {username}))
@@ -73,55 +74,74 @@ public static class ExamEndpointsExtension
             .WithTags("Exams")
             .RequireAuthorization();
 
-        // app.MapPost("/api/courses", async (
-        //     ClaimsPrincipal principal,
-        //     [FromBody] CourseCreationDto dto,
-        //     ETRContext context
-        // ) =>
-        // {
-        //     var session = principal.ToETR();
-        //     var username = session.Username;
-        //     var userRoles = await context.RolesFromUserAsync(username);
+        app.MapPost("/api/exams", async (
+            ClaimsPrincipal principal,
+            [FromBody] ExamCreationDto dto,
+            ETRContext context
+        ) =>
+        {
+            var session = principal.ToETR();
+            var username = session.Username;
+            var userRoles = await context.RolesFromUserAsync(username);
 
-        //     if (!userRoles.Contains(RoleType.Teacher))
-        //         return Results.Forbid();
+            if (!userRoles.Contains(RoleType.Teacher))
+                return Results.Forbid();
 
-        //     var metadatas = await context.Database.SqlQuery<CourseMetadataResponseDto>($"""
-        //         SELECT Name, Type FROM CourseMetadatas
-        //             WHERE CourseCode = {dto.CourseCode}
-        //             LIMIT 1
-        //         """).ToListAsync();
+            var courseExists = await context.Courses
+                .AnyAsync(c => c.CourseCode == dto.CourseCode && c.Semester == dto.CourseSemester);
 
-        //     if (metadatas.Count == 0)
-        //     {
-        //         var metadata = dto.ToMetadata();
-        //         await context.CourseMetadatas.AddAsync(metadata);
-        //     }
+            if (!courseExists)
+            {
+                return Results.BadRequest("Nem létezik ilyen tárgy!".ToError());
+            }
 
-        //     var course = dto.ToCourse();
-        //     await context.Courses.AddAsync(course);
+            var exam = dto.ToExam();
+            await context.Exams.AddAsync(exam);
 
-        //     var attendance = new CourseAttendance()
-        //     {
-        //         AttendanceType = AttendanceType.Organizer,
-        //         Course = course,
-        //         Username = username,
-        //     };
-        //     await context.CourseAttendances.AddAsync(attendance);
+            var attendance = new ExamAttendance()
+            {
+                AttendanceType = AttendanceType.Organizer,
+                Exam = exam,
+                Username = username,
+            };
+            await context.ExamAttendances.AddAsync(attendance);
 
-        //     try
-        //     {
-        //         await context.SaveChangesAsync();
+            try
+            {
+                await context.SaveChangesAsync();
 
-        //         return Results.Created();
-        //     }
-        //     catch (DbUpdateException ex)
-        //     {
-        //         return Results.BadRequest($"Adatbázis hiba történt! {ex?.InnerException?.Message}".ToError());
-        //     }
-        // })
-        //     .WithTags("Exams")
-        //     .RequireAuthorization();
+                return Results.Created();
+            }
+            catch (DbUpdateException ex)
+            {
+                return Results.BadRequest($"Adatbázis hiba történt! {ex?.InnerException?.Message}".ToError());
+            }
+        })
+            .WithTags("Exams")
+            .RequireAuthorization();
+
+        app.MapDelete("/api/exams", async (
+            ClaimsPrincipal principal,
+            [FromQuery] string code,
+            [FromQuery] string semester,
+            [FromQuery] DateTimeOffset start,
+            ETRContext context) =>
+        {
+            var session = principal.ToETR();
+            var username = session.Username;
+            var userRoles = await context.RolesFromUserAsync(username);
+
+            if (!userRoles.Contains(RoleType.Teacher))
+                return Results.Forbid();
+
+            await context.Exams
+                .Where(exam => exam.CourseCode == code && exam.CourseSemester == semester && exam.Start == start)
+                .ExecuteDeleteAsync();
+
+            return Results.NoContent();
+        })
+            .WithTags("Exams")
+            .RequireAuthorization();
 
         app.MapPost("/api/exams-teach", async (
             ClaimsPrincipal principal,

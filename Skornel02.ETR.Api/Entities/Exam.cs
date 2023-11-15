@@ -12,7 +12,7 @@ public class Exam
     public string CourseCode { get; init; } = default!;
     public string CourseSemester { get; init; } = default!;
     [ForeignKey($"{nameof(CourseCode)}, {nameof(CourseSemester)}")]
-    public required Course Course { get; init; }
+    public Course Course { get; set; } = default!;
 
     [Comment("Vizsga kezdete")]
     public required DateTimeOffset Start { get; set; }
@@ -25,7 +25,7 @@ public class Exam
     public string ClassRoomRoomName { get; set; } = default!;
 
     [ForeignKey($"{nameof(ClassRoomAddress)}, {nameof(ClassRoomRoomName)}")]
-    public required ClassRoom ClassRoom { get; set; }
+    public ClassRoom ClassRoom { get; set; } = default!;
 
-    public List<ExamAttendance> Attendees { get; init; } = [];
+    public List<ExamAttendance> Attendees { get; set; } = [];
 }

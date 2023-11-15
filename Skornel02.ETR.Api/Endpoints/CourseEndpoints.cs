@@ -140,6 +140,49 @@ public static class CourseEndpointsExtension
             .WithTags("Courses")
             .RequireAuthorization();
 
+        app.MapDelete("/api/courses", async (
+            ClaimsPrincipal principal,
+            [FromQuery] string code,
+            [FromQuery] string semester,
+            ETRContext context) =>
+        {
+            var session = principal.ToETR();
+            var username = session.Username;
+            var userRoles = await context.RolesFromUserAsync(username);
+
+            if (!userRoles.Contains(RoleType.Teacher))
+                return Results.Forbid();
+
+            var exams = await context.Database.SqlQuery<ExamDto>($"""
+                SELECT
+                    e.CourseCode,
+                    e.CourseSemester,
+                    e.Start,
+                    e.End,
+                    e.ExamType,
+                    ClassRoomAddress,
+                    ClassRoomRoomName AS ClassRoomNumber,
+                    cr.Name AS 'ClassRoomName'
+                FROM Exams e
+                    INNER JOIN ClassRooms cr ON cr.Address = e.ClassRoomAddress 
+                        AND cr.RoomNumber = e.ClassRoomRoomName
+                WHERE e.CourseCode = {code} AND e.CourseSemester = {semester}
+                """).ToListAsync();
+
+            if (exams.Count != 0)
+            {
+                return Results.BadRequest("Ez a kurzus nem törölhető, mert van hozzá vizsga!".ToError());
+            }
+
+            await context.Courses
+                .Where(course => course.CourseCode == code && course.Semester == semester)
+                .ExecuteDeleteAsync();
+
+            return Results.NoContent();
+        })
+            .WithTags("Courses")
+            .RequireAuthorization();
+
         app.MapPost("/api/course-teach", async (
             ClaimsPrincipal principal,
             [FromQuery] string code,

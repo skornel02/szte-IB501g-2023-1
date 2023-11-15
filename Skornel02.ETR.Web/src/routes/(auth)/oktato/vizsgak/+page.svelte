@@ -5,23 +5,27 @@
 	import type { PageData } from './$types';
 	import { base } from '$app/paths';
 	import { toast } from '@zerodevx/svelte-toast';
+	import { ExamTypeToName } from '../../../../enums/examtypes';
 	import { ErrorResponseDtoSchema } from '../../../../schemas/ErrorResponseDto';
 
 	export let data: PageData;
 
 	const refresh = () => invalidateAll();
 
-	const subscribeToCourse = async (
+	const subscribeToExam = async (
 		courseCode: string,
 		courseSemester: string,
+		start: string,
 		type: 'subscribe' | 'unsubscribe'
 	) => {
 		const token = Cookies.get('oktato-token');
-		const method = type === 'subscribe' ? 'POSt' : 'DELETE';
+		const method = type === 'subscribe' ? 'POST' : 'DELETE';
 		const methodName = type === 'subscribe' ? 'feliratkozás' : 'leiratkozás';
 
 		const result = await fetch(
-			`${base}/api/course-teach?code=${courseCode}&semester=${courseSemester}`,
+			`${base}/api/exams-teach?code=${courseCode}&semester=${courseSemester}&start=${encodeURIComponent(
+				start
+			)}`,
 			{
 				method,
 				headers: {
@@ -40,16 +44,18 @@
 			if (errorResponseDto.success) {
 				toast.push(errorResponseDto.data.errorMessage);
 			} else {
-				toast.push('Sikertelen törlés müvelet!');
+				toast.push(`Sikertelen ${methodName} müvelet!`);
 			}
 		}
 	};
 
-	const deleteCourse = async (courseCode: string, courseSemester: string) => {
+	const deleteExam = async (courseCode: string, courseSemester: string, start: string) => {
 		const token = Cookies.get('oktato-token');
 
 		const result = await fetch(
-			`${base}/api/courses?code=${courseCode}&semester=${courseSemester}`,
+			`${base}/api/exams?code=${courseCode}&semester=${courseSemester}&start=${encodeURIComponent(
+				start
+			)}`,
 			{
 				method: 'DELETE',
 				headers: {
@@ -72,53 +78,41 @@
 			}
 		}
 	};
-
-	const newExamForCourse = async (courseCode: string, courseSemester: string) => {
-		goto('uj-vizsga?course=' + courseCode + '|' + courseSemester);
-	};
 </script>
 
 <div class="container">
-	<h4>Kurzusok</h4>
+	<h4>Vizsgák</h4>
 	<div class="toolbar">
 		<button class="btn-small btn-primary" on:click={refresh}>Frissítés</button>
-		<a href="uj-kurzus" class="paper-btn btn-small btn-secondary">Új kurzus</a>
+		<a href="uj-vizsga" class="paper-btn btn-small btn-secondary">Új vizsga</a>
 	</div>
-	<h5>Általam tartott kurzusok</h5>
+	<h5>Általam tartott vizsgák</h5>
 	<table class="table-hover">
 		<thead>
 			<tr>
 				<th>Kód</th>
 				<th>Szemeszter</th>
-				<th>Név</th>
-				<th>Óraszám</th>
-				<th>Credit</th>
+				<th>Kezdet</th>
+				<th>Vége</th>
 				<th>Típus</th>
 				<th>Terem</th>
 				<th>Műveletek</th>
 			</tr>
 		</thead>
 		<tbody>
-			{#each data.taughtCourses as course}
+			{#each data.taughtExams as exam}
 				<tr>
-					<td>{course.courseCode}</td>
-					<td>{course.courseSemester}</td>
-					<td>{course.courseName}</td>
-					<td>{course.hours}</td>
-					<td>{course.credits}</td>
-					<td>{CourseTypeToName(course.courseType)}</td>
-					<td>{course.classRoomAddress}, {course.classRoomNumber}</td>
+					<td>{exam.courseCode}</td>
+					<td>{exam.courseSemester}</td>
+					<td>{exam.start}</td>
+					<td>{exam.end}</td>
+					<td>{ExamTypeToName(exam.examType)}</td>
+					<td>{exam.classRoomAddress}, {exam.classRoomNumber}</td>
 					<td class="table-commands">
-						<button
-							class="btn-small"
-							on:click={() => newExamForCourse(course.courseCode, course.courseSemester)}
-						>
-							Vizsga hirdetés
-						</button>
 						<button
 							class="btn-small btn-danger"
 							on:click={() =>
-								subscribeToCourse(course.courseCode, course.courseSemester, 'unsubscribe')}
+								subscribeToExam(exam.courseCode, exam.courseSemester, exam.start, 'unsubscribe')}
 						>
 							Lead
 						</button>
@@ -127,41 +121,39 @@
 			{/each}
 		</tbody>
 	</table>
-	<h5>További kurzusok</h5>
+	<h5>További vizsgák</h5>
 	<table class="table-hover">
 		<thead>
 			<tr>
 				<th>Kód</th>
 				<th>Szemeszter</th>
-				<th>Név</th>
-				<th>Óraszám</th>
-				<th>Credit</th>
+				<th>Kezdet</th>
+				<th>Vég</th>
 				<th>Típus</th>
 				<th>Terem</th>
 				<th>Műveletek</th>
 			</tr>
 		</thead>
 		<tbody>
-			{#each data.courses as course}
+			{#each data.exams as exam}
 				<tr>
-					<td>{course.courseCode}</td>
-					<td>{course.courseSemester}</td>
-					<td>{course.courseName}</td>
-					<td>{course.hours}</td>
-					<td>{course.credits}</td>
-					<td>{CourseTypeToName(course.courseType)}</td>
-					<td>{course.classRoomAddress}, {course.classRoomNumber}</td>
+					<td>{exam.courseCode}</td>
+					<td>{exam.courseSemester}</td>
+					<td>{exam.start}</td>
+					<td>{exam.end}</td>
+					<td>{ExamTypeToName(exam.examType)}</td>
+					<td>{exam.classRoomAddress}, {exam.classRoomNumber}</td>
 					<td class="table-commands">
 						<button
 							class="btn-small"
 							on:click={() =>
-								subscribeToCourse(course.courseCode, course.courseSemester, 'subscribe')}
+								subscribeToExam(exam.courseCode, exam.courseSemester, exam.start, 'subscribe')}
 						>
 							Oktat
 						</button>
 						<button
 							class="btn-small btn-danger"
-							on:click={() => deleteCourse(course.courseCode, course.courseSemester)}
+							on:click={() => deleteExam(exam.courseCode, exam.courseSemester, exam.start)}
 						>
 							Töröl
 						</button>

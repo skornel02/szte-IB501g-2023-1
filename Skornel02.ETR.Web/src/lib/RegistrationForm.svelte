@@ -18,7 +18,7 @@
 		degreeOptions = degrees.map((degree) => {
 			return {
 				label: `${degree.name} (${getNameOfDegreeLevel(degree.level)})`,
-				value: degree.name,
+				value: degree.name
 			};
 		});
 	}
@@ -211,7 +211,7 @@
 	</div>
 	<div class="form-group">
 		<legend>Szakok</legend>
-		<MultiSelect bind:selected={formData.degrees} options={degreeOptions}/>
+		<MultiSelect bind:selected={formData.degrees} options={degreeOptions} />
 	</div>
 	{#if errors._errors.length > 0}
 		<div id="login-alert" class="alert alert-danger dismissible">

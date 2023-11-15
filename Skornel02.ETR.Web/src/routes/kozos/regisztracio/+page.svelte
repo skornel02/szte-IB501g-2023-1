@@ -6,7 +6,7 @@
 	import { ErrorResponseDtoSchema } from '../../../schemas/ErrorResponseDto';
 	import type { UserCreationDto } from '../../../schemas/UserCreationDto';
 	import type { PageData } from './$types';
-	
+
 	export let data: PageData;
 
 	const handleRegistration = async (registerDto: UserCreationDto): Promise<[string, boolean]> => {
@@ -40,7 +40,7 @@
 	<div class="card" style="width: 20rem;">
 		<div class="card-body">
 			<h4 class="card-title">Regisztráció</h4>
-			<RegistrationForm registerHandler={handleRegistration} degrees={data.degrees}/>
+			<RegistrationForm registerHandler={handleRegistration} degrees={data.degrees} />
 		</div>
 	</div>
 	<LoginLogo />

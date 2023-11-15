@@ -4,8 +4,6 @@
 
 	export let data: PageData;
 
-	const { teachers, students, classRoom, teacherLoadLevels } = data;
-
 	const refresh = () => invalidateAll();
 </script>
 
@@ -41,7 +39,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{#each teachers as teacher}
+					{#each data.teachers as teacher}
 						<tr>
 							<td>{teacher.username}</td>
 							<td>{teacher.name}</td>
@@ -63,7 +61,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{#each students as student}
+					{#each data.students as student}
 						<tr>
 							<td>{student.username}</td>
 							<td>{student.name}</td>
@@ -74,16 +72,16 @@
 			</table>
 		</div>
 		<div class="content" id="content3">
-			<p>A legnagyobb (kapacitású) terem összesen {classRoom?.capacity}</p>
+			<p>A legnagyobb (kapacitású) terem összesen {data.classRoom?.capacity}</p>
 			<table class="table-hover">
 				<tbody>
-					{#if classRoom !== undefined}
+					{#if data.classRoom !== undefined}
 						<tr>
 							<th>Kurzuskód</th>
 							<th>Szemeszter</th>
 							<th>-</th>
 						</tr>
-						{#each classRoom.courses as course}
+						{#each data.classRoom.courses as course}
 							<tr>
 								<td>{course.courseCode}</td>
 								<td colspan="2">{course.courseSemester}</td>
@@ -94,7 +92,7 @@
 							<th>Szemeszter</th>
 							<th>Vizsga időpont</th>
 						</tr>
-						{#each classRoom.exams as exam}
+						{#each data.classRoom.exams as exam}
 							<tr>
 								<td>{exam.courseCode}</td>
 								<td>{exam.courseSemester}</td>
@@ -119,7 +117,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					{#each teacherLoadLevels as teacherLoadLevel}
+					{#each data.teacherLoadLevels as teacherLoadLevel}
 						<tr>
 							<td>{teacherLoadLevel.name}</td>
 							<td>{teacherLoadLevel.username}</td>

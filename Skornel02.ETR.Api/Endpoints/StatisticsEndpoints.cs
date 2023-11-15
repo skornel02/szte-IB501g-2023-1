@@ -25,16 +25,17 @@ public static class StatisticsEndpoints
 
         app.MapGet("/api/statistics/students", async (ETRContext context) =>
         {
-            var teachers = await context.Database.SqlQuery<UserCoursesStatisticsDto>($"""
+            var students = await context.Database.SqlQuery<UserCoursesStatisticsDto>($"""
                 SELECT u.Username, u.Name, COUNT(ca.CourseCode) as 'CourseCount' FROM Users u
                     INNER JOIN UserRoles r ON u.Username = r.Username
                     LEFT JOIN CourseAttendances ca ON u.Username = ca.Username
-                    WHERE r.UserType = {RoleType.Student}
+                    WHERE r.UserType = {RoleType.Student} AND
+                        (ca.AttendanceType IS NULL OR ca.AttendanceType = {AttendanceType.Participant})
                     GROUP BY u.Username, u.Name
                     ORDER BY u.Name Asc
                 """).ToListAsync();
 
-            return teachers;
+            return students;
         })
             .WithTags("Statistics")
             .RequireAuthorization();
@@ -47,8 +48,7 @@ public static class StatisticsEndpoints
                     INNER JOIN UserRoles r ON u.Username = r.Username
                     INNER JOIN CourseAttendances ca ON u.Username = ca.Username 
                     INNER JOIN Courses c  on c.CourseCode = ca.CourseCode and c.Semester = ca.CourseSemester 
-                    WHERE r.UserType = {RoleType.Teacher} 
-                        and (ca.AttendanceType is null or ca.AttendanceType = {AttendanceType.Organizer})
+                    WHERE r.UserType = {RoleType.Teacher} AND ca.AttendanceType = {AttendanceType.Organizer}
                     GROUP BY u.Username, u.Name, c.Semester
                     ORDER BY u.Name Asc, c.Semester Desc
                 """).ToListAsync();
@@ -70,14 +70,18 @@ public static class StatisticsEndpoints
                 SELECT c.CourseCode, c.Semester as 'CourseSemester' FROM Courses c
                     INNER JOIN ClassRooms cr ON c.ClassRoomAddress = cr.Address 
                         and c.ClassRoomRoomName = RoomNumber
-                    WHERE cr.Capacity = {largestCapacity}
+                    WHERE cr.Capacity = (SELECT capacity FROM ClassRooms
+                                            ORDER BY capacity Desc
+                                            LIMIT 1)
             """).ToListAsync();
 
             var classRoomExams = await context.Database.SqlQuery<ClassRoomStatisticsExam>($"""
                 SELECT e.CourseCode, e.CourseSemester, e.Start as 'ExamDate' FROM Exams e
                     INNER JOIN ClassRooms cr ON e.ClassRoomAddress = cr.Address 
                         and e.ClassRoomRoomName = RoomNumber
-                    WHERE cr.Capacity = {largestCapacity}
+                    WHERE cr.Capacity = (SELECT capacity FROM ClassRooms
+                                            ORDER BY capacity Desc
+                                            LIMIT 1)
             """).ToListAsync();
 
             return new ClassRoomStatisticsDto(largestCapacity, classRoomCourses, classRoomExams);

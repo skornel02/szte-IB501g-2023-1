@@ -26,7 +26,7 @@ public static class ExamAttendanceSevice
                     WHERE ea.Username = {username} 
                         AND ea.CourseCode = {courseCode} 
                         AND ea.CourseSemester = {courseSemester}
-                        AND ea.Start = {start}
+                        AND ea.CourseStart = {start}
             """).ToListAsync();
     }
 }

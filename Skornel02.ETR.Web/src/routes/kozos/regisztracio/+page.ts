@@ -2,6 +2,10 @@ import type { PageLoad } from './$types';
 import { base } from '$app/paths';
 import { DegreeTypeDtoSchema, type DegreeTypeDto } from '../../../schemas/DegreeTypeDto';
 
+export const prerender = true;
+export const ssr = false;
+export const csr = true;
+
 export const load = (async ({ fetch }) => {
 	let degrees: DegreeTypeDto = [];
 
@@ -18,7 +22,7 @@ export const load = (async ({ fetch }) => {
 		const response = await result.json();
 		degrees = await DegreeTypeDtoSchema.parseAsync(response);
 	} catch (e) {
-		console.error("Szakok betöltése elbukott!", e);
+		console.error('Szakok betöltése elbukott!', e);
 	}
 
 	degrees.sort((a, b) => a.name.localeCompare(b.name));

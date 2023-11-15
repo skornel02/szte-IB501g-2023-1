@@ -1,19 +1,6 @@
 import { z } from 'zod';
 import { CourseType } from '../enums/coursetypes';
 
-/* 
-public record CourseCreationDto(
-    string CourseCode,
-    string CourseSemester,
-    int Hours,
-    int Credits,
-    string? CourseName,
-    CourseType? CourseType,
-    string ClassRoomAddress,
-    string ClassRoomNumber
-);
-*/
-
 export const CourseCreationDtoSchema = z.object({
 	courseCode: z
 		.string()
