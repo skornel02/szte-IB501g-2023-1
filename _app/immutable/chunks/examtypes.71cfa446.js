@@ -1,0 +1,1 @@
+var e=(r=>(r[r.Oral=0]="Oral",r[r.Test=1]="Test",r[r.Combined=2]="Combined",r[r.Computer=3]="Computer",r[r.Online=4]="Online",r))(e||{});const n=r=>{switch(r){case 0:return"Szóbeli";case 1:return"Írásbeli";case 2:return"Kombinált";case 3:return"Számítógépes";case 4:return"Online"}};export{n as E,e as a};

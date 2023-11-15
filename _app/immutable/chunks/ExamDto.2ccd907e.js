@@ -1,0 +1,1 @@
+import{z as s}from"./index.0ec66d4d.js";import{a as r}from"./examtypes.71cfa446.js";const e=s.object({courseCode:s.string(),courseSemester:s.string(),examType:s.nativeEnum(r),start:s.string(),end:s.string(),classRoomAddress:s.string(),classRoomNumber:s.string(),classRoomName:s.string()}),a=s.array(e);export{a as E};
