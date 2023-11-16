@@ -78,6 +78,10 @@
 			}
 		}
 	};
+
+	const editExim = async (courseCode: string, courseSemester: string, start: string) => {
+		goto('szerkeszt-vizsga?exam=' + courseCode + '|' + courseSemester + '|' + encodeURIComponent(start));
+	};
 </script>
 
 <div class="container">
@@ -109,6 +113,12 @@
 					<td>{ExamTypeToName(exam.examType)}</td>
 					<td>{exam.classRoomAddress}, {exam.classRoomNumber}</td>
 					<td class="table-commands">
+						<button
+							class="btn-small"
+							on:click={() => editExim(exam.courseCode, exam.courseSemester, exam.start)}
+						>
+							Szerkeszt
+						</button>
 						<button
 							class="btn-small btn-danger"
 							on:click={() =>

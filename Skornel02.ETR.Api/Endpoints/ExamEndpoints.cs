@@ -143,6 +143,34 @@ public static class ExamEndpointsExtension
             .WithTags("Exams")
             .RequireAuthorization();
 
+        app.MapPatch("/api/exams", async (
+            ClaimsPrincipal principal,
+            [FromBody] ExamUpdateDto dto,
+            ETRContext context
+        ) => {
+            var session = principal.ToETR();
+            var username = session.Username;
+            var userRoles = await context.RolesFromUserAsync(username);
+
+            if (!userRoles.Contains(RoleType.Teacher))
+                return Results.Forbid();
+
+            await context.Database.ExecuteSqlInterpolatedAsync($"""
+                UPDATE Exams
+                SET
+                    ClassRoomAddress = {dto.ClassRoomAddress},
+                    ClassRoomRoomName = {dto.ClassRoomNumber},
+                    End = {dto.End},
+                    ExamType = {dto.ExamType}
+                WHERE
+                    CourseCode = {dto.CourseCode}
+                    AND CourseSemester = {dto.CourseSemester}
+                    AND Start = {dto.OriginalStart}
+            """);
+
+            return Results.Accepted();
+        });
+
         app.MapPost("/api/exams-teach", async (
             ClaimsPrincipal principal,
             [FromQuery] string code,

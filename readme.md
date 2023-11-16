@@ -135,7 +135,7 @@ Egy termet egyszerre csak egy kurzus vagy vizsga lebonyolítására lehet lefogl
 | <ul><li>[x] </li></ul> | Kurzusok meghirdetése oktató által. | 1 pont |
 | <ul><li>[X] </li></ul> | Új vizsgák meghirdetése oktató által. | 2 pont |
 | <ul><li>[x] </li></ul> | Kurzus és vizsga törlése oktató által. | 1 pont |
-| <ul><li>[ ] </li></ul> | Vizsgák módosítása oktató által. | 2 pont |
+| <ul><li>[x] </li></ul> | Vizsgák módosítása oktató által. | 2 pont |
 | <ul><li>[x] </li></ul> | Hallgató jelentkezése vizsgára és kurzusra | 2 pont |
 | <ul><li>[x] </li></ul> | Termek kilistázása táblázatos formában. | 1 pont |
 | <ul><li>[ ] </li></ul> | Listázza ki a felhasználó által választott kurzushoz tartozó vizsgaidőpontokat táblázatos formában. | 1 pont |
@@ -252,7 +252,8 @@ ClassRoom(<ins>Address</ins>, <ins>Room</ins>, Name, Capacity, RoomType)
 
 ## TODO
 
-- Vizsga szerkesztés
+- Felhasználó vizsga mutatás
+- Felugró ablakok és átirányítások rendbeszedése
 - Dokumentáció írás
 - Ellenőrzés
 - Feltöltés
