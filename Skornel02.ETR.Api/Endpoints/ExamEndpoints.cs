@@ -19,10 +19,12 @@ public static class ExamEndpointsExtension
             ClaimsPrincipal principal,
             ETRContext context,
             [FromQuery] bool teachedByMe = false,
-            [FromQuery] bool attendedByMe = false
+            [FromQuery] bool attendedByMe = false,
+            [FromQuery] string? courseCode = null,
+            [FromQuery] string? courseSemester = null
             ) =>
         {
-            if (!teachedByMe && !attendedByMe)
+            if (!teachedByMe && !attendedByMe && (courseCode is null || courseSemester is null))
             {
                 var courses = await context.Database.SqlQuery<ExamDto>($"""
                     SELECT
@@ -37,6 +39,31 @@ public static class ExamEndpointsExtension
                     FROM Exams e
                         INNER JOIN ClassRooms cr ON cr.Address = e.ClassRoomAddress 
                             AND cr.RoomNumber = e.ClassRoomRoomName
+                """).ToListAsync();
+
+                return Results.Ok(courses);
+            }
+            else if (courseCode is not null && courseSemester is not null)
+            {
+                var courses = await context.Database.SqlQuery<ExamDto>($"""
+                    SELECT
+                        e.CourseCode,
+                        e.CourseSemester,
+                        e.Start,
+                        e.End,
+                        e.ExamType,
+                        ClassRoomAddress,
+                        ClassRoomRoomName AS ClassRoomNumber,
+                        cr.Name AS 'ClassRoomName'
+                    FROM Exams e
+                        INNER JOIN ClassRooms cr ON cr.Address = e.ClassRoomAddress 
+                            AND cr.RoomNumber = e.ClassRoomRoomName
+                        INNER JOIN ExamAttendances ea ON ea.CourseCode = e.CourseCode 
+                            AND ea.CourseSemester = e.CourseSemester
+                            AND ea.CourseStart = e.Start 
+                    WHERE 
+                        ({courseCode} IS NULL OR e.CourseCode = {courseCode})
+                        AND ({courseSemester} IS NULL OR e.CourseSemester = {courseSemester})
                 """).ToListAsync();
 
                 return Results.Ok(courses);
@@ -66,6 +93,8 @@ public static class ExamEndpointsExtension
                             (ea.AttendanceType = {AttendanceType.Organizer} AND ea.Username = {username}))
                         AND ({!attendedByMe} OR
                             (ea.AttendanceType = {AttendanceType.Participant} AND ea.Username = {username}))
+                        AND ({courseCode} IS NULL OR e.CourseCode = {courseCode})
+                        AND ({courseSemester} IS NULL OR e.CourseSemester = {courseSemester})
                 """).ToListAsync();
 
                 return Results.Ok(courses);
@@ -93,6 +122,20 @@ public static class ExamEndpointsExtension
             if (!courseExists)
             {
                 return Results.BadRequest("Nem létezik ilyen tárgy!".ToError());
+            }
+
+            var examsAtThatRoomAtThatTime = await context.Exams
+                .Where(e => e.ClassRoomAddress == dto.ClassRoomAddress
+                    && e.ClassRoomRoomName == dto.ClassRoomNumber
+                    && e.End >= dto.Start && e.Start <= dto.End)
+                .ToListAsync();
+
+            if (examsAtThatRoomAtThatTime.Count != 0)
+            {
+                var examConflict = examsAtThatRoomAtThatTime.First();
+                return Results.BadRequest(
+                    $"Ebben a teremben ebben az időpontban már van vizsga! ({examConflict.CourseCode} {examConflict.CourseSemester} {examConflict.Start})"
+                    .ToError());
             }
 
             var exam = dto.ToExam();
@@ -147,7 +190,8 @@ public static class ExamEndpointsExtension
             ClaimsPrincipal principal,
             [FromBody] ExamUpdateDto dto,
             ETRContext context
-        ) => {
+        ) =>
+        {
             var session = principal.ToETR();
             var username = session.Username;
             var userRoles = await context.RolesFromUserAsync(username);

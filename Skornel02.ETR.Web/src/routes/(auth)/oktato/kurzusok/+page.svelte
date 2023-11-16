@@ -76,6 +76,10 @@
 	const newExamForCourse = async (courseCode: string, courseSemester: string) => {
 		goto('uj-vizsga?course=' + courseCode + '|' + courseSemester);
 	};
+
+	const seeExamsForCourse = async (courseCode: string, courseSemester: string) => {
+		goto('vizsga?course=' + courseCode + '|' + courseSemester);
+	};
 </script>
 
 <div class="container">
@@ -109,6 +113,13 @@
 					<td>{CourseTypeToName(course.courseType)}</td>
 					<td>{course.classRoomAddress}, {course.classRoomNumber}</td>
 					<td class="table-commands">
+						<button
+							class="btn-small btn-secondary"
+							on:click={() =>
+								seeExamsForCourse(course.courseCode, course.courseSemester, 'subscribe')}
+						>
+							Vizsgák
+						</button>
 						<button
 							class="btn-small"
 							on:click={() => newExamForCourse(course.courseCode, course.courseSemester)}
@@ -152,6 +163,13 @@
 					<td>{CourseTypeToName(course.courseType)}</td>
 					<td>{course.classRoomAddress}, {course.classRoomNumber}</td>
 					<td class="table-commands">
+						<button
+							class="btn-small btn-secondary"
+							on:click={() =>
+								seeExamsForCourse(course.courseCode, course.courseSemester, 'subscribe')}
+						>
+							Vizsgák
+						</button>
 						<button
 							class="btn-small"
 							on:click={() =>

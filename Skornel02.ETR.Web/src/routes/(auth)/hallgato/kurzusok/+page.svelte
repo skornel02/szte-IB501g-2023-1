@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { invalidateAll } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
 	import Cookies from 'js-cookie';
 	import { CourseTypeToName } from '../../../../enums/coursetypes';
 	import type { PageData } from './$types';
@@ -37,6 +37,10 @@
 			toast.push(`Sikertelen ${methodName} müvelet!`);
 		}
 	};
+
+	const seeExamsForCourse = async (courseCode: string, courseSemester: string) => {
+		goto('vizsga?course=' + courseCode + '|' + courseSemester);
+	};
 </script>
 
 <div class="container">
@@ -69,6 +73,13 @@
 					<td>{CourseTypeToName(course.courseType)}</td>
 					<td>{course.classRoomAddress}, {course.classRoomNumber}</td>
 					<td class="table-commands">
+						<button
+							class="btn-small btn-secondary"
+							on:click={() =>
+								seeExamsForCourse(course.courseCode, course.courseSemester, 'subscribe')}
+						>
+							Vizsgák
+						</button>
 						<button
 							class="btn-small"
 							on:click={() =>
@@ -106,6 +117,13 @@
 					<td>{CourseTypeToName(course.courseType)}</td>
 					<td>{course.classRoomAddress}, {course.classRoomNumber}</td>
 					<td class="table-commands">
+						<button
+							class="btn-small btn-secondary"
+							on:click={() =>
+								seeExamsForCourse(course.courseCode, course.courseSemester, 'subscribe')}
+						>
+							Vizsgák
+						</button>
 						<button
 							class="btn-small"
 							on:click={() =>

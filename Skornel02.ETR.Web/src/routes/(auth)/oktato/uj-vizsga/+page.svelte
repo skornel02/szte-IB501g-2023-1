@@ -9,6 +9,7 @@
 	import { ErrorResponseDtoSchema } from '../../../../schemas/ErrorResponseDto';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
+	import { goto } from '$app/navigation';
 
 	export let data: PageData;
 
@@ -52,8 +53,6 @@
 		const [courseCode, courseSemester] = (event.target as HTMLSelectElement).value.split('|');
 		formData.courseCode = courseCode;
 		formData.courseSemester = courseSemester;
-
-		console.log(formData);
 	};
 
 	const createExam = async (dto: ExamCreationDto) => {
@@ -68,7 +67,7 @@
 			body: JSON.stringify(dto)
 		});
 
-		if (result.status === 200) {
+		if (result.status === 201) {
 			return undefined;
 		} else {
 			const errorResponse = await result.json();
@@ -93,6 +92,7 @@
 				errors._errors = [loginResult];
 			} else {
 				toast.push('Vizsga sikeresen létrehozva!');
+				goto("vizsgak");
 			}
 		} else {
 			errors = test.error.format();

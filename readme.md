@@ -63,98 +63,73 @@ $# dotnet run
 ### Web kliens
 ```bash
 $# cd Skornel02.ETR.Web
-$# npm install
-$# npm run dev
+$# pnpm install
+$# pnpm run dev
 ```
+
+## Projekt futtatható elkészítése
+
+```bash
+$# pnpm install
+$# pnpm run generate-program
+```
+
+Az eredmény a `./Skornel02.ETR.Api/bin/Release/net8.0/publish` mappában található. 
+
+---
 
 ## ​Specifikáció:
 
-A feladat egy olyan elektronikus tanulmányi rendszer elkészítése, amely eltárolja a hallgatókat, oktatókat, kurzusokat és a terem információkat. A rendszerbe az emberek magukat regisztrálják. Az alkalmazás használatához be kell jelentkezni. Az oktatók tudnak kurzusokat és vizsgákat meghirdetni, amelyre a hallgatók jelentkezhetnek.
+> A feladat egy olyan elektronikus tanulmányi rendszer elkészítése, amely eltárolja a hallgatókat, oktatókat, kurzusokat és a terem információkat. A rendszerbe az emberek magukat regisztrálják. Az alkalmazás használatához be kell jelentkezni. Az oktatók tudnak kurzusokat és vizsgákat meghirdetni, amelyre a hallgatók jelentkezhetnek.
 
 ### ​Tárolt adatok (nem feltétlen jelentenek önálló táblákat):
 
-- Felhasználó: felhasználó név, jelszó, név, születési dátum, születési hely, státusz, szak
-- Kurzus: kód, cím, férőhely, jelleg, szemeszter, heti óraszám
-- Vizsga: időpont, férőhely, jelleg
-- Terem: cím, emelet, ajtó, név, férőhely, jelleg
+> - Felhasználó: felhasználó név, jelszó, név, születési dátum, születési hely, státusz, szak
+> - Kurzus: kód, cím, férőhely, jelleg, szemeszter, heti óraszám
+> - Vizsga: időpont, férőhely, jelleg
+> - Terem: cím, emelet, ajtó, név, férőhely, jelleg
 
-> Adat megfeleltetés:
-> - Felhasználó
->   - Felhasználó név: User.Username; A felhasználó azonsoító neve. Ez az egyed kulcsa.
->   - Jelszó: User.PasswordHard; A jelszó titkosítva. Ez az azonosítótól függ.
->   - Név: User.Name; A felhasználó neve, ez az azonosítótól függ.
->   - Születési dátum: User.BirthDate; A felhasználó születési dátuma, ez az azonosítótól függ.
->   - Születési hely: User.BirthLocation; A felhasználó születési helye, ez az azonsoítótól függ.
->   - Státusz: UserRole.RoleType; A felhaszáló státusza a rendszerben, lehet több érték is egyszerre.
->   - Szak: Degree.Name; A felhasználó által (el)végzett szak(ok). 
-> - Kurzus
->   - Kód: Course.CourseCode; A kurzus kódja. Ez az egyed kulcsa.
->   - Szemeszter: Course.Semester; A kurzus szemesztere. Ez az egyed kulcsa.
->   - Cím: CourseMetadata.Name; A kurzus címe. Ez a kurzuskódtól függ (de a szemesztertől nem). 
->   - Férőhely: Course.Capacity; A kurzus max kapacitása. Ez a kurzus kódjától és szemeszterétől függ.
->   - Heti óraszám: Course.Hours; A kurzus óraszáma. Ez a kurzus kódjától és szemeszterétől függ.
->   = Jelleg: CourseMetadata.CourseType; A kurzus jellege. Ez a kurzuskódtól függ (de a szemesztertől nem).
-> - Vizsga (gyenge egyed)
->   - Időpont: Exam.Start; A vizsga kezdési időpontja. Ez a gyenge egyed "kulcs tulajdonsága".
->   - Férőhely: Exam.Capacity: A vizsga férőhelye. 
->   - Jelleg: Exam.Type; A vzsga típusa.
-> - Terem:
->   - Cím: ClassRoom.Address; A terem címe. Ez az egyed kulcsa.
->   - Emelet és ajtó: ClassRoom.Room; A terem elhelyezése. Ez az egyed kulcsa. Praktikai okokból összevonva, úgy sincs minidg az emelet értelmezve, továbbá az ajtó általában redundánsan tartalmazza ezt.
->   - Név: ClassRoom.Name; A terem fiktív neve. Ez opcionális. A terem címétől és elhelyezésétől függ.
->   - Férőhely: ClassRoom.Capacity; A terem férőhelyszáma. A terem címétől és elhelyezésétől függ.
->   - Jelleg: ClassRoom.Type; A terem típusa. A terem címétől és elhelyezésétől függ.
+ Adat megfeleltetés:
+ - Felhasználó
+   - Felhasználó név: User.Username; A felhasználó azonsoító neve. Ez az egyed kulcsa.
+   - Jelszó: User.PasswordHard; A jelszó titkosítva. Ez az azonosítótól függ.
+   - Név: User.Name; A felhasználó neve, ez az azonosítótól függ.
+   - Születési dátum: User.BirthDate; A felhasználó születési dátuma, ez az azonosítótól függ.
+   - Születési hely: User.BirthLocation; A felhasználó születési helye, ez az azonsoítótól függ.
+   - Státusz: UserRole.RoleType; A felhaszáló státusza a rendszerben, lehet több érték is egyszerre.
+   - Szak: Degree.Name; A felhasználó által (el)végzett szak(ok). 
+ - Kurzus
+   - Kód: Course.CourseCode; A kurzus kódja. Ez az egyed kulcsa.
+   - Szemeszter: Course.Semester; A kurzus szemesztere. Ez az egyed kulcsa.
+   - Cím: CourseMetadata.Name; A kurzus címe. Ez a kurzuskódtól függ (de a szemesztertől nem). 
+   - Férőhely: Course.Capacity; A kurzus max kapacitása. Ez a kurzus kódjától és szemeszterétől függ.
+   - Heti óraszám: Course.Hours; A kurzus óraszáma. Ez a kurzus kódjától és szemeszterétől függ.
+   - Jelleg: CourseMetadata.CourseType; A kurzus jellege. Ez a kurzuskódtól függ (de a szemesztertől nem).
+ - Vizsga (gyenge egyed)
+   - Időpont: Exam.Start; A vizsga kezdési időpontja. Ez a gyenge egyed "kulcs tulajdonsága".
+   - Férőhely: Exam.Capacity: A vizsga férőhelye. 
+   - Jelleg: Exam.Type; A vzsga típusa.
+ - Terem:
+   - Cím: ClassRoom.Address; A terem címe. Ez az egyed kulcsa.
+   - Emelet és ajtó: ClassRoom.Room; A terem elhelyezése. Ez az egyed kulcsa. Praktikai okokból összevonva, úgy sincs minidg az emelet értelmezve, továbbá az ajtó általában redundánsan tartalmazza ezt.
+   - Név: ClassRoom.Name; A terem fiktív neve. Ez opcionális. A terem címétől és elhelyezésétől függ.
+   - Férőhely: ClassRoom.Capacity; A terem férőhelyszáma. A terem címétől és elhelyezésétől függ.
+   - Jelleg: ClassRoom.Type; A terem típusa. A terem címétől és elhelyezésétől függ.
 
 ### ​Relációk az adatok között:
 
-Egy termet egyszerre csak egy kurzus vagy vizsga lebonyolítására lehet lefoglalni. Egy oktató több kurzust oktathat és több vizsgát is kiírhat Egy vizsgát csak egy oktató írhat ki. Egy vizsgára több hallgató jelentkezhet, továbbá egy hallgató több vizsgára is jelentkezhet. Egy oktató több kurzust tarthat, valamint egy kurzust tarthat több öktató is?
+> Egy termet egyszerre csak egy kurzus vagy vizsga lebonyolítására lehet lefoglalni. Egy oktató több kurzust oktathat és több vizsgát is kiírhat Egy vizsgát csak egy oktató írhat ki. Egy vizsgára több hallgató jelentkezhet, továbbá egy hallgató több vizsgára is jelentkezhet. Egy oktató több kurzust tarthat, valamint egy kurzust tarthat több öktató is?
 
-> Feladat leírásából kigyűjthető elvárások: 
->  - Terem foglaltságát ellenőrizni kell! *ezt nem az adatbázis fogja végezni, mivel fedés ellenőrzésre nem képes*
->  - Oktató - Oktató által tartott kurzus => N:M
->  - Oktató - Oktató által tartott vizsga => 1:M
->  - Hallgató - Vizsga => N:M
->  - ( hallgató - kurzus => N:M )
+Feladat leírásából kigyűjthető elvárások: 
+ - Terem foglaltságát ellenőrizni kell!
+ - Oktató - Oktató által tartott kurzus => N:M
+ - Oktató - Oktató által tartott vizsga => 1:M
+ - Hallgató - Vizsga => N:M
+ - ( hallgató - kurzus => N:M )
 
-<div class="page-break"></div>
+A terem foglalás egy kellemetlen probléma, amit contstraitként felírni nem lehet, így a program fogja ellenőrizni. Egy terembe **csak egy** kurzust lehet tartani, de tetszőleges számú vizsgát egy időben (fedés nélkül).
 
-### ​Megvalósítandó elemek (a pontszámok a funkciókra adható maximumot jelentik):
-
-| | **Megvalósítandó elem** | **Pontszám** |
-| --- | --- | --- | 
-|  | **Dokumentáció** | |
-| <ul><li>[x] </li></ul> | Az adatbázis modelljének E-K diagramja és annak értelmezése | 3 pont |
-| <ul><li>[x] </li></ul> | Az E-K diagram leképezése relációs sémákká | 2 pont |
-| <ul><li>[x] </li></ul> | Sémák normalizálása 3NF-ig, de legalább 2NF-ig, vagy indoklás, ha már a séma 2NF-ben vagy 3NF-ben van | 2 pont |
-| <ul><li>[x] </li></ul> | Táblatervek: táblázat, ahol a sorokban az adatbázis táblák mezői szerepelnek, az oszlopokban a megnevezés, típus és megjegyzés szerepel | 1 pont |
-| <ul><li>[ ] </li></ul> | A dokumentációban szerepelnek a program funkció és a felhasznált megvalósítás leírása | 1 pont |
-| <ul><li>[ ] </li></ul> | A dokumentációban ki van gyűjtve a programból a három összetett lekérdezés és meg van jelölve, hogy melyik fájlban van megvalósítva. | Nem jár külön pontszám érte. <br> Hiánya esetén -2 pont. |
-|  | **Funkciók** |  |
-| <ul><li>[x] </li></ul> | Felhasználó regisztrációja űrlapon keresztül <br> <ul> <li>jelszó kétszeri megadása</li> <li>jelszó titkosítása</li> <li>visszajelzés a sikeres vagy sikertelen regisztrációról</li></ul> | 2 pont |
-| <ul><li>[x] </li></ul> | Felhasználó bejelentkeztetése és kijelentkeztetése űrlapon keresztül <br> <ul><li>visszajelzés, hogy sikerült-e</li></ul> | 2 pont |
-| <ul><li>[x] </li></ul> | Kurzusok meghirdetése oktató által. | 1 pont |
-| <ul><li>[X] </li></ul> | Új vizsgák meghirdetése oktató által. | 2 pont |
-| <ul><li>[x] </li></ul> | Kurzus és vizsga törlése oktató által. | 1 pont |
-| <ul><li>[x] </li></ul> | Vizsgák módosítása oktató által. | 2 pont |
-| <ul><li>[x] </li></ul> | Hallgató jelentkezése vizsgára és kurzusra | 2 pont |
-| <ul><li>[x] </li></ul> | Termek kilistázása táblázatos formában. | 1 pont |
-| <ul><li>[ ] </li></ul> | Listázza ki a felhasználó által választott kurzushoz tartozó vizsgaidőpontokat táblázatos formában. | 1 pont |
-| <ul><li>[x] </li></ul> | Listázza ki az összes oktatót születési dátum szerint. A legfiatalabb oktató legyen elöl. | 1 pont |
-| <ul><li>[x] </li></ul> | Listázza ki táblázatos formában a hallgatók által felvett kurzusok számát (hallgatók szerint ABC sorrendben). | 2 pont |
-| <ul><li>[x] </li></ul> | Listázzuk ki táblázatos formában a legnagyobb férőhellyel rendelkező terembe meghirdetett vizsgákat és kurzusokat. | 2 pont |
-| <ul><li>[x] </li></ul> | Listázza ki táblázatos formában a minden oktató által hetente megtartandó óraszámot. | 2 pont |
-
-### ​Nem fogadható el a kötelező program, ha teljesül az alábbi kritériumok valamelyike:
-
-- [ ] A dokumentáció nem egyetlen PDF dokumentumból áll, amelyben áttekinthetően szerepelnek a tervezés elemei.
-- [ ] Normalizált és konszolidált adatbázis 4-nél kevesebb összefüggő táblát tartalmaz.
-- [ ] Nincs 50 rekord, amivel be lehetne mutatni az alkalmazás működését.
-- [ ] Az adattáblákban nincsenek beállítva a kulcs és külső kulcs feltételek.
-- [ ] A program nem rendelkezik olyan felhasználói felülettel, amelyen keresztül az adatfelvitel meg van valósítva.
-- [ ] A program nem rendelkezik olyan felhasználói felülettel, amelyen keresztül az adatlekérés meg van valósítva.
-- [ ] A program nem alkalmas a kitűzött feladat ellátására.
-- [ ] Nem sikerül beüzemelni, működésre bírni az alkalmazást a védés alkalmával.
-- [ ] Az ***Funkciók*** elemekből nem ért el 10 pontot a hallgató.
+Látható, hogy az oktató és hallgató részvételét nem éri meg külön kapcsolatba szétvenni, így az oktató által tartott vizsgát program kódból éri meg ellenőrizni, hogy egyedi-e.
 
 <div class="page-break"></div>
 
@@ -250,10 +225,229 @@ ClassRoom(<ins>Address</ins>, <ins>Room</ins>, Name, Capacity, RoomType)
 
 ![Adatbázis sémája](database-schema.png)
 
+Az adatbázis el van látva kommentekkel, hogy egyértelműsítsék az oszlopok szerepét.
+
+Mindenhol, ahol a külső kulcsot tartalmazó oszlop nem vehet fel NULL, ott a **cascade törlésre van állítva**, a többi helyen viszont **nullra állítja**.
+
+A megfelelő kulcs oszlopok hossza értelemszerűen megszabásra kerültek, hogy ne okozzanak felesleges tárkapacítás ígényt.
+
+<div class="page-break"></div>
+
+### Program funkciók
+
+#### Felhasználó regisztrációja
+
+A felhasználó regisztrálhat egy olyan felületen, ahol dinamikus visszajelzést kap arról, hogy milyen elvárásoknak nem felel meg. Lehetősége van a jogköreit megválasztani és a jelszavát biztonsági okból kétszer kell megadnia. Ezt először és utoljára itt kezeljük csak szövegként a bejelentkezésen túl. 
+
+A regisztráció folyamán adhatja meg a felhasználó a szakot amit kezd az egyetemen. 
+
+![Regisztráció](./images/registration.png)
+
+Regisztrálás eredményét a kijelző jobb felső sarkán láthatjuk. 
+
+Ha a programban felugró ablakokat látunk, akkor azok nem tűnnek el oldal váltás esetén, így informatívak maradnak.
+
+#### Bejelentkezés
+
+A felhasználók számára két belépési felület létezik, az egyik a hallgató felületre vezet, a másik az oktató felületre.
+
+| ![Hallgatói belépés](./images/login-hallgato.png) | ![Oktatói felület](./images/login-oktato.png) |
+|-|-|
+
+A bejelentkezés sikerességéről felugró ablakban értesítjük a felhasználót, továbbá átirányítjuk ha sikeres volt.
+
+A programba egyszerre be lehet lépni tanulóként és oktatóként is. A kettő üzemmód egyszerre két böngésző fülben működik.
+
+A hallgatók szerepköre limitált, így ők csak szűkös hasznoságot lelnek a programnak:
+- Kurzusok listázása, felvétele, leadása
+- Kurzusaikhoz vizsgákat vehetnek fel, adhatnak le
+
+A hallgatókkal szemben az oktatók a következő funkciókat érik el:
+
+- Kurzusokat hozhatnak létre
+- Kurzusokat vehetnek fel oktatásra
+- Kurzusokat adhatnak le oktatásról
+- Kurzusokat törölhetnek
+- Vizsgákat vehetnek fel kurzusokhoz
+- Vizsgákat adhatnak le megtartásról
+- Vizsgákat vehetnek fel megtartásra (ha más nem tartja)
+- Vizsgákat szerkeszthetnek
+- Vizsgákat törölhetnek
+- Statisztikákat tekinthetnek meg
+
+#### Statisztikák
+
+##### Oktatói statisztikák
+
+Az oktatót kilistázva a fiatalabbtól az idősebbig.
+
+![Statisztika oktató kor](./images/stat-okt-kor.png)
+
+Lekérdezés helye: 
+`./Skornel02.ETR.Api/Endpoints/StatisticsEndpoints.cs`
+
+
+Lekérdezés kódja:
+```sql
+SELECT u.Username, u.Name, u.BirthDate , u.BirthLocation FROM Users u
+    INNER JOIN UserRoles r ON u.Username = r.Username
+    WHERE r.UserType = 1
+        ORDER BY u.BirthDate Desc
+```
+
+##### Hallgató terheltségi statisztikák
+
+Hallgatók ABC sorrendben az általuk felvett kurzusok száma. 
+
+![Statisztika hallgató terheltség](./images/stat-halg-ter.png)
+
+Lekérdezés helye: 
+`./Skornel02.ETR.Api/Endpoints/StatisticsEndpoints.cs`
+
+
+Lekérdezés kódja:
+```sql
+SELECT u.Username, u.Name, COUNT(ca.CourseCode) as 'CourseCount' FROM Users u
+    INNER JOIN UserRoles r ON u.Username = r.Username
+    LEFT JOIN CourseAttendances ca ON u.Username = ca.Username
+    WHERE r.UserType = 0 AND
+        (ca.AttendanceType IS NULL OR ca.AttendanceType = 1)
+    GROUP BY u.Username, u.Name
+    ORDER BY u.Name Asc
+```
+
+#### Legnagyobb terem statisztika
+
+Megmutatja, hogy a legnagyobb kapacitású teremnek mekkora a kapacitása és hogy milyen kurzusok (max 1) és vizsgák vannak ott.
+
+![Statisztika legnagyobb terem](./images/stat-terem.png)
+
+Lekérdezés helye: 
+`./Skornel02.ETR.Api/Endpoints/StatisticsEndpoints.cs`
+
+Lekérdezés kódja kurzusok:
+```sql
+SELECT c.CourseCode, c.Semester as 'CourseSemester' FROM Courses c
+    INNER JOIN ClassRooms cr ON c.ClassRoomAddress = cr.Address 
+        and c.ClassRoomRoomName = RoomNumber
+    WHERE cr.Capacity = (SELECT capacity FROM ClassRooms
+                            ORDER BY capacity Desc
+                            LIMIT 1)
+```
+
+Lekérdezés kódja vizsgák:
+```sql
+SELECT e.CourseCode, e.CourseSemester, e.Start as 'ExamDate' FROM Exams e
+    INNER JOIN ClassRooms cr ON e.ClassRoomAddress = cr.Address 
+        and e.ClassRoomRoomName = RoomNumber
+    WHERE cr.Capacity = (SELECT capacity FROM ClassRooms
+                            ORDER BY capacity Desc
+                            LIMIT 1)
+```
+
+#### Oktató leterheltség
+
+Mutatja, hogy az egyes oktatók az egyes félévben mennyi órányi órát tartanak.
+
+![Statisztika oktató terheltség](./images/stat-okt-terh.png)
+
+Lekérdezés helye: 
+`./Skornel02.ETR.Api/Endpoints/StatisticsEndpoints.cs`
+
+Lekérdezés kódja:
+```sql
+SELECT u.Username, u.Name, c.Semester , sum(c.Hours) as 'Hours'
+    FROM Users u
+    INNER JOIN UserRoles r ON u.Username = r.Username
+    INNER JOIN CourseAttendances ca ON u.Username = ca.Username 
+    INNER JOIN Courses c  on c.CourseCode = ca.CourseCode and c.Semester = ca.CourseSemester 
+    WHERE r.UserType = 1 AND ca.AttendanceType = 0
+    GROUP BY u.Username, u.Name, c.Semester
+    ORDER BY u.Name Asc, c.Semester Desc
+```
+
+#### Hallgató kurzus felület
+
+A hallgatóknak lehetősége van kurzusokat táblázatos formában megtekinteni. A kurzusok felvettség alapján két külön táblázatba vannak gyűjtve.
+
+A hallgató felveheti és leadhatja a kurzusokat.
+
+![Hallgató kurzusok](./images/kurzusok-halg.png)
+
+A kurzusokhoz meg lehet tekinteni a hozzájuk tartozó vizsgákat is.
+
+#### Hallgató vizsga felület
+
+A kurzusokhoz hasonlóan a hallgató felvehet és leadhat vizsgákat.
+
+![Hallgató vizsgák](./images/vizsgak-halg.png)
+
+#### Kurzushoz tartozó vizsgák felület
+
+Az előbb említett kurzus listában van lehetőség megtekinteni az egyes kurzusokhoz tartozó vizsgákat. Természetesen ezen a felületen lehet kurzust változtatni.
+
+![Vizsgák kurzusai](./images/kurzus-vizsgak.png)
+
+Ez a felület már az oktatók számára is elérhető.
+
+
+#### Termek listája
+
+A termek listája csak az oktatók által megtekinthetőek, mert ez titkos. 
+
+Itt látható a termek összes tulajdonsága.
+
+![Termek](./images/termek.png)
+
+#### Oktatók kurzus felülete
+
+Az oktatók a tanulókhoz képest egy bővebb kurzus felületet kapnak.
+
+Itt van lehetőségük a kurzusokat oktatniuk, leadniuk, vagy azokhoz vizsgát hirdetni, ha oktatják őket.
+
+![Oktató kurzusok](./images/kurzusok-okt.png)
+
+Az oktatók a jobb felső sarokban létre is hozhatnak vzisgát, ahol ki kell választaniuk a megfelelő termet és megadniuk a kurzus információit.
+
+Ha már létezik egy adott kurzus kódhoz tartozó leírás, akkor azt nem kell újra megadni, ha nem létezik akkor az létrejön az adatbázisban, és legközelebb nem kell megadni.
+
+
+![Kurzus létrehozás](./images/kurzus-letrehozas.png)
+
+#### Oktatók vizsga felülete
+
+A kurzusokhoz hasonlóan az oktatók több funkciót érnek el a vizsgáknál, mint a hallgatók.
+
+Az oktatóknak lehetősége van felvenni (más által nem tartott) vizsgát, vagy leadni a saját vizsgáikat.
+
+![Oktató vizsgák](./images/vizsgak-okt.png)
+
+Az általunk tartott vizsgának a végződési dátumát és típusát szabadon szerkeszthetjük.
+
+![Vizsga szerkesztés](./images/vizsga-szerk.png)
+
+Továbbá természetesen vehetünk fel új vizsgát, ahol ki kell választanunk a kurzust, a termet és meg kell adnunk a további információkat. 
+
+Ha a kurzusok menüpontban nyomunk rá a vizsga hirdetésre, akkor előre kiválasztódik a megfelelő kurzus.
+
+![Vizsga létrehozás](./images/vizsga-letrehozas.png)
+
+
+### Formális követelmények
+
+- [ ] A dokumentáció nem egyetlen PDF dokumentumból áll, amelyben áttekinthetően szerepelnek a tervezés elemei.
+- [ ] Normalizált és konszolidált adatbázis 4-nél kevesebb összefüggő táblát tartalmaz.
+- [ ] Nincs 50 rekord, amivel be lehetne mutatni az alkalmazás működését.
+- [ ] Az adattáblákban nincsenek beállítva a kulcs és külső kulcs feltételek.
+- [ ] A program nem rendelkezik olyan felhasználói felülettel, amelyen keresztül az adatfelvitel meg van valósítva.
+- [ ] A program nem rendelkezik olyan felhasználói felülettel, amelyen keresztül az adatlekérés meg van valósítva.
+- [ ] A program nem alkalmas a kitűzött feladat ellátására.
+- [ ] Nem sikerül beüzemelni, működésre bírni az alkalmazást a védés alkalmával.
+- [ ] Az ***Funkciók*** elemekből nem ért el 10 pontot a hallgató.
+
 ## TODO
 
-- Felhasználó vizsga mutatás
-- Felugró ablakok és átirányítások rendbeszedése
+- Csak egy ember tarhasson egy vizsgát
 - Dokumentáció írás
 - Ellenőrzés
 - Feltöltés

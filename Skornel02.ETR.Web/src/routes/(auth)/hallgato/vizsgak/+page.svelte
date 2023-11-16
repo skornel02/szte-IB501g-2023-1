@@ -54,7 +54,6 @@
 	<h4>Vizsgák</h4>
 	<div class="toolbar">
 		<button class="btn-small btn-primary" on:click={refresh}>Frissítés</button>
-		<a href="uj-vizsga" class="paper-btn btn-small btn-secondary">Új vizsga</a>
 	</div>
 	<h5>Általam felvett vizsgák</h5>
 	<table class="table-hover">

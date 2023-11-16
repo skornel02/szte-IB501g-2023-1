@@ -1,16 +1,21 @@
 <script lang="ts">
 	import rickroll from '../../../../rick';
 
+	const nextText = 'Ezen az oldalon TÉNYLEG nincsen semmi!';
 	let text = 'Ezen az oldalon nincs semmi!';
 
 	const handleClose = () => {
-		rickroll(
-			{
-				mouseleave: true
-			},
-			document.getElementById('alert')
-		);
-		text = 'Még mindig nincs! Nem is lesz!';
+		if (text === nextText) {
+			rickroll(
+				{
+					mouseleave: true
+				},
+				document.getElementById('alert')
+			);
+			text = "Táncra fel 💃!"
+		} else {
+			text = nextText;
+		}
 	};
 </script>
 

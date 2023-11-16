@@ -15,6 +15,7 @@
 	import Cookies from 'js-cookie';
 	import { base } from '$app/paths';
 	import { ErrorResponseDtoSchema } from '../../../../schemas/ErrorResponseDto';
+	import { goto } from '$app/navigation';
 
 	export let data: PageData;
 
@@ -101,7 +102,7 @@
 			body: JSON.stringify(dto)
 		});
 
-		if (result.status === 200) {
+		if (result.status === 201) {
 			return undefined;
 		} else {
 			const errorResponse = await result.json();
@@ -122,10 +123,12 @@
 
 		if (test.success) {
 			const loginResult = await createCourse(formData);
+			console.log(loginResult)
 			if (loginResult !== undefined) {
 				errors._errors = [loginResult];
 			} else {
 				toast.push('Kurzus sikeresen létrehozva!');
+				goto("kurzusok");
 			}
 		} else {
 			errors = test.error.format();

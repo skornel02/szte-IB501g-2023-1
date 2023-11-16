@@ -103,6 +103,30 @@ public static class CourseEndpointsExtension
             if (!userRoles.Contains(RoleType.Teacher))
                 return Results.Forbid();
 
+            var coursesInThatRoom = await context.Database.SqlQuery<CourseDto>($"""
+                SELECT
+                    c.CourseCode,
+                    Semester AS 'CourseSemester',
+                    Hours,
+                    Credits,
+                    cm.Name AS CourseName,
+                    cm.Type AS CourseType,
+                    ClassRoomAddress,
+                    ClassRoomRoomName AS ClassRoomNumber,
+                    cr.Name AS 'ClassRoomName'
+                FROM Courses c
+                    INNER JOIN CourseMetadatas cm ON cm.CourseCode = c.CourseCode
+                    INNER JOIN ClassRooms cr ON cr.Address = c.ClassRoomAddress 
+                        AND cr.RoomNumber = c.ClassRoomRoomName
+                WHERE c.ClassRoomAddress = {dto.ClassRoomAddress} AND c.ClassRoomRoomName = {dto.ClassRoomNumber}
+            """).ToListAsync();
+
+            if (coursesInThatRoom.Count != 0)
+            {
+                var courseInThatRoom = coursesInThatRoom.First();
+                return Results.BadRequest($"Ebben a teremben már van kurzus! ({courseInThatRoom.CourseCode} - {courseInThatRoom.CourseSemester})".ToError());
+            }
+
             var metadatas = await context.Database.SqlQuery<CourseMetadataResponseDto>($"""
                 SELECT Name, Type FROM CourseMetadatas
                     WHERE CourseCode = {dto.CourseCode}
