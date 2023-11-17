@@ -42,47 +42,11 @@ pdf_options:
 
 # Adatbázis beadandó: ETR
 
-## Projektben felhasznált technológia
-
-### Kiszolgáló
-
-A projekt a DotNet ökoszisztémában készült el C# nyelven. A kiszolgáló az AspNet Core keretrendszert használja a webes felület megvalósítására. Az adatbázis kezelésére az Entity Framework Core-t használja. További függőségek a [Skornel02.ETR.Api.csproj](./Skornel02.ETR.Api/Skornel02.ETR.Api.csproj) fájlban találhatóak.
-
-### Web kliens
-
-A projekt kliens oldali része a SvelteKit keretrendszert használja. A kliens oldali felület megvalósításához a PaperCSS keretrendszert használja. További függőségek a [package.json](./Skornel02.ETR.Web/package.json) fájlban találhatóak.
-
-## Projekt futtatása
-
-### Kiszolgáló
-```bash
-$# cd Skornel02.ETR.Api
-$# dotnet run
-```
-
-### Web kliens
-```bash
-$# cd Skornel02.ETR.Web
-$# pnpm install
-$# pnpm run dev
-```
-
-## Projekt futtatható elkészítése
-
-```bash
-$# pnpm install
-$# pnpm run generate-program
-```
-
-Az eredmény a `./Skornel02.ETR.Api/bin/Release/net8.0/publish` mappában található. 
-
----
-
-## ​Specifikáció:
+## ​Specifikáció
 
 > A feladat egy olyan elektronikus tanulmányi rendszer elkészítése, amely eltárolja a hallgatókat, oktatókat, kurzusokat és a terem információkat. A rendszerbe az emberek magukat regisztrálják. Az alkalmazás használatához be kell jelentkezni. Az oktatók tudnak kurzusokat és vizsgákat meghirdetni, amelyre a hallgatók jelentkezhetnek.
 
-### ​Tárolt adatok (nem feltétlen jelentenek önálló táblákat):
+### ​Tárolt adatok (nem feltétlen jelentenek önálló táblákat)
 
 > - Felhasználó: felhasználó név, jelszó, név, születési dátum, születési hely, státusz, szak
 > - Kurzus: kód, cím, férőhely, jelleg, szemeszter, heti óraszám
@@ -144,94 +108,177 @@ Látható, hogy az oktató és hallgató részvételét nem éri meg külön kap
 ### Formalizálás
 
 #### Felhasználó:
-User(<ins>Username</ins>, Name, PasswordHard, BirthDate, BirthLocation)
+> User(<ins>Username</ins>, Name, PasswordHard, BirthDate, BirthLocation)
 
+```
 - {Username} → {Name, BirthDate, BirthLocation}
 - {Username} → {PasswordHash} 
+```
+
+A tábla normálformában van, mivel egy kulcsa van és érdemi adatduplikációt nem tartalmaz.
 
 #### Felhasználó típusa (oktató, hallgató):
 
-UserTypeEntity(<ins>UserType</ins>, <ins>*Username*</ins>)
+> UserTypeEntity(<ins>UserType</ins>, <ins>*Username*</ins>)
 
-> A multi-value problémát úgy oldottam meg, hogy egy önálló táblát vettem fel, ahol a UserType egy enumként tárolja a felhasználó típusságot. 
-> Ez egy optimális megoldás, mivel az enum értéke elég információt hordoz magában, további tábla kapcsolására nincs szükség.
+A multi-value problémát úgy oldottam meg, hogy egy önálló táblát vettem fel, ahol a UserType egy enumként tárolja a felhasználó típusságot. 
+*Ez egy optimális megoldás, mivel az enum értéke elég információt hordoz magában, további tábla kapcsolására nincs szükség.*
+
+Mivel mindkét oszlopja kulcs, így normál formában van ez a tábla.
+
 
 #### Egyetemi végzettség:
-Degree(<ins>Name</ins>, Level)
+> Degree(<ins>Name</ins>, Level)
 
+```
 - {Name} → {Level}
+```
 
-> Adat duplikáció megszüntetése végett.
+Adat duplikáció megszüntetése végett az adott szakokhoz tároljuk a szintjüket. Itt jobb megvalósítás lenne, ha lenne egy futó egyedi azonosító oszlop, viszont ez nem tárgya ennek a kurzusnak.
 
 #### Felhasználó és egyetemi végzettség kapcsoló tábla:
 
-DegreeParticipation(<ins>*Username*</ins>, <ins>*DegreeName*</ins>, StartDate, EndDate)
+> DegreeParticipation(<ins>*Username*</ins>, <ins>*DegreeName*</ins>, StartDate, EndDate)
 
+```
 - {Username, DegreeName} → {StartDate, EndDate}
+```
 
-> Az `EndDate` tulajdonság nem kötelező, és ez jelöli, ha még a képzés folyamatban van.
+Az `EndDate` tulajdonság nem kötelező, és ez jelöli, ha még a képzés folyamatban van.
+
+A tábla normál formában van, mivel a két dátum csak az adott kulcsoktól, a kapcsolattól függ.
 
 #### Kurzus típus:
 
-Course(<ins>*CourseCode*</ins>, <ins>Semester</ins> Capacity, Credits, Hours, *ClassRoomAddress*, *ClassRoomRoomName*)
+> Course(<ins>*CourseCode*</ins>, <ins>Semester</ins> Capacity, Credits, Hours, *ClassRoomAddress*, *ClassRoomRoomName*)
 
+```
 - {CourseCode, Semester} → {Capacity, Credits, Hours}
 - {CourseCode, Semester} → {ClassRoomAddress, ClassRoomRoomName}
+```
 
-> A CourseCode 15 karakterre, a Semester 6 max karakterre lett limitálva.
+A CourseCode 15 karakterre, a Semester 6 max karakterre lett limitálva.
+
+A tábla tartalmazza az `1:N` kapcsolatot a terem táblával.
+
+Az osztály 3NF-ben van, mivel a tranzitív függése külön táblába (CourseMetadata) lett áthelyezve, még a tervezési fázisban.
 
 #### Kurzus részletei típus:
 
-CourseMetadata(<ins>CourseCode</ins>, CourseType, Name)
+> CourseMetadata(<ins>CourseCode</ins>, CourseType, Name)
 
+```
 - {CourseCode} → {CourseType, Name}
+```
 
-> Ennek a táblának a célja, hogy kurzus tábla rendundanciáját megszüntessük.
+Ennek a táblának a célja, hogy kurzus tábla rendundanciáját megszüntessük.
+
+Normálformában van, mivel ezek az oszlopok csak a kurzus kódjától függnek.
 
 #### Kurzus részvétel:
 
-CourseAttendance(<ins>*Username*</ins>, <ins>*CourseCode*</ins>, <ins>*CourseSemester*</ins>, AttendanceType, Grade)
+> CourseAttendance(<ins>*Username*</ins>, <ins>*CourseCode*</ins>, <ins>*CourseSemester*</ins>, AttendanceType, Grade)
 
+```
 - {Username, CourseCode, CourseSemester} → {AttendanceType, Grade}
+```
 
-> A kapcsolótábla tartalmazza a részvétel típusát (résztvevő, szervező) és opcionálisan az eredményt (természetesen ennek kitöltése csak akkor van értelmezve, ha a felhasználó résztvevő és az értékelés már megtörtént).
+A kapcsolótábla tartalmazza a részvétel típusát (résztvevő, szervező) és opcionálisan az eredményt (természetesen ennek kitöltése csak akkor van értelmezve, ha a felhasználó résztvevő és az értékelés már megtörtént). 
+
+Kapcsolótábla szerepe mellett ez is optimális formában van enumok használatával.
 
 #### Vizsga típus:
 
-Exam(<ins>*CourseCode*</ins>, <ins>*CourseSemester*</ins>, <ins>Start</ins>, End, Capacity, Type, *ClassRoomAddress*, *ClassRoomRoomName*)
+> Exam(<ins>*CourseCode*</ins>, <ins>*CourseSemester*</ins>, <ins>Start</ins>, End, Capacity, Type, *ClassRoomAddress*, *ClassRoomRoomName*)
 
+```
 - {CourseCode, CourseSemester, Start} → {End, Capacity, Type}
 - {CourseCode, CourseSemester, Start} → {ClassRoomAddress, ClassRoomRoomName}
+```
 
-> A vizsga egy gyenge egyed, mivel kurzus nélkül nincs értelme. (Ha van tárgy nélküli vizsga az egyetemen, akkor személyesen kérek bocsánatot a védésnél.)
+A vizsga egy gyenge egyed, mivel kurzus nélkül nincs értelme. *(Ha van tárgy nélküli vizsga az egyetemen, akkor személyesen kérek bocsánatot a védésnél.)*
+
+A tábla tartalmazza az `1:N` kapcsolatot a terem táblával. 
+
+A tábla normálformában van, mivel csak a kulcsaitól függenek a tulajdonságai.
+
 
 #### Vizsga részvétel típus:
 
-ExamAttendance(<ins>*Username*</ins>, <ins>*CourseCode*</ins>, <ins>*CourseSemester*</ins>, <ins>*CourseStart*</ins>, AttendanceType, Grade)
+> ExamAttendance(<ins>*Username*</ins>, <ins>*CourseCode*</ins>, <ins>*CourseSemester*</ins>, <ins>*CourseStart*</ins>, AttendanceType, Grade)
 
+```
 - {Username, CourseCode, CourseSemster, CourseStart} → {AttendanceType, Grade}
+```
 
-> A kapcsolótábla tartalmazza a részvétel típusát (résztvevő, szervező) és opcionálisan az eredményt (természetesen ennek kitöltése csak akkor van értelmezve, ha a felhasználó résztvevő és az értékelés már megtörtént).
+A kapcsolótábla tartalmazza a részvétel típusát (résztvevő, szervező) és opcionálisan az eredményt (természetesen ennek kitöltése csak akkor van értelmezve, ha a felhasználó résztvevő és az értékelés már megtörtént). 
+
+A tábla optimális állapotban van hasonló okokból, mint a kurzus részével tábla.
 
 #### Tanterem (részvételi hely)
 
-ClassRoom(<ins>Address</ins>, <ins>Room</ins>, Name, Capacity, RoomType)
+> ClassRoom(<ins>Address</ins>, <ins>Room</ins>, Name, Capacity, RoomType)
 
+```
 - {Address, Room} → {Name, Capacity, RoomType} 
+```
+
+A táblának a két kulcsa egyértelműen meghatározza a tulajdonságait, így normál formában van.
+
+A redundancia elkerülése végett a szoba típusát enumként tároljuk.
 
 <div class="page-break"></div>
 
 ### Adatbázis struktúra
 
-![Adatbázis sémája](database-schema.png)
+Az adatbázis az előző fejezet EK diagram értelmezéséből lett létrehozva. A megfelelő típusok az ábráról leolvashatóak.
 
 Az adatbázis el van látva kommentekkel, hogy egyértelműsítsék az oszlopok szerepét.
+
+![Adatbázis sémája](database-schema.png)
 
 Mindenhol, ahol a külső kulcsot tartalmazó oszlop nem vehet fel NULL, ott a **cascade törlésre van állítva**, a többi helyen viszont **nullra állítja**.
 
 A megfelelő kulcs oszlopok hossza értelemszerűen megszabásra kerültek, hogy ne okozzanak felesleges tárkapacítás ígényt.
 
 <div class="page-break"></div>
+
+
+## Projektben felhasznált technológia
+
+### Kiszolgáló
+
+A projekt a DotNet ökoszisztémában készült el C# nyelven. A kiszolgáló az AspNet Core keretrendszert használja a webes felület megvalósítására. Az adatbázis kezelésére az Entity Framework Core-t használja. További függőségek a [Skornel02.ETR.Api.csproj](./Skornel02.ETR.Api/Skornel02.ETR.Api.csproj) fájlban találhatóak.
+
+### Web kliens
+
+A projekt kliens oldali része a SvelteKit keretrendszert használja. A kliens oldali felület megvalósításához a PaperCSS keretrendszert használja. További függőségek a [package.json](./Skornel02.ETR.Web/package.json) fájlban találhatóak.
+
+## Projekt futtatása
+
+### Kiszolgáló
+```bash
+$# cd Skornel02.ETR.Api
+$# dotnet run
+```
+
+### Web kliens
+```bash
+$# cd Skornel02.ETR.Web
+$# pnpm install
+$# pnpm run dev
+```
+
+## Projekt futtatható elkészítése
+
+```bash
+$# pnpm install
+$# pnpm run generate-program
+```
+
+Az eredmény a `./Skornel02.ETR.Api/bin/Release/net8.0/publish` mappában található. 
+
+---
 
 ### Program funkciók
 
@@ -444,10 +491,3 @@ Ha a kurzusok menüpontban nyomunk rá a vizsga hirdetésre, akkor előre kivál
 - [ ] A program nem alkalmas a kitűzött feladat ellátására.
 - [ ] Nem sikerül beüzemelni, működésre bírni az alkalmazást a védés alkalmával.
 - [ ] Az ***Funkciók*** elemekből nem ért el 10 pontot a hallgató.
-
-## TODO
-
-- Csak egy ember tarhasson egy vizsgát
-- Dokumentáció írás
-- Ellenőrzés
-- Feltöltés

@@ -233,6 +233,15 @@ public static class ExamEndpointsExtension
             if (attendances.Count != 0)
                 return Results.BadRequest("Ez a vizsga már szerepel a tanított szervezett vizsgák között!".ToError());
 
+            var anyoneElseTeachingThis = await context.ExamAttendances
+                .Where(ea => ea.CourseCode == code && ea.CourseSemester == semester && ea.CourseStart == start)
+                .Where(ea => ea.AttendanceType == AttendanceType.Organizer)
+                .AnyAsync();
+
+            if (anyoneElseTeachingThis) {
+                return Results.BadRequest("Ez a vizsga már más által tanítva van!".ToError());
+            }
+
             var attendance = new ExamAttendance()
             {
                 AttendanceType = AttendanceType.Organizer,
