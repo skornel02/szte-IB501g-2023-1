@@ -40,7 +40,10 @@ pdf_options:
         </section>
 ---
 
-# Adatbázis beadandó: ETR
+
+# <div class="header-page">Adatbázis beadandó: ETR </div>
+
+<div class="page-break"></div>
 
 ## ​Specifikáció
 
@@ -79,6 +82,8 @@ pdf_options:
    - Név: ClassRoom.Name; A terem fiktív neve. Ez opcionális. A terem címétől és elhelyezésétől függ.
    - Férőhely: ClassRoom.Capacity; A terem férőhelyszáma. A terem címétől és elhelyezésétől függ.
    - Jelleg: ClassRoom.Type; A terem típusa. A terem címétől és elhelyezésétől függ.
+
+<div class="page-break"></div>
 
 ### ​Relációk az adatok között:
 
@@ -280,26 +285,30 @@ Az eredmény a `./Skornel02.ETR.Api/bin/Release/net8.0/publish` mappában talál
 
 ---
 
-### Program funkciók
+<div class="page-break"></div>
 
-#### Felhasználó regisztrációja
+## Program funkciók
+
+### Felhasználó regisztrációja
 
 A felhasználó regisztrálhat egy olyan felületen, ahol dinamikus visszajelzést kap arról, hogy milyen elvárásoknak nem felel meg. Lehetősége van a jogköreit megválasztani és a jelszavát biztonsági okból kétszer kell megadnia. Ezt először és utoljára itt kezeljük csak szövegként a bejelentkezésen túl. 
 
-A regisztráció folyamán adhatja meg a felhasználó a szakot amit kezd az egyetemen. 
-
 ![Regisztráció](./images/registration.png)
+
+A regisztráció folyamán adhatja meg a felhasználó a szakot amit kezd az egyetemen. 
 
 Regisztrálás eredményét a kijelző jobb felső sarkán láthatjuk. 
 
 Ha a programban felugró ablakokat látunk, akkor azok nem tűnnek el oldal váltás esetén, így informatívak maradnak.
 
-#### Bejelentkezés
+---
+
+### Bejelentkezés
 
 A felhasználók számára két belépési felület létezik, az egyik a hallgató felületre vezet, a másik az oktató felületre.
 
 | ![Hallgatói belépés](./images/login-hallgato.png) | ![Oktatói felület](./images/login-oktato.png) |
-|-|-|
+| ------------------------------------------------- | --------------------------------------------- |
 
 A bejelentkezés sikerességéről felugró ablakban értesítjük a felhasználót, továbbá átirányítjuk ha sikeres volt.
 
@@ -322,9 +331,12 @@ A hallgatókkal szemben az oktatók a következő funkciókat érik el:
 - Vizsgákat törölhetnek
 - Statisztikákat tekinthetnek meg
 
-#### Statisztikák
+---
 
-##### Oktatói statisztikák
+<div class="page-break"></div>
+### Statisztikák
+
+#### Oktatói statisztikák
 
 Az oktatót kilistázva a fiatalabbtól az idősebbig.
 
@@ -342,7 +354,11 @@ SELECT u.Username, u.Name, u.BirthDate , u.BirthLocation FROM Users u
         ORDER BY u.BirthDate Desc
 ```
 
-##### Hallgató terheltségi statisztikák
+---
+
+<div class="page-break"></div>
+
+#### Hallgató terheltségi statisztikák
 
 Hallgatók ABC sorrendben az általuk felvett kurzusok száma. 
 
@@ -363,7 +379,11 @@ SELECT u.Username, u.Name, COUNT(ca.CourseCode) as 'CourseCount' FROM Users u
     ORDER BY u.Name Asc
 ```
 
-#### Legnagyobb terem statisztika
+---
+
+<div class="page-break"></div>
+
+### Legnagyobb terem statisztika
 
 Megmutatja, hogy a legnagyobb kapacitású teremnek mekkora a kapacitása és hogy milyen kurzusok (max 1) és vizsgák vannak ott.
 
@@ -392,7 +412,11 @@ SELECT e.CourseCode, e.CourseSemester, e.Start as 'ExamDate' FROM Exams e
                             LIMIT 1)
 ```
 
-#### Oktató leterheltség
+---
+
+<div class="page-break"></div>
+
+### Oktató leterheltség
 
 Mutatja, hogy az egyes oktatók az egyes félévben mennyi órányi órát tartanak.
 
@@ -413,7 +437,11 @@ SELECT u.Username, u.Name, c.Semester , sum(c.Hours) as 'Hours'
     ORDER BY u.Name Asc, c.Semester Desc
 ```
 
-#### Hallgató kurzus felület
+---
+
+<div class="page-break"></div>
+
+### Hallgató kurzus felület
 
 A hallgatóknak lehetősége van kurzusokat táblázatos formában megtekinteni. A kurzusok felvettség alapján két külön táblázatba vannak gyűjtve.
 
@@ -423,13 +451,17 @@ A hallgató felveheti és leadhatja a kurzusokat.
 
 A kurzusokhoz meg lehet tekinteni a hozzájuk tartozó vizsgákat is.
 
-#### Hallgató vizsga felület
+---
+
+### Hallgató vizsga felület
 
 A kurzusokhoz hasonlóan a hallgató felvehet és leadhat vizsgákat.
 
 ![Hallgató vizsgák](./images/vizsgak-halg.png)
 
-#### Kurzushoz tartozó vizsgák felület
+---
+
+### Kurzushoz tartozó vizsgák felület
 
 Az előbb említett kurzus listában van lehetőség megtekinteni az egyes kurzusokhoz tartozó vizsgákat. Természetesen ezen a felületen lehet kurzust változtatni.
 
@@ -437,8 +469,9 @@ Az előbb említett kurzus listában van lehetőség megtekinteni az egyes kurzu
 
 Ez a felület már az oktatók számára is elérhető.
 
+---
 
-#### Termek listája
+### Termek listája
 
 A termek listája csak az oktatók által megtekinthetőek, mert ez titkos. 
 
@@ -446,7 +479,9 @@ Itt látható a termek összes tulajdonsága.
 
 ![Termek](./images/termek.png)
 
-#### Oktatók kurzus felülete
+---
+
+### Oktatók kurzus felülete
 
 Az oktatók a tanulókhoz képest egy bővebb kurzus felületet kapnak.
 
@@ -461,7 +496,9 @@ Ha már létezik egy adott kurzus kódhoz tartozó leírás, akkor azt nem kell 
 
 ![Kurzus létrehozás](./images/kurzus-letrehozas.png)
 
-#### Oktatók vizsga felülete
+---
+
+### Oktatók vizsga felülete
 
 A kurzusokhoz hasonlóan az oktatók több funkciót érnek el a vizsgáknál, mint a hallgatók.
 
@@ -480,7 +517,52 @@ Ha a kurzusok menüpontban nyomunk rá a vizsga hirdetésre, akkor előre kivál
 ![Vizsga létrehozás](./images/vizsga-letrehozas.png)
 
 
-### Formális követelmények
+<div class="page-break"></div>
+
+## Tesztelés
+
+**Adatbázis neve:** `abbeadando`
+
+**Adatbázis elérése:** helyi gépen (`localhost`) a `3306`-os porton. `root` felhasználóval jelszó nélkül.
+
+Ha ezek a beálltások nem megfelelőek, akkor a program konfigurációs fájlában szerkeszthető connection string formájában.
+
+### Program beálltás
+
+`appsettings.json` tárolja.
+
+```json
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "ConnectionStrings": {
+    "ETRContext": "Server=127.0.0.1;Database=abbeadando;Uid=root;"
+  },
+  "AllowedHosts": "*"
+}
+```
+
+### Teszt adatok
+
+Ha az adatbázis nem létezik megfelelő adatstruktúrával, akkor a program első indítással létrehozza azt.
+
+Ha azt szeretnénk, hogy egy ismert állapotból induljunk, akkor töltsük be importálással a `dump.sql` fájlt.
+
+<div class="page-break"></div>
+
+#### Fiókok
+
+| Felhasználó név | Jelszó   | Jog      |
+| --------------- | -------- | -------- |
+| `tanulo`        | `tanulo` | Hallgató |
+| `oktato`        | `oktato` | Oktató   |
+| mindenki más    | random   | random   |
+
+## Formális követelmények
 
 - [ ] A dokumentáció nem egyetlen PDF dokumentumból áll, amelyben áttekinthetően szerepelnek a tervezés elemei.
 - [ ] Normalizált és konszolidált adatbázis 4-nél kevesebb összefüggő táblát tartalmaz.

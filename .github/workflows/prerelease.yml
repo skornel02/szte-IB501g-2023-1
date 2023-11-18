@@ -12,6 +12,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '8.x'
@@ -41,12 +42,12 @@ jobs:
       - uses: vimtor/action-zip@v1.1
         with:
           files: "./Skornel02.ETR.Api/bin/Release/net8.0/win-x64/publish"
-          dest: release-win.zip
+          dest: program-win.zip
 
       - uses: vimtor/action-zip@v1.1
         with:
           files: "./Skornel02.ETR.Api/bin/Release/net8.0/linux-x64/publish"
-          dest: release-linux.zip
+          dest: program-linux.zip
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
@@ -56,5 +57,6 @@ jobs:
           title: "Development Build"
           files: |
             ETR projekt.pdf
-            release-win.zip
-            release-linux.zip
+            program-win.zip
+            program-linux.zip
+            dump.sql
