@@ -32,13 +32,21 @@ jobs:
       - name: Create pdf
         run: pnpm generate-pdf
 
-      - name: Create program
-        run: pnpm generate-program
+      - name: Create windows executable
+        run: pnpm generate-program:win
+
+      - name: Create linux executable
+        run: pnpm generate-program:linux
 
       - uses: vimtor/action-zip@v1.1
         with:
-          files: "./Skornel02.ETR.Api/bin/Release/net8.0/publish"
+          files: "./Skornel02.ETR.Api/bin/Release/net8.0/win-x64/publish"
           dest: release-win.zip
+
+      - uses: vimtor/action-zip@v1.1
+        with:
+          files: "./Skornel02.ETR.Api/bin/Release/net8.0/linux-x64/publish"
+          dest: release-linux.zip
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
@@ -49,3 +57,4 @@ jobs:
           files: |
             ETR projekt.pdf
             release-win.zip
+            release-linux.zip
